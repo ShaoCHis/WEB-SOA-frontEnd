@@ -4,6 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+
+//导入包
+import ElementUI from 'element-ui'
+
+Vue.use(ElementUI)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
