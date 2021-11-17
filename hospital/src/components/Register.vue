@@ -55,10 +55,9 @@
 
 <script>
 export default {
- 
+name:'Register',
     data(){ 
-        return{
-         
+        return{        
            registerForm:{
                 userid:'',
                 password:'',
@@ -98,7 +97,7 @@ export default {
         //  if(this.value=="Admin") this.$router.push('/managepage');
       },
       login(){
-          this.$router.push('/login');
+          this.$router.push({name:'Login'})
       },
   }
       
