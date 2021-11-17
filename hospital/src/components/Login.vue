@@ -116,3 +116,64 @@ export default {
 
 
 </script>
+
+<style lang="less" scoped>
+.tip{
+          color: cornflowerblue;
+          font-size: 20px;
+          font-weight: bold;
+          text-align: center;
+          margin-bottom: 30px;
+}
+
+.login_container{
+    background-color: #5c2c948c;
+    background-image:url('../assets/back.jpeg');
+    background-size: 100%,100%;
+    height: 100%;
+    width: 100%;
+    position: fixed;        
+}
+
+.login_box{
+    width:450px;
+    height:350px;
+    background-color: #fff;
+    border-radius: 25px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
+    .avatar_box{
+        height:110px;
+        width:110px;
+        border:1px solid #eee;
+        border-radius:50%;
+        padding:5px;
+        box-shadow:0 0 2px #ddd;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background-color: #fff;
+        img{
+            width:100%;
+            height:100%;
+            border-radius: 50%;
+            background-color: #eee;
+        }
+    }
+}
+.login_form{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    padding:0 20px;
+    box-sizing: border-box;
+    
+}
+.btns{
+   display:flex;
+   justify-content: flex-end;
+}
+</style>
