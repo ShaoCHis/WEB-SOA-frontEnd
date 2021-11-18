@@ -3,7 +3,7 @@
     <div class="login_container">
       <div class="login_box">
         <div class="tip">
-          <h1>登录</h1>
+          <h1>医院登录</h1>
         </div>
         <el-form
           ref="loginFormRef"
@@ -30,20 +30,29 @@
             ></el-input>
           </el-form-item>
 
+          <!--验证码-->
+          <el-form-item class="identify">
+            <div style="position: absolute; width: 15%; left: 0%"
+              >验证码</div
+            >
+            <el-input
+              style="position: absolute; width: 45%; left: 15%"
+              placeholder="请输入验证码"
+            >
+            </el-input>
+            <s-Identify
+              :identifyCode="identifyCode"
+              @click.native="refreshCode()"
+              style="position: absolute; width: 30%; right: 0%"
+            ></s-Identify>
+          </el-form-item>
+
           <!-- 按钮区域 -->
           <el-form-item class="btns">
             <el-button type="primary" @click="login">登录</el-button>
             <el-button type="info" @click="resetLoginForm">重置</el-button>
-            <el-button type="text" @click="register"
-              >加入我们</el-button
-            >
+            <el-button type="text" @click="register">加入我们</el-button>
           </el-form-item>
-
-          <!--验证码-->
-          <el-form-item>
-            <s-Identify :identifyCode="identifyCode"></s-Identify>
-          </el-form-item>
-
         </el-form>
       </div>
     </div>
@@ -51,25 +60,24 @@
 </template>
 
 <script>
-import { validatePhone,isPassword } from "@/utils/validator";
-import SIdentify from '@/components/identify'
+import { validatePhone, isPassword } from "@/utils/validator";
+import SIdentify from "@/components/identify";
 
 export default {
   name: "Login",
   data() {
-     const validateCode = (rule, value, callback) => {
+    const validateCode = (rule, value, callback) => {
       if (this.identifyCode !== value) {
-        this.loginForm.code = ''
-        this.refreshCode()
-        callback(new Error('请输入正确的验证码'))
+        this.loginForm.code = "";
+        this.refreshCode();
+        callback(new Error("请输入正确的验证码"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
-
-      identifyCodes: '1234567890',
-      identifyCode: '',//找回密码图形验证码
+      identifyCodes: "1234567890",
+      identifyCode: "", //找回密码图形验证码
 
       loginForm: {
         userid: "",
@@ -92,12 +100,12 @@ export default {
   },
 
   components: {
-    's-Identify': SIdentify,
+    "s-Identify": SIdentify,
   },
-  watch:{
+  watch: {
     identifyCode(v) {
-      this.isDebugLogin && (this.loginForm.code = v)
-    }
+      this.isDebugLogin && (this.loginForm.code = v);
+    },
   },
 
   methods: {
@@ -107,14 +115,14 @@ export default {
       this.$refs.loginFormRef.resetFields();
     },
     login() {
-      this.$axios.post("/api/users/session",{
-          email:"string",
-          password:"string"
-        }
-      ).then
-      (response=>{
-          console.log(1)
-      })
+      this.$axios
+        .post("/api/users/session", {
+          email: "string",
+          password: "string",
+        })
+        .then((response) => {
+          console.log(1);
+        });
     },
     register() {
       this.$router.push({
@@ -123,34 +131,31 @@ export default {
     },
 
     randomNum(min, max) {
-      return Math.floor(Math.random() * (max - min) + min)
+      return Math.floor(Math.random() * (max - min) + min);
     },
     refreshCode() {
-      this.identifyCode = ''
-      this.makeCode(this.identifyCodes, 4)     
+      this.identifyCode = "";
+      this.makeCode(this.identifyCodes, 4);
     },
     makeCode(o, l) {
       for (let i = 0; i < l; i++) {
-        this.identifyCode += this.identifyCodes[
-          this.randomNum(0, this.identifyCodes.length)
-          ]
+        this.identifyCode +=
+          this.identifyCodes[this.randomNum(0, this.identifyCodes.length)];
       }
-    }
-
+    },
   },
 
   mounted() {
-    const self = this
-    self.dphone = localStorage.user
-    self.dpass = localStorage.password
+    const self = this;
+    self.dphone = localStorage.user;
+    self.dpass = localStorage.password;
     self.identifyCode = "";
     self.makeCode(this.identifyCodes, 4);
-    console.log(this.identifyCode)
+    console.log(this.identifyCode);
   },
   created() {
-    this.refreshCode()
-  }
-
+    this.refreshCode();
+  },
 };
 </script>
 
@@ -174,7 +179,7 @@ export default {
 
 .login_box {
   width: 450px;
-  height: 350px;
+  height: 400px;
   background-color: #fff;
   border-radius: 25px;
   position: absolute;
@@ -209,6 +214,7 @@ export default {
   box-sizing: border-box;
 }
 .btns {
+  margin-top: 70px;
   display: flex;
   justify-content: center;
 }

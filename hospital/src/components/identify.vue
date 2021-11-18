@@ -3,6 +3,7 @@
     <canvas id="s-canvas" :width="contentWidth" :height="contentHeight"></canvas>
   </div>
 </template>
+
 <script>
   export default {
     name: 'SIdentify',
@@ -118,7 +119,9 @@
           ctx.arc(this.randomNum(0, this.contentWidth), this.randomNum(0, this.contentHeight), 1, 0, 2 * Math.PI)
           ctx.fill()
         }
-      }
+      },
+
+
     },
     watch: {
       identifyCode() {
@@ -130,9 +133,13 @@
     }
   }
 </script>
+
 <style lang="less" scoped>
   .s-canvas {
+    position:relative;
     height: 38px;
+    width:205px;
+    right:-70%;
     canvas{
       margin-top: 5px;
     }
