@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/Login'
-import Register from '@/components/Register'
+import Login from '@/page/Login'
+import Register from '@/page/Register'
 
 
 
@@ -9,8 +9,8 @@ Vue.use(Router)
 
 
 export const ConstantRouterMap = [
-  { path: '/', name:"Login",component: Login, hidden: true },
-  { path: '/', name:"Register",component: Register, hidden: true }, 
+  { path: '/', name: "Login", component: Login, hidden: true },
+  { path: '/', name: "Register", component: Register, hidden: true },
 
 ]
 

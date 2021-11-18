@@ -5,12 +5,6 @@
         <div class="tip">
           <h1>登录</h1>
         </div>
-        <!-- 头像区域 -->
-        <!-- <div class="avatar_box">
-               <img src="../assets/back.jpg" alt="">
-            </div> -->
-
-        <!-- 登录表单 -->
         <el-form
           ref="loginFormRef"
           :model="loginForm"
@@ -23,7 +17,7 @@
             <el-input
               v-model="loginForm.userid"
               prefix-icon="el-icon-user"
-              placeholder="请输入用户id"
+              placeholder="请输入机构id"
             ></el-input>
           </el-form-item>
           <!-- 密码 -->
@@ -41,15 +35,15 @@
             <el-button type="primary" @click="login">登录</el-button>
             <el-button type="info" @click="resetLoginForm">重置</el-button>
             <el-button type="text" @click="register"
-              >没有账号？点此注册</el-button
+              >加入我们</el-button
             >
           </el-form-item>
 
-          <!--选择登录方式-->
-          <el-form-item class="loginWay">
-              <el-button type="primary"  icon="el-icon-message" circle></el-button>
-              <el-button type="primary"  icon="el-icon-message" circle></el-button>
+          <!--验证码-->
+          <el-form-item>
+            <s-Identify :identifyCode="identifyCode"></s-Identify>
           </el-form-item>
+
         </el-form>
       </div>
     </div>
@@ -58,11 +52,25 @@
 
 <script>
 import { validatePhone,isPassword } from "@/utils/validator";
+import SIdentify from '@/components/identify'
 
 export default {
   name: "Login",
   data() {
+     const validateCode = (rule, value, callback) => {
+      if (this.identifyCode !== value) {
+        this.loginForm.code = ''
+        this.refreshCode()
+        callback(new Error('请输入正确的验证码'))
+      } else {
+        callback()
+      }
+    }
     return {
+
+      identifyCodes: '1234567890',
+      identifyCode: '',//找回密码图形验证码
+
       loginForm: {
         userid: "",
         password: "",
@@ -82,6 +90,16 @@ export default {
       },
     };
   },
+
+  components: {
+    's-Identify': SIdentify,
+  },
+  watch:{
+    identifyCode(v) {
+      this.isDebugLogin && (this.loginForm.code = v)
+    }
+  },
+
   methods: {
     //重置按钮
     resetLoginForm() {
@@ -103,7 +121,36 @@ export default {
         name: "Register",
       });
     },
+
+    randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min)
+    },
+    refreshCode() {
+      this.identifyCode = ''
+      this.makeCode(this.identifyCodes, 4)     
+    },
+    makeCode(o, l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode += this.identifyCodes[
+          this.randomNum(0, this.identifyCodes.length)
+          ]
+      }
+    }
+
   },
+
+  mounted() {
+    const self = this
+    self.dphone = localStorage.user
+    self.dpass = localStorage.password
+    self.identifyCode = "";
+    self.makeCode(this.identifyCodes, 4);
+    console.log(this.identifyCode)
+  },
+  created() {
+    this.refreshCode()
+  }
+
 };
 </script>
 
@@ -163,8 +210,6 @@ export default {
 }
 .btns {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 </style>
-
-
