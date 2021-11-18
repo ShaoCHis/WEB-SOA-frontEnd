@@ -89,7 +89,7 @@ export default {
       this.$refs.loginFormRef.resetFields();
     },
     login() {
-      this.$axios.post("http://localhost:8082/api/users/session",{
+      this.$axios.post("/api/users/session",{
           email:"string",
           password:"string"
         }
