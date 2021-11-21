@@ -77,4 +77,16 @@ export function isPassword(rule, value, callback) {
     }
   }
 }
-/**/
+/*验证是否是账号*/
+export function validateNumber(rule, value, callback) {
+  const reg = /^[0-9]+$/;
+  if (value == '' || value == undefined || value == null) {
+    callback();
+  } else {
+    if (!reg.test(value)) {
+      callback(new Error('账号仅由数字构成'));
+    } else {
+      callback();
+    }
+  }
+}

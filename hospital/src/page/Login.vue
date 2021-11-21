@@ -9,13 +9,12 @@
           ref="loginFormRef"
           :model="loginForm"
           :rules="loginRules"
-          label-width="0px"
           class="login_form"
         >
           <!-- 用户名 -->
-          <el-form-item prop="userid">
+          <el-form-item prop="user_id">
             <el-input
-              v-model="loginForm.userid"
+              v-model="loginForm.user_id"
               prefix-icon="el-icon-user"
               placeholder="请输入机构id"
             ></el-input>
@@ -31,13 +30,11 @@
           </el-form-item>
 
           <!--验证码-->
-          <el-form-item class="identify">
-            <div style="position: absolute; width: 15%; left: 0%"
-              >验证码</div
-            >
+          <el-form-item prop="input_code" label="验证码">
             <el-input
               style="position: absolute; width: 45%; left: 15%"
               placeholder="请输入验证码"
+              v-model="loginForm.input_code"
             >
             </el-input>
             <s-Identify
@@ -60,52 +57,68 @@
 </template>
 
 <script>
-import { validatePhone, isPassword } from "@/utils/validator";
+//导入验证规则和验证码组件
+import { validateNumber, isPassword } from "@/utils/validator";
 import SIdentify from "@/components/identify";
 
 export default {
   name: "Login",
   data() {
-    const validateCode = (rule, value, callback) => {
-      if (this.identifyCode !== value) {
-        this.loginForm.code = "";
+    const validate = (rule, value, callback) => {
+      if (this.identifyCode !== value && this.loginForm.input_code !== "") {
+        this.loginForm.input_code = "";
         this.refreshCode();
-        callback(new Error("请输入正确的验证码"));
+        //callback(new Error("请输入正确的验证码"));
+        this.$message("请输入正确的验证码!");
       } else {
         callback();
       }
     };
     return {
       identifyCodes: "1234567890",
-      identifyCode: "", //找回密码图形验证码
+      identifyCode: "", //图形验证码
 
+      //登录框，用户id，密码，验证码
       loginForm: {
-        userid: "",
+        user_id: "",
         password: "",
+        input_code: "",
       },
+      //登录框输入规则验证
       loginRules: {
-        username: [
-          { required: true, trigger: "change", validator: validatePhone },
+        user_id: [
+          { required: true, trigger: "change", validator: validateNumber },
+          { required: true, trigger: "blur", validator: validateNumber },
+          {
+            required: true,
+            trigger: "blur",
+            min: 1,
+            message: "机构ID不能为空",
+          },
         ],
         password: [
           { required: true, trigger: "change", validator: isPassword },
+          { required: true, trigger: "blur", validator: isPassword },
+          { required: true, trigger: "blur", min: 1, message: "密码不能为空" },
+        ],
+        input_code: [
+          { required: true, trigger: "blur", validator: validate },
+          {
+            required: true,
+            trigger: "blur",
+            min: 1,
+            message: "验证码不能为空",
+          },
         ],
       },
-      searchSelect(val) {
-        console.log(val);
-        this.value = val;
-        console.log(this.loginForm);
-      },
+
+
+
     };
   },
-
+  //引入验证码组件
   components: {
     "s-Identify": SIdentify,
-  },
-  watch: {
-    identifyCode(v) {
-      this.isDebugLogin && (this.loginForm.code = v);
-    },
   },
 
   methods: {
@@ -114,22 +127,48 @@ export default {
       // console.log(this)
       this.$refs.loginFormRef.resetFields();
     },
+    //验证验证码是否正确以及账号密码是否为空
+    validateInput() {
+      if (this.loginForm.user_id === "") {
+        this.$message("请输入机构ID!");
+        return false;
+      }
+      if (this.loginForm.password === "") {
+        this.$message("密码不能为空!");
+        return false;
+      }
+      if (this.loginForm.input_code === "") {
+        this.$message("请输入验证码!");
+        return false;
+      }
+      if (this.identifyCode != this.loginForm.input_code) return false;
+      return true;
+    },
+    //登录
     login() {
+      this.$router.push({ name: "Main" });
+      if (!this.validateInput()) {
+        return;
+      }
       this.$axios
         .post("/api/users/session", {
           email: "string",
           password: "string",
         })
         .then((response) => {
-          console.log(1);
+          this.$router.push({ name: "Main" });
+        })
+        .catche((error) => {
+          this.$$message("账号或密码错误!");
         });
     },
+    //跳转注册
     register() {
       this.$router.push({
         name: "Register",
       });
     },
-
+    //验证码相关
     randomNum(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
     },
@@ -179,7 +218,7 @@ export default {
 
 .login_box {
   width: 450px;
-  height: 400px;
+  height: 350px;
   background-color: #fff;
   border-radius: 25px;
   position: absolute;
@@ -213,8 +252,7 @@ export default {
   padding: 0 20px;
   box-sizing: border-box;
 }
-.btns {
-  margin-top: 70px;
+.btns {  
   display: flex;
   justify-content: center;
 }

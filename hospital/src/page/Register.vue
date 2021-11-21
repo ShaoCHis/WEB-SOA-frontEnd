@@ -1,185 +1,170 @@
 <template>
-<div>
-    <div class="register_container" >
-        <div class="register_box">
-            <div class="tip">
-             <h1>注册</h1>
-            </div>
-            <!-- 头像区域 -->
-            <!-- <div class="avatar_box">
-               <img src="../assets/back.jpg" alt="">
-            </div> -->
-            <!-- 登录表单 -->
-            <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-width="0px" class="register_form">
-                <!-- 用户名 -->
-                <div class="item-name">
-                        <p>用户名</p>
-                    </div>
-                <el-form-item prop="userid" class="item-props">
-                     <el-input v-model="registerForm.userid" prefix-icon="el-icon-user"></el-input>
-                </el-form-item>
-                <!-- 密码 -->
-                <div class="item-name">
-                        <p>密码</p>
-                    </div>
-                <el-form-item prop="password">
-                     <el-input v-model="registerForm.password" prefix-icon="el-icon-lock"
-                     type="password"></el-input>
-                </el-form-item>
-                <!-- 身份 -->
-                <div class="item-name">
-                        <p>用户类型</p>
-                    </div>
-                <el-form-item prop="role"  > 
-                   <el-select v-model="registerForm.role" @change="searchSelect(registerForm.role)" placeholder="请选择用户类型"  style="width:100%" prefix>
-                      <el-option v-for="item in options"
-                       :key="item.role"
-                       :label="item.label"
-                       :value="item.role">
-                       </el-option> 
-                  </el-select>  
-                </el-form-item>
-               
-                <!-- 按钮区域 -->
-                <el-form-item class="btns">
-                     <el-button type="primary" @click="register">注册</el-button>
-                     <el-button type="info" @click="resetregisterForm">重置</el-button>
-                     <el-button type="text" @click="login">已有账号？点此登录</el-button>
-                </el-form-item>
-            </el-form>
-           
+  <div>
+    <div class="register_container">
+      <div class="register_box">
+        <div class="tip">
+          <h1>注册</h1>
         </div>
+        <el-form
+          ref="registerFormRef"
+          :model="registerForm"
+          :rules="registerFormRules"
+          class="register_form"
+          label-width="100px"
+        >
+          <el-form-item label="医院名称">
+            <el-input style="width: 45%"></el-input>
+          </el-form-item>
+
+          <el-form-item label="医院地址">
+            <el-input style="width: 45%"></el-input>
+          </el-form-item>
+
+          <el-form-item label="医院编码">
+            <el-input style="width: 45%"></el-input>
+          </el-form-item>
+
+          <el-form-item label="密码">
+            <el-input style="width: 45%" type="password"></el-input>
+          </el-form-item>
+
+           <el-form-item label="确认密码">
+            <el-input style="width: 45%" type="password"></el-input>
+          </el-form-item>
+
+          <!-- 按钮区域 -->
+          <el-form-item class="btns">
+            <el-button type="primary" @click="register">上传申请</el-button>
+            <el-button type="info" @click="resetRegisterForm">重置</el-button>
+            <el-button type="text" @click="login">已有账号？点此登录</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 export default {
-name:'Register',
-    data(){ 
-        return{        
-           registerForm:{
-                userid:'',
-                password:'',
-                role:'',
-            },
-           options: [
-                     {label:"患者", role:'Patient'},
-                     {label:"医院" , role:"Hospital"},
-                     {label:"管理员", role:"Admin"}
-                     ],  
+  name: "Register",
+  data() {
+    return {
+      registerForm: {
+        userid: "",
+        password: "",
+      },
 
-            loginFormRules:{
-                userid:[{required: true, message: '请输入登录账号', trigger: "blur"},
-                { min: 5, max: 10, message: '长度在 5 到 10 个字符', trigger: "blur"}],
-                password:[{required: true, message: '请输入登录密码', trigger: "blur"},
-                { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: "blur"}]
-            },
-
-            searchSelect(val){
-                console.log(val)
-                this.value = val
-                console.log(this.registerForm)
-            },
-    
-        };
-        
+      registerFormRules: {
+        userid: [
+          { required: true, message: "请输入登录账号", trigger: "blur" },
+          {
+            min: 5,
+            max: 10,
+            message: "长度在 5 到 10 个字符",
+            trigger: "blur",
+          },
+        ],
+        password: [
+          { required: true, message: "请输入登录密码", trigger: "blur" },
+          {
+            min: 6,
+            max: 15,
+            message: "长度在 6 到 15 个字符",
+            trigger: "blur",
+          },
+        ],
+      },
+    };
   },
-  methods:{
-      //重置按钮
-      resetRegisterForm(){
-         // console.log(this)
-          this.$refs.registerFormRef.resetFields();
-      },
-      register(){
-        //  if(this.value=="Student") this.$router.push('/mainpage');
-        //  if(this.value=="Teacher") this.$router.push('/tmainpage');
-        //  if(this.value=="Admin") this.$router.push('/managepage');
-      },
-      login(){
-          this.$router.push({name:'Login'})
-      },
-  }
-      
+  methods: {
+    //重置按钮
+    resetRegisterForm() {
+      // console.log(this)
+      this.$refs.registerFormRef.resetFields();
+    },
+    register() {
+      //  if(this.value=="Student") this.$router.push('/mainpage');
+      //  if(this.value=="Teacher") this.$router.push('/tmainpage');
+      //  if(this.value=="Admin") this.$router.push('/managepage');
+    },
+    login() {
+      this.$router.push({ name: "Login" });
+    },
+  },
 };
-
 </script>
 
 <style lang="less" scoped>
-.tip{
-          color: cornflowerblue;
-          font-size: 20px;
-          font-weight: bold;
-          text-align: center;
-          margin-bottom: 30px;
+.tip {
+  color: cornflowerblue;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.register_container{
-    background-color: #5c2c948c;
-    background-image:url('../assets/back.jpeg');
-    background-size: 100%,100%;
-    height: 100%;
-    width: 100%;
-    position: fixed;        
+.register_container {
+  background-color: #5c2c948c;
+  background-image: url("../assets/back.jpeg");
+  background-size: 100%, 100%;
+  height: 100%;
+  width: 100%;
+  position: fixed;
 }
 
-.register_box{
-    width:450px;
-    // height:340px;
-    height:430px;
+.register_box {
+  width: 450px;
+  height: 500px;
+  background-color: #fff;
+  border-radius: 25px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
+  .avatar_box {
+    height: 110px;
+    width: 110px;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: 0 0 2px #ddd;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #fff;
-    border-radius: 25px;
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%);
-    box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-    .avatar_box{
-        height:110px;
-        width:110px;
-        border:1px solid #eee;
-        border-radius:50%;
-        padding:5px;
-        box-shadow:0 0 2px #ddd;
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        background-color: #fff;
-        img{
-            width:100%;
-            height:100%;
-            border-radius: 50%;
-            background-color: #eee;
-        }
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #eee;
     }
+  }
 }
-.register_form{
-    position:absolute;
-    bottom:0;
-    width: 100%;
-    padding:0 20px;
-    box-sizing: border-box;
-    
-}
-
-.item-props{
-   margin-bottom: 0 ;   
+.register_form {
+  position: absolute;
+  top:20%;  
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
-.item-name{
-    color: cornflowerblue;
-    font-size: 13px;
-    font-weight: bold;
-    //text-align: center;
-    // padding:10 ;
-    top: auto;
-    //margin-bottom: 30px;
+.item-props {
+  margin-bottom: 0;
 }
 
-.btns{
-   display:flex;
-   justify-content: flex-end;
+.item-name {
+  color: cornflowerblue;
+  font-size: 13px;
+  font-weight: bold;
+  //text-align: center;
+  // padding:10 ;
+  top: auto;
+  //margin-bottom: 30px;
 }
 
-
+.btns {
+  display: flex;
+  justify-content: center;
+}
 </style>

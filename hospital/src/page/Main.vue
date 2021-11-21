@@ -2,8 +2,7 @@
   <div>
     <el-container>
       <el-header>
-          <el-container>
-              
+          <el-container>              
               <div class="tip">
                 <h1>济病通 预约挂号统一平台</h1>
               </div>
