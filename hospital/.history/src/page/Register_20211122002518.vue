@@ -77,6 +77,8 @@ export default {
         level:"",//医院等级，int类型
         location:"",//位置
         status:0,//医院状态（是否激活）
+        // userid: "",
+        // password: "",
       },
 
        options: [
@@ -113,6 +115,15 @@ export default {
             trigger: "blur",
           },
         ],
+        // userid: [
+        //   { required: true, message: "请输入登录账号", trigger: "blur" },
+        //   {
+        //     min: 5,
+        //     max: 10,
+        //     message: "长度在 5 到 10 个字符",
+        //     trigger: "blur",
+        //   },
+        // ],
        
       },
     };
@@ -202,7 +213,7 @@ export default {
   position: absolute;
   top:20%;  
   width: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
   box-sizing: border-box;
 }
 
@@ -227,7 +238,7 @@ export default {
 .btns {
   display: flex;
   justify-content:center;
-  padding:0 5px;
+  padding:0 20px;
 }
 
 </style>

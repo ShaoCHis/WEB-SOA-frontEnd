@@ -202,7 +202,7 @@ export default {
   position: absolute;
   top:20%;  
   width: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
   box-sizing: border-box;
 }
 
@@ -227,7 +227,7 @@ export default {
 .btns {
   display: flex;
   justify-content:center;
-  padding:0 5px;
+  padding:0 20px;
 }
 
 </style>

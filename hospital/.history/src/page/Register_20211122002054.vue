@@ -77,6 +77,8 @@ export default {
         level:"",//医院等级，int类型
         location:"",//位置
         status:0,//医院状态（是否激活）
+        // userid: "",
+        // password: "",
       },
 
        options: [
@@ -113,6 +115,15 @@ export default {
             trigger: "blur",
           },
         ],
+        // userid: [
+        //   { required: true, message: "请输入登录账号", trigger: "blur" },
+        //   {
+        //     min: 5,
+        //     max: 10,
+        //     message: "长度在 5 到 10 个字符",
+        //     trigger: "blur",
+        //   },
+        // ],
        
       },
     };
@@ -128,16 +139,16 @@ export default {
             name:this.registerForm.name,//医院名称
             code:this.registerForm.code,//密码
             contact:this.registerForm.contact,//联系方式
-            description:"",//医院简介
+            description:"string",//医院简介
             image:"",//图片
-            level:parseInt(this.registerForm.level),//医院等级，int类型
-            location:"",//位置
+            level:1,//医院等级，int类型
+            location:"string",//位置
             status:0,//医院状态（是否激活）
         })
         .then((response) => {
           console.log(1);
           console.log(response.data.success);
-          if(response.data.success==true&&this.registerForm.name!=""&&this.registerForm.code!=""&&this.registerForm.contact!=""&&this.registerForm.level!="")
+          if(response.data.success==true)
           {
           this.$message({
           message: '申请成功！',
@@ -198,11 +209,11 @@ export default {
   
 }
 .register_form {
-  margin-top: 15px;
+  margin-top: 10px;
   position: absolute;
   top:20%;  
   width: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
   box-sizing: border-box;
 }
 
@@ -220,14 +231,14 @@ export default {
 }
 
 //.el-form-item__label: 自动匹配form表单中label的，但需取消scope(注意:中间是连续的两个'_')
-// .item-form .el-form-item__label{ 
-//     color: cornflowerblue;
-// }
+.item-form .el-form-item__label{ 
+    color: cornflowerblue;
+}
 
 .btns {
   display: flex;
   justify-content:center;
-  padding:0 5px;
+  padding:0 20px;
 }
 
 </style>

@@ -41,21 +41,27 @@
                     <el-input v-model="registerForm.code" prefix-icon="el-icon-lock" type="code" ></el-input>
                 </el-form-item>
                 <!-- 联系方式 -->
-                <el-form-item label="联系电话" prop="contact" class="item-form">
-                     <el-input v-model="registerForm.contact" type="code" ></el-input>
+                <el-form-item label="联系方式" prop="contact" class="item-form">
+                     <el-input v-model="registerForm.contact" prefix-icon="el-icon-lock" type="code" ></el-input>
                 </el-form-item>
                 <!-- 医院等级 -->
-                <el-form-item label="医院等级" prop="level" class="item-form"> 
-                   <el-select v-model="registerForm.level" @change="searchSelect(registerForm.level)" placeholder="请选择医院等级"  style="width:100%" prefix>
-                      <el-option v-for="item in options" :key="item.level" :label="item.label" :value="item.level">
-                      </el-option> 
+                <el-form-item label="医院等级" prop="level" class="item-form">
+                     <el-input v-model="registerForm.level" prefix-icon="el-icon-lock" type="code" ></el-input>
+                </el-form-item>
+                <el-form-item label="医院等级" prop="role" class="item-form"> 
+                   <el-select v-model="registerForm.role" @change="searchSelect(registerForm.role)" placeholder="请选择用户类型"  style="width:100%" prefix>
+                      <el-option v-for="item in options"
+                       :key="item.role"
+                       :label="item.label"
+                       :value="item.role">
+                       </el-option> 
                   </el-select>  
                 </el-form-item> 
                <!-- 按钮区域 -->
                 <el-form-item class="btns">
                   <el-button type="primary" @click="register">申请加入</el-button>
                   <el-button type="info" @click="resetRegisterForm">重置</el-button>
-                  <el-button type="text" @click="login" > 已拥有账号？点此处登录</el-button>
+                  <el-button type="text" @click="login" class="btn1">已有账号？点此登录</el-button>
                 </el-form-item>
         </el-form>
       </div>
@@ -71,19 +77,15 @@ export default {
       registerForm: {
         name:"",//医院名称
         code:"",//密码
-        contact:"",//联系电话
+        contact:"",//联系方式
         description:"",//医院简介
         image:"",//图片
         level:"",//医院等级，int类型
         location:"",//位置
         status:0,//医院状态（是否激活）
+        // userid: "",
+        // password: "",
       },
-
-       options: [
-                {label:"一级甲等", level:1}, {label:"一级乙等", level:2}, {label:"一级丙等", level:3},
-                {label:"二级甲等", level:4}, {label:"二级乙等", level:5}, {label:"二级丙等", level:6},
-                {label:"三级特等", level:7}, {label:"三级甲等", level:8}, {label:"三级乙等", level:9}, {label:"三级丙等", level:10},
-                ], 
 
       registerFormRules: {
         name: [
@@ -104,15 +106,15 @@ export default {
             trigger: "blur",
           },
         ],
-        contact: [
-          { required: true, message: "请输入联系电话！", trigger: "blur" },
-          {
-            min: 7,
-            max: 11,
-            message: "联系电话长度在7到11位之间！",
-            trigger: "blur",
-          },
-        ],
+        // userid: [
+        //   { required: true, message: "请输入登录账号", trigger: "blur" },
+        //   {
+        //     min: 5,
+        //     max: 10,
+        //     message: "长度在 5 到 10 个字符",
+        //     trigger: "blur",
+        //   },
+        // ],
        
       },
     };
@@ -127,17 +129,17 @@ export default {
        this.$axios.post("http://localhost:8083/apply/info", {
             name:this.registerForm.name,//医院名称
             code:this.registerForm.code,//密码
-            contact:this.registerForm.contact,//联系方式
-            description:"",//医院简介
+            contact:"string",//联系方式
+            description:"string",//医院简介
             image:"",//图片
-            level:parseInt(this.registerForm.level),//医院等级，int类型
-            location:"",//位置
+            level:1,//医院等级，int类型
+            location:"string",//位置
             status:0,//医院状态（是否激活）
         })
         .then((response) => {
           console.log(1);
           console.log(response.data.success);
-          if(response.data.success==true&&this.registerForm.name!=""&&this.registerForm.code!=""&&this.registerForm.contact!=""&&this.registerForm.level!="")
+          if(response.data.success==true)
           {
           this.$message({
           message: '申请成功！',
@@ -173,7 +175,7 @@ export default {
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  // margin-bottom: 30px;
+  // margin-bottom: 10px;
 }
 
 .register_container {
@@ -187,7 +189,7 @@ export default {
 
 .register_box {
   width: 400px;
-  height: 450px;
+  height: 500px;
   background-color: #fff;
   border-radius: 25px;
   position: absolute;
@@ -198,11 +200,10 @@ export default {
   
 }
 .register_form {
-  margin-top: 15px;
   position: absolute;
   top:20%;  
   width: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
   box-sizing: border-box;
 }
 
@@ -220,14 +221,19 @@ export default {
 }
 
 //.el-form-item__label: 自动匹配form表单中label的，但需取消scope(注意:中间是连续的两个'_')
-// .item-form .el-form-item__label{ 
-//     color: cornflowerblue;
-// }
+.item-form .el-form-item__label{ 
+    color: cornflowerblue;
+}
 
 .btns {
   display: flex;
-  justify-content:center;
-  padding:0 5px;
+  justify-content: center;
+  padding:0 15px;
 }
 
+.btns1 {
+  display: flex;
+  justify-content: center;
+  padding:0 30px;
+}
 </style>
