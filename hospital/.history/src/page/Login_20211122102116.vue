@@ -134,7 +134,7 @@ export default {
     validateInput() {
       if (this.loginForm.user_id === "") {
         this.$message({
-          message: '机构ID不能为空！',
+          message: '请输入机构ID！',
           type: 'error'
           })
         this.$router.push({ name: "Login" });
@@ -150,7 +150,7 @@ export default {
       }
       if (this.loginForm.input_code === "") {
          this.$message({
-          message: '验证码不能为空！',
+          message: '请输入验证码！',
           type: 'error'
           })
       this.$router.push({ name: "Login" });
@@ -161,7 +161,7 @@ export default {
     },
     //登录
     login() {
-      // this.$router.push({ name: "Main" });
+      this.$router.push({ name: "Main" });
       if (!this.validateInput()) {
         return;
       }

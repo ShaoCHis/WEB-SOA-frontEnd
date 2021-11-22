@@ -161,7 +161,7 @@ export default {
     },
     //登录
     login() {
-      // this.$router.push({ name: "Main" });
+      this.$router.push({ name: "Main" });
       if (!this.validateInput()) {
         return;
       }
