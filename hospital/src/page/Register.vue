@@ -165,8 +165,7 @@ export default {
           {
             required: true,
             validator: validatePhone,
-            trigger: "change"
-            
+            trigger: "change",
           },
         ],
       },

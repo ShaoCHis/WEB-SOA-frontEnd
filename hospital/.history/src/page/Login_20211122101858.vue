@@ -70,9 +70,9 @@ export default {
         this.refreshCode();
         //callback(new Error("请输入正确的验证码"));
         this.$message({
-          message: "请输入正确的验证码！",
-          type: "error",
-        });
+          message:"请输入正确的验证码！",
+          type:"error"
+        })
       } else {
         callback();
       }
@@ -114,6 +114,9 @@ export default {
           },
         ],
       },
+
+
+
     };
   },
   //引入验证码组件
@@ -131,26 +134,23 @@ export default {
     validateInput() {
       if (this.loginForm.user_id === "") {
         this.$message({
-          message: "机构ID不能为空！",
-          type: "error",
-        });
-        this.$router.push({ name: "Login" });
+          message: '请输入机构ID！',
+          type: 'error'
+          })
         return false;
       }
       if (this.loginForm.password === "") {
         this.$message({
-          message: "密码不能为空！",
-          type: "error",
-        });
-        this.$router.push({ name: "Login" });
+          message: '密码不能为空！',
+          type: 'error'
+          })
         return false;
       }
       if (this.loginForm.input_code === "") {
-        this.$message({
-          message: "验证码不能为空！",
-          type: "error",
-        });
-        this.$router.push({ name: "Login" });
+         this.$message({
+          message: '请输入验证码！',
+          type: 'error'
+          })
         return false;
       }
       if (this.identifyCode != this.loginForm.input_code) return false;
@@ -159,7 +159,6 @@ export default {
     //登录
     login() {
       this.$router.push({ name: "Main" });
-        return;
       if (!this.validateInput()) {
         return;
       }
@@ -169,24 +168,20 @@ export default {
           password: this.loginForm.password,
         })
         .then((response) => {
-          if (
-            response.data.success == true &&
-            this.loginForm.user_id != "" &&
-            this.loginForm.password != "" &&
-            this.loginForm.input_code != ""
-          ) {
-            this.$message({
-              message: "登录成功！",
-              type: "success",
-            });
-            this.$router.push({ name: "Main" });
+          if(response.data.success==true&&this.loginForm.user_id!=""&&this.loginForm.password!=""&&this.loginForm.input_code!="")
+          {
+          this.$message({
+          message: '登录成功！',
+          type: 'success'
+        });
+          this.$router.push({ name: "Main" });
           }
         })
         .catch((error) => {
           this.$message({
-            message: "账号或密码错误，请重新输入！",
-            type: "error",
-          });
+          message: '账号或密码错误，请重新输入！',
+          type: 'error'
+          })
         });
     },
     //跳转注册
@@ -279,7 +274,7 @@ export default {
   padding: 0 20px;
   box-sizing: border-box;
 }
-.btns {
+.btns {  
   display: flex;
   justify-content: center;
 }
