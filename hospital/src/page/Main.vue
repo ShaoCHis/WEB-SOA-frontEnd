@@ -40,11 +40,6 @@
               title="医院基本信息"
               :visible.sync="hosDataVisible"
               width="40%"
-<<<<<<< Updated upstream
-              :before-close="handleCloseHos"
-            >
-              医院基本信息
-=======
               :before-close="handleCloseHos">
                 <div style="height:320px;" :data="hosData">
                   <div><el-image class="hosPic" :src="hosData.image" :fit="fit"></el-image></div>
@@ -54,9 +49,6 @@
                     <el-descriptions-item label="医院简介" class="hosInfo"  prop="introduction">{{hosData.introduction}}</el-descriptions-item>
                   </el-descriptions>
                 </div>
-              
-
->>>>>>> Stashed changes
             </el-dialog>
             <!-- 发布公告 -->
             <el-card
@@ -115,21 +107,6 @@ export default {
   data() {
     return {
       //医院信息
-<<<<<<< Updated upstream
-      hosData: {
-        dialogVisible: false, //控制el-card是否显示
-        hosName: "",
-        hosID: " ",
-        hosPhone: " ",
-        hosSpecialty: " ", //医院特长
-        hosDate: " ", //开院日期
-      },
-      hosNotice: {
-        dialogVisible: false,
-      },
-      hosRoom: {
-        dialogVisible: false,
-=======
       hosDataVisible:false,  //控制el-card是否显示
       hosData:{
         id:1,
@@ -141,8 +118,6 @@ export default {
       hosRoom:{
         dialogVisible:false,
         name:'',
-
->>>>>>> Stashed changes
       },
       hosRes: {
         dialogVisible: false,
@@ -165,10 +140,6 @@ export default {
       this.$router.push({ name: "Login" });
     },
     //医院头像处信息
-<<<<<<< Updated upstream
-    showHos() {
-      this.hosData.dialogVisible = true;
-=======
     showHos(){
       //目前这个接口调过一次数据库就会不让调，state变为1，认为本地应该已存储医院数据
       this.$axios.get("http://139.196.194.51:18080/api/hospitals/"+this.hosData.id)
@@ -178,8 +149,6 @@ export default {
         console.log(hosData);
       })
       this.hosDataVisible=true;
-      
->>>>>>> Stashed changes
     },
     handleCloseHos(done) {
         this.$confirm('确认关闭？')
