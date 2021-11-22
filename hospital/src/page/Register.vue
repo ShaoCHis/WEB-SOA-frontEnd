@@ -5,58 +5,86 @@
         <div class="tip">
           <h1>医院加入申请</h1>
         </div>
-        <!-- <el-form
+
+        <el-form
           ref="registerFormRef"
           :model="registerForm"
           :rules="registerFormRules"
+          label-width="auto"
           class="register_form"
-          label-width="100px"
         >
-          <el-form-item label="医院名称">
-            <el-input style="width: 45%"></el-input>
+          <!-- 医院名称 -->
+          <el-form-item label="医院名称" prop="name" class="item-form">
+            <el-input v-model="registerForm.name" type="code"></el-input>
           </el-form-item>
-
-          <el-form-item label="医院地址">
-            <el-input style="width: 45%"></el-input>
+          <!-- 密码 -->
+          <el-form-item label="密码" prop="code" class="item-form">
+            <el-input
+              v-model="registerForm.code"
+              prefix-icon="el-icon-lock"
+              type="code"
+            ></el-input>
           </el-form-item>
-
-          <el-form-item label="医院编码">
-            <el-input style="width: 45%"></el-input>
+          <!-- 确认密码 -->
+          <el-form-item label="确认密码" prop="confirm_code" class="item-form">
+            <el-input
+              v-model="registerForm.confirm_code"
+              prefix-icon="el-icon-lock"
+              type="code"
+            ></el-input>
+            <i
+              class="el-icon-circle-check"
+              v-if="changeFlag == 1"
+              style="
+                position: absolute;
+                color: green;
+                font-size: 20px;
+                bottom: 25%;
+                right: 2%;
+              "
+            />
+            <i
+              class="el-icon-circle-close"
+              v-else-if="changeFlag == 2"
+              style="
+                position: absolute;
+                color: red;
+                font-size: 20px;
+                bottom: 25%;
+                right: 2%;
+              "
+            />
           </el-form-item>
-
-          <el-form-item label="密码">
-            <el-input style="width: 45%" type="password"></el-input>
+          <!-- 联系方式 -->
+          <el-form-item label="联系电话" prop="contact" class="item-form">
+            <el-input v-model="registerForm.contact" type="code"></el-input>
           </el-form-item>
-
-           <el-form-item label="确认密码">
-            <el-input style="width: 45%" type="password"></el-input>
-          </el-form-item> -->
-          <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-width="auto" class="register_form">
-                <!-- 医院名称 -->
-                <el-form-item label="医院名称" prop="name" class="item-form">
-                    <el-input v-model="registerForm.name"  type="code" ></el-input>
-                </el-form-item>
-                <!-- 密码 -->
-                <el-form-item label="密码" prop="code" class="item-form">
-                    <el-input v-model="registerForm.code" prefix-icon="el-icon-lock" type="code" ></el-input>
-                </el-form-item>
-                <!-- 联系方式 -->
-                <el-form-item label="联系电话" prop="contact" class="item-form">
-                     <el-input v-model="registerForm.contact" type="code" ></el-input>
-                </el-form-item>
-                <!-- 医院等级 -->
-                <el-form-item label="医院等级" prop="level" class="item-form"> 
-                   <el-select v-model="registerForm.level" @change="searchSelect(registerForm.level)" placeholder="请选择医院等级"  style="width:100%" prefix>
-                      <el-option v-for="item in options" :key="item.level" :label="item.label" :value="item.level">
-                      </el-option> 
-                  </el-select>  
-                </el-form-item> 
-               <!-- 按钮区域 -->
-                <el-form-item class="btns">
-                  <el-button type="primary" @click="register">申请加入</el-button>
-                  <el-button type="info" @click="resetRegisterForm">重置</el-button>
-                  <el-button type="text" @click="login" > 已拥有账号？点此处登录</el-button>
-                </el-form-item>
+          <!-- 医院等级 -->
+          <el-form-item label="医院等级" prop="level" class="item-form">
+            <el-select
+              v-model="registerForm.level"
+              @change="searchSelect(registerForm.level)"
+              placeholder="请选择医院等级"
+              style="width: 100%"
+              prefix
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.level"
+                :label="item.label"
+                :value="item.level"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <!-- 按钮区域 -->
+          <el-form-item class="btns">
+            <el-button type="primary" @click="register">申请加入</el-button>
+            <el-button type="info" @click="resetRegisterForm">重置</el-button>
+            <el-button type="text" @click="login">
+              已拥有账号？点此处登录</el-button
+            >
+          </el-form-item>
         </el-form>
       </div>
     </div>
@@ -64,26 +92,51 @@
 </template>
 
 <script>
+import { validatePhone } from "@/utils/validator";
+
 export default {
   name: "Register",
   data() {
+    //确认密码验证器
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+        this.changeFlag = 2;
+      } else if (value !== this.registerForm.code) {
+        callback(new Error("两次输入密码不一致!"));
+        this.changeFlag = 2;
+      } else {
+        callback();
+        this.changeFlag = 1;
+      }
+    };
+
     return {
+      changeFlag: 0,
       registerForm: {
-        name:"",//医院名称
-        code:"",//密码
-        contact:"",//联系电话
-        description:"",//医院简介
-        image:"",//图片
-        level:"",//医院等级，int类型
-        location:"",//位置
-        status:0,//医院状态（是否激活）
+        name: "", //医院名称
+        code: "", //密码
+        confirm_code: "", //确认密码
+        contact: "", //联系电话
+        description: "", //医院简介
+        image: "", //图片
+        level: "", //医院等级，int类型
+        location: "", //位置
+        status: 0, //医院状态（是否激活）
       },
 
-       options: [
-                {label:"一级甲等", level:1}, {label:"一级乙等", level:2}, {label:"一级丙等", level:3},
-                {label:"二级甲等", level:4}, {label:"二级乙等", level:5}, {label:"二级丙等", level:6},
-                {label:"三级特等", level:7}, {label:"三级甲等", level:8}, {label:"三级乙等", level:9}, {label:"三级丙等", level:10},
-                ], 
+      options: [
+        { label: "一级甲等", level: 1 },
+        { label: "一级乙等", level: 2 },
+        { label: "一级丙等", level: 3 },
+        { label: "二级甲等", level: 4 },
+        { label: "二级乙等", level: 5 },
+        { label: "二级丙等", level: 6 },
+        { label: "三级特等", level: 7 },
+        { label: "三级甲等", level: 8 },
+        { label: "三级乙等", level: 9 },
+        { label: "三级丙等", level: 10 },
+      ],
 
       registerFormRules: {
         name: [
@@ -104,16 +157,18 @@ export default {
             trigger: "blur",
           },
         ],
+        confirm_code: [
+          { required: true, validator: validatePass2, trigger: "change" },
+          { required: true, validator: validatePass2, trigger: "blur" },
+        ],
         contact: [
-          { required: true, message: "请输入联系电话！", trigger: "blur" },
           {
-            min: 7,
-            max: 11,
-            message: "联系电话长度在7到11位之间！",
-            trigger: "blur",
+            required: true,
+            validator: validatePhone,
+            trigger: "change"
+            
           },
         ],
-       
       },
     };
   },
@@ -124,38 +179,43 @@ export default {
       this.$refs.registerFormRef.resetFields();
     },
     register() {
-       this.$axios.post("http://localhost:8083/apply/info", {
-            name:this.registerForm.name,//医院名称
-            code:this.registerForm.code,//密码
-            contact:this.registerForm.contact,//联系方式
-            description:"",//医院简介
-            image:"",//图片
-            level:parseInt(this.registerForm.level),//医院等级，int类型
-            location:"",//位置
-            status:0,//医院状态（是否激活）
+      this.$axios
+        .post("http://localhost:8083/apply/info", {
+          name: this.registerForm.name, //医院名称
+          code: this.registerForm.code, //密码
+          contact: this.registerForm.contact, //联系方式
+          description: "", //医院简介
+          image: "", //图片
+          level: parseInt(this.registerForm.level), //医院等级，int类型
+          location: "", //位置
+          status: 0, //医院状态（是否激活）
         })
         .then((response) => {
           console.log(1);
           console.log(response.data.success);
-          if(response.data.success==true&&this.registerForm.name!=""&&this.registerForm.code!=""&&this.registerForm.contact!=""&&this.registerForm.level!="")
-          {
-          this.$message({
-          message: '申请成功！',
-          type: 'success'
-        });
-        this.$router.push("Main");}
-        else{
-          this.$message({
-          message: '申请失败，请重新提交！',
-          type: 'error'
-          })
-        }
+          if (
+            response.data.success == true &&
+            this.registerForm.name != "" &&
+            this.registerForm.code != "" &&
+            this.registerForm.contact != "" &&
+            this.registerForm.level != ""
+          ) {
+            this.$message({
+              message: "申请成功！",
+              type: "success",
+            });
+            this.$router.push({ name: "Main" });
+          } else {
+            this.$message({
+              message: "申请失败，请重新提交！",
+              type: "error",
+            });
+          }
         })
-         .catch((error) => {
+        .catch((error) => {
           console.log(0);
-          
         });
-        
+
       //  if(this.value=="Student") this.$router.push('/mainpage');
       //  if(this.value=="Teacher") this.$router.push('/tmainpage');
       //  if(this.value=="Admin") this.$router.push('/managepage');
@@ -186,8 +246,8 @@ export default {
 }
 
 .register_box {
-  width: 400px;
-  height: 450px;
+  width: 500px;
+  height: 550px;
   background-color: #fff;
   border-radius: 25px;
   position: absolute;
@@ -195,12 +255,11 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-  
 }
 .register_form {
   margin-top: 15px;
   position: absolute;
-  top:20%;  
+  top: 20%;
   width: 100%;
   padding: 0 20px;
   box-sizing: border-box;
@@ -211,23 +270,22 @@ export default {
 }
 
 .item-form {
-    font-weight: bold;
-    font-size: 15px;
-    bottom:0;
-    width: 100%;
-    padding:0 15px;
-    box-sizing: border-box;
+  font-weight: bold;
+  font-size: 15px;
+  bottom: 0;
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
 }
 
 //.el-form-item__label: 自动匹配form表单中label的，但需取消scope(注意:中间是连续的两个'_')
-// .item-form .el-form-item__label{ 
+// .item-form .el-form-item__label{
 //     color: cornflowerblue;
 // }
 
 .btns {
   display: flex;
-  justify-content:center;
-  padding:0 5px;
+  justify-content: center;
+  padding: 0 5px;
 }
-
 </style>

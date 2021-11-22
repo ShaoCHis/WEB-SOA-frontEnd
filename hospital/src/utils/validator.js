@@ -28,7 +28,7 @@ export function validateTelphone(rule, value, callback) {
 export function validatePhone(rule, value, callback) {
   const reg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
   if (value == '' || value == undefined || value == null) {
-    callback();
+    callback(new Error('电话号码不能为空'));
   } else {
     if ((!reg.test(value)) && value != '') {
       callback(new Error('请输入正确的电话号码'));
