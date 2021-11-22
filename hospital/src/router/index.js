@@ -10,10 +10,16 @@ Vue.use(Router)
 
 
 export const ConstantRouterMap = [
+  
+  { path: '/', name: "Main", component: Main, hidden: true },
   { path: '/', name: "Login", component: Login, hidden: true },
   { path: '/', name: "Register", component: Register, hidden: true },
+<<<<<<< Updated upstream
   { path: '/', name: "Main", component: Main, hidden: true },
 
+=======
+  
+>>>>>>> Stashed changes
 
 ]
 

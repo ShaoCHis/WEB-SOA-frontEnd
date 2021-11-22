@@ -38,11 +38,25 @@
             <!-- 医院信息 -->
             <el-dialog
               title="医院基本信息"
-              :visible.sync="hosData.dialogVisible"
+              :visible.sync="hosDataVisible"
               width="40%"
+<<<<<<< Updated upstream
               :before-close="handleCloseHos"
             >
               医院基本信息
+=======
+              :before-close="handleCloseHos">
+                <div style="height:320px;" :data="hosData">
+                  <div><el-image class="hosPic" :src="hosData.image" :fit="fit"></el-image></div>
+                  <el-descriptions :column="1" border>
+                    <el-descriptions-item label="医院名称" class="hosInfo" prop="name">{{hosData.name}}</el-descriptions-item>
+                    <el-descriptions-item label="医院地址" class="hosInfo"  prop="location">{{hosData.location}}</el-descriptions-item>
+                    <el-descriptions-item label="医院简介" class="hosInfo"  prop="introduction">{{hosData.introduction}}</el-descriptions-item>
+                  </el-descriptions>
+                </div>
+              
+
+>>>>>>> Stashed changes
             </el-dialog>
             <!-- 发布公告 -->
             <el-card
@@ -101,6 +115,7 @@ export default {
   data() {
     return {
       //医院信息
+<<<<<<< Updated upstream
       hosData: {
         dialogVisible: false, //控制el-card是否显示
         hosName: "",
@@ -114,6 +129,20 @@ export default {
       },
       hosRoom: {
         dialogVisible: false,
+=======
+      hosDataVisible:false,  //控制el-card是否显示
+      hosData:{
+        id:1,
+      },
+      hosNotice:{
+        dialogVisible:false,
+        content:'',
+      },
+      hosRoom:{
+        dialogVisible:false,
+        name:'',
+
+>>>>>>> Stashed changes
       },
       hosRes: {
         dialogVisible: false,
@@ -136,9 +165,30 @@ export default {
       this.$router.push({ name: "Login" });
     },
     //医院头像处信息
+<<<<<<< Updated upstream
     showHos() {
       this.hosData.dialogVisible = true;
+=======
+    showHos(){
+      //目前这个接口调过一次数据库就会不让调，state变为1，认为本地应该已存储医院数据
+      this.$axios.get("http://139.196.194.51:18080/api/hospitals/"+this.hosData.id)
+      .then(response=>{
+        console.log(response.data.data);
+        this.hosData=response.data.data;
+        console.log(hosData);
+      })
+      this.hosDataVisible=true;
+      
+>>>>>>> Stashed changes
     },
+    handleCloseHos(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+          hosDataVisible=false;
+      },
     //公告板
     showNotice() {
       this.hosNotice.dialogVisible = true; //控制el-card是否显示
@@ -184,6 +234,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/* 医院信息弹窗中内容 */
+  .hosInfo{
+    position:absolute;
+    font-size: 17px;
+    left: 300px;
+    top:80px;
+  }
 .tip {
   color: cornflowerblue;
   font-size: 20px;
@@ -207,7 +264,8 @@ export default {
   background-color: #ffffffe7;
   color: #333;
   text-align: center;
-  line-height: 200px;
+  margin-top:15px;
+  line-height: 30px;
 }
 
 .el-main {
