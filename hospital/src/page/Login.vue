@@ -159,13 +159,13 @@ export default {
     //登录
     login() {
       this.$router.push({ name: "Main" });
-        return;
+        //return;
       if (!this.validateInput()) {
         return;
       }
       this.$axios
-        .post("/api/users/session", {
-          email: this.loginForm.user_id,
+        .post("/api/hospital/session", {
+          id: this.loginForm.user_id,
           password: this.loginForm.password,
         })
         .then((response) => {
