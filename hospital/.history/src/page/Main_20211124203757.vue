@@ -37,7 +37,7 @@
         </el-container>
       </el-header>
 
-      <el-container>
+      <el-container class="hospital">
           <el-aside >
             <div>
               <div v-if="this.form.focus==='notice'">
@@ -201,9 +201,8 @@ export default {
       // flow:false,
       form:{focus:''},
       loginTemp:{
-        position:"fixed",
         top:"3%",
-        right:"5.5%",
+        right:"5%",
       },
       avatarHos:{
         position:"fixed",
@@ -416,6 +415,10 @@ body > .el-container {
 
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
+}
+
+.hospital{
+  font-size: 30px;
 }
 
 .text-css{

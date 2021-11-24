@@ -418,6 +418,10 @@ body > .el-container {
   line-height: 320px;
 }
 
+.hospital{
+  font-size: 30px;
+}
+
 .text-css{
   font-size:20px;
   color:black;

@@ -25,19 +25,18 @@
             class="btns"
             type="primary"
             @click="login()"
-            :style="loginTemp"
+            style="position: fixed; right: 20%;"
             >登录/注册
           </el-button>
           <el-avatar
             icon="el-icon-user-solid"
             @click.native="showHos()"
-            :style="avatarHos"
             class="hosInfo"
           ></el-avatar>
         </el-container>
       </el-header>
 
-      <el-container>
+      <el-container class="hospital">
           <el-aside >
             <div>
               <div v-if="this.form.focus==='notice'">
@@ -49,18 +48,18 @@
             </div>
             <div>
               <div v-if="this.form.focus==='room'">
-                <el-button type="text" icon="el-icon-caret-right" class="text-css">医院科室</el-button><br />
+                <el-button type="text" icon="el-icon-caret-right" class="text-css">查看科室情况</el-button><br />
             </div>
               <div v-else>
-                <el-button type="text" @click="showRoom()" class="text-css">医院科室</el-button><br />
+                <el-button type="text" @click="showRoom()" class="text-css">查看科室情况</el-button><br />
               </div>
             </div>
            <div>
               <div v-if="this.form.focus==='res'">
-                <el-button type="text" icon="el-icon-caret-right" class="text-css">预约情况</el-button><br />
+                <el-button type="text" icon="el-icon-caret-right" class="text-css">查看预约情况</el-button><br />
             </div>
               <div v-else>
-                <el-button type="text" @click="showRes()" class="text-css">预约情况</el-button><br />
+                <el-button type="text" @click="showRes()" class="text-css">查看预约情况</el-button><br />
               </div>
             </div>
             <div>
@@ -73,27 +72,16 @@
             </div>
             <div>
               <div v-if="this.form.focus==='money'">
-                <el-button type="text" icon="el-icon-caret-right" class="text-css">平台流水</el-button><br />
+                <el-button type="text" icon="el-icon-caret-right" class="text-css">停诊信息</el-button><br />
             </div>
               <div v-else>
-                <el-button type="text" @click="showMoney()" class="text-css">平台流水</el-button><br />
+                <el-button type="text" @click="showSuspend()" class="text-css">停诊信息</el-button><br />
               </div>
             </div>
+          <el-button type="text" @click="showSuspend()" class="text-css">停诊信息</el-button><br />
+          <el-button type="text" @click="showMoney()" class="text-css">平台流水</el-button><br />
         </el-aside>
-        
         <el-container>
-        <el-container>
-          <!-- avatar放logo -->
-          <el-avatar class="avatar-head" icon="el-icon-user-solid"></el-avatar>
-              <p class="name-head">xx市人民医院</p> 
-              <p class="level-head">三甲医院</p>
-        </el-container>
-          <!-- <el-header>
-            <div class="name-head">
-              <h3>xx市人民医院</h3> <p>三甲医院</p>
-            </div>
-          </el-header> -->
-
           <el-main>
             <!-- 医院信息 -->
             <el-dialog
@@ -200,25 +188,15 @@ export default {
       // suspend:false,
       // flow:false,
       form:{focus:''},
-      loginTemp:{
-        position:"fixed",
-        top:"3%",
-        right:"5.5%",
-      },
-      avatarHos:{
-        position:"fixed",
-        top:"3%",
-        right:"2%",
-      },
       searchInput:{
-        width: "65%", 
+        width: "50%", 
         left: "20%",
         position:"fixed"
       },
       searchBtn:{
         position: "fixed",
         top:"3%",
-        right: "12%",
+        right: "27%",
       },
       //医院信息
       hosDataVisible: false, //控制el-card是否显示
@@ -354,30 +332,7 @@ export default {
   justify-content: center;
   height: 5%;
 }
-// .el-header{
-//   line-height: 10%;
-// }
-.avatar-head{
-  position:relative;
-  margin-top:2%;
-  margin-left:2%;
-}
-
-.name-head{
-  color: cornflowerblue;
-  font-size:28px;
-  font-weight:bold;
-  margin-left:2%;
-}
-
-.level-head{
-  font-size:16px;
-  color:gray;
-  position:inherit;
-  margin-top:2.7%;
-  margin-left:2%;
-}
-
+.el-header,
 .el-footer {
   background-color: #ffffffe7;
   color: #333;
@@ -418,6 +373,10 @@ body > .el-container {
   line-height: 320px;
 }
 
+.hospital{
+  font-size: 30px;
+}
+
 .text-css{
   font-size:20px;
   color:black;
@@ -431,4 +390,10 @@ body > .el-container {
   
 }
 
+.search-btn{
+ position:relative;
+ padding-top:2%;
+  // font-size: 20px;
+ right: 20%
+}
 </style>

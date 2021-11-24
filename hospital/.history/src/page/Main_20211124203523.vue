@@ -25,7 +25,7 @@
             class="btns"
             type="primary"
             @click="login()"
-            :style="loginTemp"
+            style="position: fixed; right: 20%;"
             >登录/注册
           </el-button>
           <el-avatar
@@ -37,7 +37,7 @@
         </el-container>
       </el-header>
 
-      <el-container>
+      <el-container class="hospital">
           <el-aside >
             <div>
               <div v-if="this.form.focus==='notice'">
@@ -200,25 +200,19 @@ export default {
       // suspend:false,
       // flow:false,
       form:{focus:''},
-      loginTemp:{
-        position:"fixed",
-        top:"3%",
-        right:"5.5%",
-      },
       avatarHos:{
-        position:"fixed",
         top:"3%",
-        right:"2%",
+        right:"3%",
       },
       searchInput:{
-        width: "65%", 
+        width: "60%", 
         left: "20%",
         position:"fixed"
       },
       searchBtn:{
         position: "fixed",
         top:"3%",
-        right: "12%",
+        right: "17%",
       },
       //医院信息
       hosDataVisible: false, //控制el-card是否显示
@@ -416,6 +410,10 @@ body > .el-container {
 
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
+}
+
+.hospital{
+  font-size: 30px;
 }
 
 .text-css{
