@@ -423,10 +423,12 @@ body > .el-container {
   color:black;
 }
 
-.text-css-focus{
+.text-css:focus{
   font-size:20px;
   color:cornflowerblue;
   font-weight:bold;
+  list-style-type: style;
+  
 }
 
 </style>

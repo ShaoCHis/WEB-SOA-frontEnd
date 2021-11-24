@@ -49,7 +49,7 @@
             </div>
             <div>
               <div v-if="this.form.focus==='room'">
-                <el-button type="text" icon="el-icon-caret-right" class="text-css-focus">科室信息</el-button><br />
+                <el-button type="text" icon="el-icon-caret-right" class="text-css">科室信息</el-button><br />
             </div>
               <div v-else>
                 <el-button type="text" @click="showRoom()" class="text-css">科室信息</el-button><br />
@@ -57,7 +57,7 @@
             </div>
            <div>
               <div v-if="this.form.focus==='res'">
-                <el-button type="text" icon="el-icon-caret-right" class="text-css-focus">预约情况</el-button><br />
+                <el-button type="text" icon="el-icon-caret-right" class="text-css">预约情况</el-button><br />
             </div>
               <div v-else>
                 <el-button type="text" @click="showRes()" class="text-css">预约情况</el-button><br />
@@ -65,7 +65,7 @@
             </div>
             <div>
               <div v-if="this.form.focus==='suspend'">
-                <el-button type="text" icon="el-icon-caret-right" class="text-css-focus">停诊信息</el-button><br />
+                <el-button type="text" icon="el-icon-caret-right" class="text-css">停诊信息</el-button><br />
             </div>
               <div v-else>
                 <el-button type="text" @click="showSuspend()" class="text-css">停诊信息</el-button><br />
@@ -73,7 +73,7 @@
             </div>
             <div>
               <div v-if="this.form.focus==='money'">
-                <el-button type="text" icon="el-icon-caret-right" class="text-css-focus">平台流水</el-button><br />
+                <el-button type="text" icon="el-icon-caret-right" class="text-css">平台流水</el-button><br />
             </div>
               <div v-else>
                 <el-button type="text" @click="showMoney()" class="text-css">平台流水</el-button><br />
@@ -423,10 +423,12 @@ body > .el-container {
   color:black;
 }
 
-.text-css-focus{
+.text-css:focus{
   font-size:20px;
   color:cornflowerblue;
   font-weight:bold;
+  list-style-type: style;
+  
 }
 
 </style>
