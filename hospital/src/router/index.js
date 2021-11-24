@@ -10,8 +10,8 @@ Vue.use(Router)
 
 
 export const ConstantRouterMap = [
-  { path: '/', name: "Login", component: Login, hidden: true },
-  { path: '/', name: "Register", component: Register, hidden: true },
+  { path: '/login', name: "Login", component: Login, hidden: true },
+  { path: '/register', name: "Register", component: Register, hidden: true },
   { path: '/', name: "Main", component: Main, hidden: true },
 ]
 

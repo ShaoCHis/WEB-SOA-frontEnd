@@ -13,11 +13,46 @@
         >
           <!-- 用户名 -->
           <el-form-item prop="user_id">
+            <!-- 机构id -->
             <el-input
               v-model="loginForm.user_id"
               prefix-icon="el-icon-user"
               placeholder="请输入机构id"
+              v-if="this.isCode == false"
             ></el-input>
+            <!-- 机构Code -->
+            <el-input
+              v-model="loginForm.user_id"
+              prefix-icon="el-icon-user"
+              placeholder="请输入机构code"
+              v-if="this.isCode == true"
+            ></el-input>
+            <el-button
+              type="text"
+              style="
+                position: absolute;
+                right: 0%;
+                font-size: 5px;
+                height: 5px;
+                bottom: -50%;
+              "
+              v-if="this.isCode == false"
+              @click="changeWay"
+              ><u>使用code登录</u></el-button
+            >
+            <el-button
+              type="text"
+              style="
+                position: absolute;
+                right: 0%;
+                font-size: 5px;
+                height: 5px;
+                bottom: -50%;
+              "
+              v-if="this.isCode == true"
+              @click="changeWay"
+              ><u>使用id登录</u></el-button
+            >
           </el-form-item>
           <!-- 密码 -->
           <el-form-item prop="password">
@@ -81,6 +116,7 @@ export default {
       identifyCodes: "1234567890",
       identifyCode: "", //图形验证码
 
+      isCode: false,
       //登录框，用户id，密码，验证码
       loginForm: {
         user_id: "",
@@ -131,7 +167,7 @@ export default {
     validateInput() {
       if (this.loginForm.user_id === "") {
         this.$message({
-          message: "机构ID不能为空！",
+          message: "机构ID或Code不能为空！",
           type: "error",
         });
         this.$router.push({ name: "Login" });
@@ -158,36 +194,79 @@ export default {
     },
     //登录
     login() {
-      this.$router.push({ name: "Main" });
-        //return;
+      //this.$router.push({ name: "Main" });
+      //return;
       if (!this.validateInput()) {
         return;
       }
-      this.$axios
-        .post("/api/hospital/session", {
-          id: this.loginForm.user_id,
-          password: this.loginForm.password,
-        })
-        .then((response) => {
-          if (
-            response.data.success == true &&
-            this.loginForm.user_id != "" &&
-            this.loginForm.password != "" &&
-            this.loginForm.input_code != ""
-          ) {
-            this.$message({
-              message: "登录成功！",
-              type: "success",
-            });
-            this.$router.push({ name: "Main" });
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: "账号或密码错误，请重新输入！",
-            type: "error",
+      if (this.isCode == false)
+        this.$axios //id登录
+          .post("/api/hospital/session", {
+            id: this.loginForm.user_id,
+            password: this.loginForm.password,
+          })
+          .then((response) => {
+            if (
+              response.data.success == true &&
+              this.loginForm.user_id != "" &&
+              this.loginForm.password != "" &&
+              this.loginForm.input_code != ""
+            ) {
+              this.$message({
+                message: "登录成功！",
+                type: "success",
+              });
+              
+              this.$store.dispatch('Login',this.loginForm)                                  
+              this.$router.push({ name: "Main" });
+            }
+          })
+          .catch((error) => {
+            this.refreshCode();
+            if (this.isCode == false)
+              this.$message({
+                message: "id或密码错误，请重新输入！",
+                type: "error",
+              });
+            else if (this.isCode == true)
+              this.$message({
+                message: "code或密码错误，请重新输入！",
+                type: "error",
+              });
           });
-        });
+      //code登录
+      else
+        this.$axios
+          .post("/api/hospital/session", {
+            code: this.loginForm.user_id,
+            password: this.loginForm.password,
+          })
+          .then((response) => {
+            if (
+              response.data.success == true &&
+              this.loginForm.user_id != "" &&
+              this.loginForm.password != "" &&
+              this.loginForm.input_code != ""
+            ) {
+              this.$message({
+                message: "登录成功！",
+                type: "success",
+              });
+              this.$router.push({ name: "Main" });
+            }
+          })
+          .catch((error) => {
+            if (this.isCode == false)
+              this.$message({
+                message: "id或密码错误，请重新输入！",
+                type: "error",
+              });
+            else if (this.isCode == true)
+              this.$message({
+                message: "code或密码错误，请重新输入！",
+                type: "error",
+              });
+          });
     },
     //跳转注册
     register() {
@@ -195,6 +274,11 @@ export default {
         name: "Register",
       });
     },
+    //切换登录模式
+    changeWay() {
+      this.isCode = !this.isCode;
+    },
+
     //验证码相关
     randomNum(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
