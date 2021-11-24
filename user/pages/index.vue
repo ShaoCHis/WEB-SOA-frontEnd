@@ -7,17 +7,17 @@
 <script>
 export default {
   created() {},
-  mounted(){
+  mounted() {
     this.GetTest();
   },
   methods: {
     GetTest() {
       this.$axios
         .get("/api/hospitals/1")
-        .then(Response => {
+        .then((Response) => {
           console.log(Response);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(2);
         });
     },

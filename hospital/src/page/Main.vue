@@ -132,7 +132,9 @@
 </template>
 
 <script>
+import identify from '../components/identify.vue';
 export default {
+  components: { identify },
   name: "Main",
   data() {
     return {
