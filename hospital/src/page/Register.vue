@@ -25,39 +25,13 @@
               type="code"
             ></el-input>
           </el-form-item>
-          <!-- 确认密码 -->
-          <el-form-item label="确认密码" prop="confirm_code" class="item-form">
-            <el-input
-              v-model="registerForm.confirm_code"
-              prefix-icon="el-icon-lock"
-              type="code"
-            ></el-input>
-            <i
-              class="el-icon-circle-check"
-              v-if="changeFlag == 1"
-              style="
-                position: absolute;
-                color: green;
-                font-size: 20px;
-                bottom: 25%;
-                right: 2%;
-              "
-            />
-            <i
-              class="el-icon-circle-close"
-              v-else-if="changeFlag == 2"
-              style="
-                position: absolute;
-                color: red;
-                font-size: 20px;
-                bottom: 25%;
-                right: 2%;
-              "
-            />
-          </el-form-item>
           <!-- 联系方式 -->
           <el-form-item label="联系电话" prop="contact" class="item-form">
             <el-input v-model="registerForm.contact" type="code"></el-input>
+          </el-form-item>
+          <!-- 医院地址 -->
+          <el-form-item label="医院地址" prop="location" class="item-form">
+            <el-input v-model="registerForm.location" type="text"></el-input>
           </el-form-item>
           <!-- 医院等级 -->
           <el-form-item label="医院等级" prop="level" class="item-form">
@@ -77,6 +51,22 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <!--上传图片-->
+          <el-form-item>
+            <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :file-list="fileList"
+              list-type="picture"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">
+                只能上传jpg/png文件，且不超过500kb
+              </div>
+            </el-upload>
+          </el-form-item>
           <!-- 按钮区域 -->
           <el-form-item class="btns">
             <el-button type="primary" @click="register">申请加入</el-button>
@@ -92,37 +82,21 @@
 </template>
 
 <script>
-import { validatePhone } from "@/utils/validator";
+import { validatePhone, validdateContact } from "@/utils/validator";
 
 export default {
   name: "Register",
   data() {
-    //确认密码验证器
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-        this.changeFlag = 2;
-      } else if (value !== this.registerForm.code) {
-        callback(new Error("两次输入密码不一致!"));
-        this.changeFlag = 2;
-      } else {
-        callback();
-        this.changeFlag = 1;
-      }
-    };
-
     return {
-      changeFlag: 0,
+      fileList: [],
+
       registerForm: {
         name: "", //医院名称
         code: "", //密码
-        confirm_code: "", //确认密码
-        contact: "", //联系电话
-        description: "", //医院简介
+        contact: "", //联系方式
         image: "", //图片
         level: "", //医院等级，int类型
         location: "", //位置
-        status: 0, //医院状态（是否激活）
       },
 
       options: [
@@ -149,29 +123,46 @@ export default {
           },
         ],
         code: [
-          { required: true, message: "请输入密码！", trigger: "blur" },
           {
-            min: 6,
-            max: 15,
-            message: "密码长度在 6 到 15 个字符！",
+            required: true,
+            message: "请输入医院编码",
             trigger: "blur",
+            min: 1,
           },
-        ],
-        confirm_code: [
-          { required: true, validator: validatePass2, trigger: "change" },
-          { required: true, validator: validatePass2, trigger: "blur" },
         ],
         contact: [
           {
             required: true,
-            validator: validatePhone,
+            validator: validdateContact,
             trigger: "change",
+          },
+          {
+            required: true,
+            message: "请输入联系方式",
+            trigger: "blur",
+            min: 1,
           },
         ],
       },
     };
   },
   methods: {
+    getImgBase() {
+      var _this = this;
+      var event = event || window.event;
+      var file = event.target.files[0];
+      var reader = new FileReader();
+      //转base64
+      reader.onload = function (e) {
+        _this.imgBase64.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    },
+    //删除图片
+    delImg(index) {
+      this.imgBase64.splice(index, 1);
+    },
+
     //重置按钮
     resetRegisterForm() {
       // console.log(this)
@@ -179,7 +170,7 @@ export default {
     },
     register() {
       this.$axios
-        .post("http://localhost:8083/apply/info", {
+        .post("/apply/info", {
           name: this.registerForm.name, //医院名称
           code: this.registerForm.code, //密码
           contact: this.registerForm.contact, //联系方式

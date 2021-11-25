@@ -252,6 +252,7 @@ export default {
                 message: "登录成功！",
                 type: "success",
               });
+              this.$store.dispatch('Login',this.loginForm) 
               this.$router.push({ name: "Main" });
             }
           })

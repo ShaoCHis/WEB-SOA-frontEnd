@@ -1,6 +1,6 @@
 /* 是否手机号码或者固话*/
 export function validatePhoneTwo(rule, value, callback) {
-  const reg = /^((0\d{2,3}-\d{7,8})|(1[34578]\d{9}))$/;;
+  const reg = /^((0\d{2,3}-\d{7,8})|(1[345789]\d{9}))$/;;
   if (value == '' || value == undefined || value == null) {
     callback();
   } else {
@@ -85,6 +85,19 @@ export function validateNumber(rule, value, callback) {
   } else {
     if (!reg.test(value)) {
       callback(new Error('账号仅由数字构成'));
+    } else {
+      callback();
+    }
+  }
+}
+/* 是否是固定电话或者手机号码或者是邮箱*/
+export function validdateContact(rule,value,callback){
+  const reg = /^((0\d{2,3}-\d{7,8})|(1[345789]\d{9})|(([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+))$/;;
+  if (value == '' || value == undefined || value == null) {
+    callback();
+  } else {
+    if ((!reg.test(value)) && value != '') {
+      callback(new Error('请输入正确的联系方式'));
     } else {
       callback();
     }
