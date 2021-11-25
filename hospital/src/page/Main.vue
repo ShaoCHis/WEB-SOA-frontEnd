@@ -1,17 +1,18 @@
 <template>
   <div>
-    <el-container class="page">
-      <!-- 页面头部 -->
-      <el-header >
-        <!-- <div class="page-header"> -->
+    <el-container>
+
+      <el-header>
+        <el-container class="Main">
           <div class="topic">
-            <el-button type="text"  @click="showHospitalInfo" class="topic">医济达</el-button><br />
+            <el-button type="text" @click="showHospitalInfo" class="topic">济病通 医院端</el-button><br />
+            <!-- <h1>济病通 医院端</h1> -->
           </div>
           <el-input
             class="search-hospital"
             :style="searchInput"
             v-model="hospitalName"
-            placeholder="请输入......"
+            placeholder="请输入....."
           ></el-input>
           <el-button
             @click="search()"
@@ -21,10 +22,11 @@
             circle
             ></el-button>
           <el-button
+            class="btns"
             type="primary"
-            @click="exit()"
+            @click="login()"
             :style="loginTemp"
-            >退出登录
+            >登录/注册
           </el-button>
           <el-avatar
             icon="el-icon-user-solid"
@@ -32,23 +34,17 @@
             :style="avatarHos"
             class="hosInfo"
           ></el-avatar>
-          <!-- </div> -->
+        </el-container>
       </el-header>
 
-      <!-- 页面内容 -->
-      <el-container style="position:sticky">
-        
-        <!-- <el-header>
-          <div></div>
-        </el-header> -->
-
-          <el-aside>
+      <el-container>
+          <el-aside >
             <div>
-              <div v-if="this.form.focus==='hosInfo'">
-              <el-button type="text" icon="el-icon-caret-right" class="text-css-focus">医院信息</el-button><br />
+              <div v-if="this.form.focus==='notice'">
+              <el-button type="text" icon="el-icon-caret-right" class="text-css-focus">发布公告</el-button><br />
             </div>
               <div v-else>
-                <el-button type="text" @click="showHosInfo()" class="text-css">医院信息</el-button><br />
+                <el-button type="text" @click="showNotice()" class="text-css">发布公告</el-button><br />
               </div>
             </div>
             <div>
@@ -85,19 +81,20 @@
             </div>
         </el-aside>
         
-        
-        <el-main>
-          
-        <!-- 指示信息栏（所有栏目都会显示的信息） -->
+        <el-container>
         <el-container>
           <!-- avatar放logo -->
           <el-avatar class="avatar-head" icon="el-icon-user-solid"></el-avatar>
-          
               <p class="name-head">xx市人民医院</p> 
               <p class="level-head">三甲医院</p>
         </el-container>
-          
-          <!-- 选择信息栏，依据展示信息的不同而不同 -->
+          <!-- <el-header>
+            <div class="name-head">
+              <h3>xx市人民医院</h3> <p>三甲医院</p>
+            </div>
+          </el-header> -->
+
+          <el-main>
             <!-- 医院信息 -->
             <el-dialog
               title="医院基本信息"
@@ -136,30 +133,25 @@
                 </el-descriptions>
               </div>
             </el-dialog>
-            <!-- 医院信息 -->
-            <div class="choose-hos" v-if="this.hosInfo.dialogVisible">
-             <p>医院信息</p>
-            </div>
+            <!-- 发布公告 -->
             <el-card
-              title="医院信息"
-              v-if="this.hosInfo.dialogVisible"
+              title="发布公告"
+              v-if="this.hosNotice.dialogVisible"
               width="40%"
             >
-              <div style="height: 500px" :data="hosInfo">
-                </div>
+              <div style="height: 320px" :data="hosNotice">
+                <releaseNotice/>
+              </div>
             </el-card>
 
-            <!-- 科室信息 -->
-            <div class="choose-room" v-if="this.hosRoom.dialogVisible">
-               <p>科室信息</p>
-            </div>
-                    
+            <!-- 查看科室情况 -->
             <el-card
               title="科室信息"
               v-if="this.hosRoom.dialogVisible"
               width="40%"
             >
-              <div style="height: 500px" :data="hosRoom">
+              <div style="height: 320px" :data="hosRoom">
+                <roomInfo/>
                 </div>
             </el-card>
             <!-- 查看预约情况 -->
@@ -168,7 +160,9 @@
               v-if="this.hosRes.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosRes">查看预约情况</div>
+              <div style="height: 320px" :data="hosRes">
+                <reservationStatus/>
+              </div>
             </el-card>
             <!-- 停诊信息 -->
             <el-card
@@ -176,7 +170,9 @@
               v-if="this.hosSuspend.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosSuspend">查看停诊情况</div>
+              <div style="height: 320px" :data="hosSuspend">
+                <suspendStatus/>
+              </div>
             </el-card>
             <!-- 平台流水 -->
             <el-card
@@ -184,34 +180,39 @@
               v-if="this.hosMoney.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosMoney">平台流水</div>
-            </el-card>      
+              <div style="height: 320px" :data="hosMoney">
+                <showMoneyFlow/>
+              </div>
+            </el-card>
+          </el-main>
+          
+          <el-footer>联系我们</el-footer>
         
-       </el-main>
-        
-
+        </el-container>
       </el-container>
-      
-      <!-- 页面底部 -->
-      <el-footer>请拨打 +021 6895 1732 或 +021 6843 9284 联系我们</el-footer>
-
     </el-container>
   </div>
 </template>
 
 <script>
 import identify from '../components/identify.vue';
+import releaseNotice from '../components/MainComponents/releaseNotice.vue';
+import roomInfo from '../components/MainComponents/roomInfo.vue';
+import reservationStatus from '../components/MainComponents/reservationStatus.vue';
+import showMoneyFlow from '../components/MainComponents/showMoneyFlow.vue';
+import suspendStatus from '../components/MainComponents/suspendStatus.vue';
 export default {
-  components: { identify },
+  components: { identify, releaseNotice,roomInfo,reservationStatus,showMoneyFlow,suspendStatus },
   name: "Main",
   data() {
     return {
-      
-      isFixed: false,
-      offsetTop:0,
-      
+      //公告 bulletin 科室 department 预约 reservation 停诊 suspend 流水 flow
+      // bulletin:false,
+      // department:false,
+      // reservation:false,
+      // suspend:false,
+      // flow:false,
       form:{focus:''},
-      
       loginTemp:{
         position:"fixed",
         top:"3%",
@@ -223,8 +224,8 @@ export default {
         right:"2%",
       },
       searchInput:{
-        width: "66%", 
-        left: "18%",
+        width: "65%", 
+        left: "20%",
         position:"fixed"
       },
       searchBtn:{
@@ -237,7 +238,7 @@ export default {
       hosData: {
         id: 1,
       },
-      hosInfo: {
+      hosNotice: {
         dialogVisible: true,
         content: "",
       },
@@ -256,30 +257,13 @@ export default {
       },
     };
   },
-  mounted:{
-    
-
-    //页面初始化
-    pageInit(){
-      window.addEventListener('scroll',this.initHeight);
-      this.$nextTick( () => {
-        this.offsetTop = document.querySelector('#boxFixed').offsetTop;
-      })
-    },
-  },
   methods: {
-     initHeight () {
-        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        this.isFixed = scrollTop > this.offsetTop ? true : false;
-      },
-
     register() {
       this.$router.push({
         name: "Register",
       });
     },
-    exit() {
-      this.$store.dispatch("LogOut")
+    login() {
       this.$router.push({ name: "Login" });
     },
     //医院图标跳转
@@ -311,9 +295,9 @@ export default {
       hosDataVisible = false;
     },
     //公告板
-    showHosInfo() {
-      this.form.focus='hosInfo';
-      this.hosInfo.dialogVisible = true; //控制el-card是否显示
+    showNotice() {
+      this.form.focus='notice';
+      this.hosNotice.dialogVisible = true; //控制el-card是否显示
       this.hosRoom.dialogVisible = false;
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = false;
@@ -323,7 +307,7 @@ export default {
     showRoom() {
       this.form.focus='room';
       this.hosRoom.dialogVisible = true;
-      this.hosInfo.dialogVisible = false;
+      this.hosNotice.dialogVisible = false;
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = false;
       this.hosMoney.dialogVisible = false;
@@ -332,7 +316,7 @@ export default {
     showRes() {
       this.form.focus='res';
       this.hosRoom.dialogVisible = false;
-      this.hosInfo.dialogVisible = false;
+      this.hosNotice.dialogVisible = false;
       this.hosRes.dialogVisible = true;
       this.hosSuspend.dialogVisible = false;
       this.hosMoney.dialogVisible = false;
@@ -341,7 +325,7 @@ export default {
     showSuspend() {
       this.form.focus='suspend';
       this.hosRoom.dialogVisible = false;
-      this.hosInfo.dialogVisible = false;
+      this.hosNotice.dialogVisible = false;
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = true;
       this.hosMoney.dialogVisible = false;
@@ -350,54 +334,33 @@ export default {
     showMoney() {
       this.form.focus='money';
       this.hosRoom.dialogVisible = false;
-      this.hosInfo.dialogVisible = false;
+      this.hosNotice.dialogVisible = false;
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = false;
       this.hosMoney.dialogVisible = true;
     },
   },
-  destroyed () {
-      window.removeEventListener('scroll', this.handleScroll)
-    },
 };
 </script>
 
 <style lang="less" scoped>
-// .page{
-//     max-height: 800px;
-// }
-  // .box_fixed{
-  //   width: 500px;
-  //   height: 40px;
-  //   border: 2px dashed pink;
-  //   border-radius: 20px;
-  //   margin: 0 auto;
-  //   line-height: 40px;
-  //   background: #eee;
-  // }
-  .is_fixed{
-    position: fixed;
-    top: 0;
-    left: 50%;
-    margin-left: -250px;
-    z-index: 999;
-  }
-  .page-header{
-    background-color:white;
-  }
-
-  .blank{
-    z-index:-2;
-  }
+/* 医院信息弹窗中内容 */
+.hosInfo {
+  position: fixed;
+  font-size: 17px;
+  right: 5%;
+}
+.Main{
+  position:fixed
+}
 
 .topic {
   color: cornflowerblue;
-  font-size: 50px;
+  font-size: 40px;
   font-weight: bold;
   text-align: center;
-  padding-top:0.3%;
-  padding-left: 1.5%;
-  position: fixed;
+  padding-top:3.5%;
+  padding-left: 2%;
 }
 .btns {
   display: flex;
@@ -410,15 +373,14 @@ export default {
 .avatar-head{
   position:relative;
   margin-top:2%;
+  margin-left:2%;
 }
 
 .name-head{
   color: cornflowerblue;
-  position:relative;
   font-size:28px;
   font-weight:bold;
   margin-left:2%;
-  position:inherit;
 }
 
 .level-head{
@@ -429,54 +391,19 @@ export default {
   margin-left:2%;
 }
 
-.choose-hos{
-  color:black;
-  position:relative;
-  text-align: center;
-  width: 100px;
-  line-height: 20px;
-  font-size:20px;
-  font-weight: bold;
-}
-
-.choose-room{
-  color:black;
-  position:relative;
-  text-align: center;
-  width: 100px;
-  line-height: 20px;
-  font-size:20px;
-  font-weight: bold;
-}
-
-/* 医院信息弹窗中内容 */
-.hosInfo {
-  position: fixed;
-  font-size: 17px;
-  right: 5%;
-}
-
-.el-head{
-  position:fixed;
-  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-  
-  // background-color:aquamarine;
-  background-color: #ffffffe7;
-}
-
 .el-footer {
-  // background-color: #ffffffe7;
+  background-color: #ffffffe7;
   color: #333;
   text-align: center;
-  // line-height: 30px;
-
+  line-height: 30px;
 }
 
 .el-aside {
+  background-color: #ffffffe7;
   color:black;
   text-align: center;
-  position: fixed;
-  margin-top: 5%;
+  width: 200px;
+  margin-top: 30px;
   line-height: 60px;
   font-size:70px;
 
@@ -485,12 +412,23 @@ export default {
   padding-top:1%;
 }
 .el-main {
-  padding-top:5%;
-  margin-left:17%;
-  margin-right:7%;
+  background-color: #ffffffe7;
   color: #333;
   text-align: center;
-  position:relative;
+  line-height: 160px;
+}
+
+body > .el-container {
+  margin-bottom: 40px;
+}
+
+.el-container:nth-child(5) .el-aside,
+.el-container:nth-child(6) .el-aside {
+  line-height: 260px;
+}
+
+.el-container:nth-child(7) .el-aside {
+  line-height: 320px;
 }
 
 .text-css{
