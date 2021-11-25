@@ -140,14 +140,14 @@
             </el-dialog>
             <!-- 医院信息 -->
             <div class="choose-hos" v-if="this.hosInfo.dialogVisible">
-             <p>医院信息</p>
+             <p>医院通知</p>
             </div>
             <el-card
-              title="医院信息"
+              title="医院通知"
               v-if="this.hosInfo.dialogVisible"
               width="40%"
             >
-              <div style="height: 500px" :data="hosInfo">
+              <div style="height: 500px" :data="hosInfo"><releaseNotice/>
                 </div>
             </el-card>
 
@@ -161,7 +161,7 @@
               v-if="this.hosRoom.dialogVisible"
               width="40%"
             >
-              <div style="height: 500px" :data="hosRoom">
+              <div style="height: 500px" :data="hosRoom"><roomInfo/>
                 </div>
             </el-card>
             <!-- 查看预约情况 -->
@@ -170,7 +170,7 @@
               v-if="this.hosRes.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosRes">查看预约情况</div>
+              <div style="height: 320px" :data="hosRes"><reservationStatus/></div>
             </el-card>
             <!-- 停诊信息 -->
             <el-card
@@ -178,7 +178,7 @@
               v-if="this.hosSuspend.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosSuspend">查看停诊情况</div>
+              <div style="height: 320px" :data="hosSuspend"><suspendStatus/></div>
             </el-card>
             <!-- 平台流水 -->
             <el-card
@@ -186,7 +186,7 @@
               v-if="this.hosMoney.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosMoney">平台流水</div>
+              <div style="height: 320px" :data="hosMoney"><showMoney/></div>
             </el-card>      
         
        </el-main>
@@ -203,8 +203,13 @@
 
 <script>
 import identify from '../components/identify.vue';
+import releaseNotice from '../components/MainComponents/releaseNotice.vue';
+import roomInfo from '../components/MainComponents/roomInfo.vue';
+import reservationStatus from '../components/MainComponents/reservationStatus.vue';
+import showMoneyFlow from '../components/MainComponents/showMoneyFlow.vue';
+import suspendStatus from '../components/MainComponents/suspendStatus.vue';
 export default {
-  components: { identify },
+  components: { identify, releaseNotice,roomInfo,reservationStatus,showMoneyFlow,suspendStatus },
   name: "Main",
   data() {
     return {
