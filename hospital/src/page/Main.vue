@@ -1,18 +1,20 @@
 <template>
   <div>
-    <el-container>
-
-      <el-header>
-        <el-container class="Main">
+    
+      <!-- 页面头部 -->
+    <!-- <el-container style="height:100px"> -->
+      <!-- <el-header > -->
+        <!-- <div class="page-header"> -->
+          <div class="sticky">
           <div class="topic">
-            <el-button type="text" @click="showHospitalInfo" class="topic">济病通 医院端</el-button><br />
-            <!-- <h1>济病通 医院端</h1> -->
+            <el-button type="text"  @click="showHospitalInfo" class="topic">医济达</el-button><br />
           </div>
+          <!-- <div class="other-header"> -->
           <el-input
             class="search-hospital"
             :style="searchInput"
             v-model="hospitalName"
-            placeholder="请输入....."
+            placeholder="请输入......"
           ></el-input>
           <el-button
             @click="search()"
@@ -22,11 +24,10 @@
             circle
             ></el-button>
           <el-button
-            class="btns"
             type="primary"
-            @click="login()"
+            @click="exit()"
             :style="loginTemp"
-            >登录/注册
+            >退出登录
           </el-button>
           <el-avatar
             icon="el-icon-user-solid"
@@ -34,17 +35,21 @@
             :style="avatarHos"
             class="hosInfo"
           ></el-avatar>
-        </el-container>
-      </el-header>
-
-      <el-container>
-          <el-aside >
+          </div>
+          <!-- </div> -->
+          <!-- </div> -->
+      <!-- </el-header> -->
+    <!-- </el-container> -->
+      <!-- 页面内容 -->
+      <el-container class="page">
+      <el-container >
+          <el-aside>
             <div>
-              <div v-if="this.form.focus==='notice'">
-              <el-button type="text" icon="el-icon-caret-right" class="text-css-focus">发布公告</el-button><br />
+              <div v-if="this.form.focus==='hosInfo'">
+              <el-button type="text" icon="el-icon-caret-right" class="text-css-focus">医院信息</el-button><br />
             </div>
               <div v-else>
-                <el-button type="text" @click="showNotice()" class="text-css">发布公告</el-button><br />
+                <el-button type="text" @click="showHosInfo()" class="text-css">医院信息</el-button><br />
               </div>
             </div>
             <div>
@@ -81,20 +86,20 @@
             </div>
         </el-aside>
         
-        <el-container>
+        
+        <el-main>
+        
+
+        <!-- 指示信息栏（所有栏目都会显示的信息） -->
         <el-container>
           <!-- avatar放logo -->
           <el-avatar class="avatar-head" icon="el-icon-user-solid"></el-avatar>
+          
               <p class="name-head">xx市人民医院</p> 
               <p class="level-head">三甲医院</p>
         </el-container>
-          <!-- <el-header>
-            <div class="name-head">
-              <h3>xx市人民医院</h3> <p>三甲医院</p>
-            </div>
-          </el-header> -->
-
-          <el-main>
+          
+          <!-- 选择信息栏，依据展示信息的不同而不同 -->
             <!-- 医院信息 -->
             <el-dialog
               title="医院基本信息"
@@ -133,25 +138,30 @@
                 </el-descriptions>
               </div>
             </el-dialog>
-            <!-- 发布公告 -->
+            <!-- 医院信息 -->
+            <div class="choose-hos" v-if="this.hosInfo.dialogVisible">
+             <p>医院信息</p>
+            </div>
             <el-card
-              title="发布公告"
-              v-if="this.hosNotice.dialogVisible"
+              title="医院信息"
+              v-if="this.hosInfo.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosNotice">
-                <releaseNotice/>
-              </div>
+              <div style="height: 500px" :data="hosInfo">
+                </div>
             </el-card>
 
-            <!-- 查看科室情况 -->
+            <!-- 科室信息 -->
+            <div class="choose-room" v-if="this.hosRoom.dialogVisible">
+               <p>科室信息</p>
+            </div>
+                    
             <el-card
               title="科室信息"
               v-if="this.hosRoom.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosRoom">
-                <roomInfo/>
+              <div style="height: 500px" :data="hosRoom">
                 </div>
             </el-card>
             <!-- 查看预约情况 -->
@@ -160,9 +170,7 @@
               v-if="this.hosRes.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosRes">
-                <reservationStatus/>
-              </div>
+              <div style="height: 320px" :data="hosRes">查看预约情况</div>
             </el-card>
             <!-- 停诊信息 -->
             <el-card
@@ -170,9 +178,7 @@
               v-if="this.hosSuspend.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosSuspend">
-                <suspendStatus/>
-              </div>
+              <div style="height: 320px" :data="hosSuspend">查看停诊情况</div>
             </el-card>
             <!-- 平台流水 -->
             <el-card
@@ -180,57 +186,51 @@
               v-if="this.hosMoney.dialogVisible"
               width="40%"
             >
-              <div style="height: 320px" :data="hosMoney">
-                <showMoneyFlow/>
-              </div>
-            </el-card>
-          </el-main>
-          
-          <el-footer>联系我们</el-footer>
+              <div style="height: 320px" :data="hosMoney">平台流水</div>
+            </el-card>      
         
-        </el-container>
+       </el-main>
+        
+
       </el-container>
+      
+      <!-- 页面底部 -->
+      <el-footer>请拨打 +021 6895 1732 或 +021 6843 9284 联系我们</el-footer>
+
     </el-container>
   </div>
 </template>
 
 <script>
 import identify from '../components/identify.vue';
-import releaseNotice from '../components/MainComponents/releaseNotice.vue';
-import roomInfo from '../components/MainComponents/roomInfo.vue';
-import reservationStatus from '../components/MainComponents/reservationStatus.vue';
-import showMoneyFlow from '../components/MainComponents/showMoneyFlow.vue';
-import suspendStatus from '../components/MainComponents/suspendStatus.vue';
 export default {
-  components: { identify, releaseNotice,roomInfo,reservationStatus,showMoneyFlow,suspendStatus },
+  components: { identify },
   name: "Main",
   data() {
     return {
-      //公告 bulletin 科室 department 预约 reservation 停诊 suspend 流水 flow
-      // bulletin:false,
-      // department:false,
-      // reservation:false,
-      // suspend:false,
-      // flow:false,
+      user_id: this.$route.query.user_id + "",
+     
       form:{focus:''},
+      
       loginTemp:{
-        position:"fixed",
-        top:"3%",
+        position:"absolute",
+        top:"18px",
         right:"5.5%",
       },
       avatarHos:{
-        position:"fixed",
-        top:"3%",
+        position:"absolute",
+        top:"18px",
         right:"2%",
       },
       searchInput:{
-        width: "65%", 
-        left: "20%",
-        position:"fixed"
+        width: "66%", 
+        top:"3%",
+        left: "18%",
+        position:"absolute",
       },
       searchBtn:{
-        position: "fixed",
-        top:"3%",
+        position: "absolute",
+        top:"18px",
         right: "12%",
       },
       //医院信息
@@ -238,7 +238,7 @@ export default {
       hosData: {
         id: 1,
       },
-      hosNotice: {
+      hosInfo: {
         dialogVisible: true,
         content: "",
       },
@@ -257,13 +257,23 @@ export default {
       },
     };
   },
+  mounted:{
+    
+
+    //页面初始化
+    pageInit(){
+    
+    },
+  },
   methods: {
+
     register() {
       this.$router.push({
         name: "Register",
       });
     },
-    login() {
+    exit() {
+      this.$store.dispatch("LogOut")
       this.$router.push({ name: "Login" });
     },
     //医院图标跳转
@@ -295,9 +305,9 @@ export default {
       hosDataVisible = false;
     },
     //公告板
-    showNotice() {
-      this.form.focus='notice';
-      this.hosNotice.dialogVisible = true; //控制el-card是否显示
+    showHosInfo() {
+      this.form.focus='hosInfo';
+      this.hosInfo.dialogVisible = true; //控制el-card是否显示
       this.hosRoom.dialogVisible = false;
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = false;
@@ -307,7 +317,7 @@ export default {
     showRoom() {
       this.form.focus='room';
       this.hosRoom.dialogVisible = true;
-      this.hosNotice.dialogVisible = false;
+      this.hosInfo.dialogVisible = false;
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = false;
       this.hosMoney.dialogVisible = false;
@@ -316,7 +326,7 @@ export default {
     showRes() {
       this.form.focus='res';
       this.hosRoom.dialogVisible = false;
-      this.hosNotice.dialogVisible = false;
+      this.hosInfo.dialogVisible = false;
       this.hosRes.dialogVisible = true;
       this.hosSuspend.dialogVisible = false;
       this.hosMoney.dialogVisible = false;
@@ -325,7 +335,7 @@ export default {
     showSuspend() {
       this.form.focus='suspend';
       this.hosRoom.dialogVisible = false;
-      this.hosNotice.dialogVisible = false;
+      this.hosInfo.dialogVisible = false;
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = true;
       this.hosMoney.dialogVisible = false;
@@ -334,33 +344,59 @@ export default {
     showMoney() {
       this.form.focus='money';
       this.hosRoom.dialogVisible = false;
-      this.hosNotice.dialogVisible = false;
+      this.hosInfo.dialogVisible = false;
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = false;
       this.hosMoney.dialogVisible = true;
     },
   },
+  destroyed () {
+      window.removeEventListener('scroll', this.handleScroll)
+    },
 };
 </script>
 
 <style lang="less" scoped>
-/* 医院信息弹窗中内容 */
-.hosInfo {
-  position: fixed;
-  font-size: 17px;
-  right: 5%;
+// .page{
+//     max-height: 800px;
+// }
+  // .box_fixed{
+  //   width: 500px;
+  //   height: 40px;
+  //   border: 2px dashed pink;
+  //   border-radius: 20px;
+  //   margin: 0 auto;
+  //   line-height: 40px;
+  //   background: #eee;
+  // }\
+
+  div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 5px;
+  height: 70px;
+  background-color: white;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.1);
+  // border: 2px solid #4CAF50;
 }
-.Main{
-  position:fixed
-}
+  .page-header{
+    background-color:white;
+  }
+
+  .blank{
+    z-index:-2;
+  }
 
 .topic {
   color: cornflowerblue;
-  font-size: 40px;
+  font-size: 42px;
   font-weight: bold;
-  text-align: center;
-  padding-top:3.5%;
-  padding-left: 2%;
+  text-align: left;
+  padding-top:0.3%;
+  padding-left: 1.5%;
+  position: inherit;
 }
 .btns {
   display: flex;
@@ -373,14 +409,15 @@ export default {
 .avatar-head{
   position:relative;
   margin-top:2%;
-  margin-left:2%;
 }
 
 .name-head{
   color: cornflowerblue;
+  position:relative;
   font-size:28px;
   font-weight:bold;
   margin-left:2%;
+  position:inherit;
 }
 
 .level-head{
@@ -391,19 +428,52 @@ export default {
   margin-left:2%;
 }
 
+.choose-hos{
+  color:black;
+  position:relative;
+  text-align: center;
+  width: 100px;
+  line-height: 20px;
+  font-size:20px;
+  font-weight: bold;
+}
+
+.choose-room{
+  color:black;
+  position:relative;
+  text-align: center;
+  width: 100px;
+  line-height: 20px;
+  font-size:20px;
+  font-weight: bold;
+}
+
+/* 医院信息弹窗中内容 */
+.hosInfo {
+  position: fixed;
+  font-size: 17px;
+  right: 5%;
+}
+
+// .el-head{
+//   position:fixed;
+//   box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
+//   background-color: #ffffffe7;
+// }
+
 .el-footer {
-  background-color: #ffffffe7;
+  // background-color: #ffffffe7;
   color: #333;
   text-align: center;
-  line-height: 30px;
+  // line-height: 30px;
+
 }
 
 .el-aside {
-  background-color: #ffffffe7;
   color:black;
   text-align: center;
-  width: 200px;
-  margin-top: 30px;
+  position: fixed;
+  margin-top: 5%;
   line-height: 60px;
   font-size:70px;
 
@@ -412,23 +482,12 @@ export default {
   padding-top:1%;
 }
 .el-main {
-  background-color: #ffffffe7;
+  padding-top:5%;
+  margin-left:17%;
+  margin-right:7%;
   color: #333;
   text-align: center;
-  line-height: 160px;
-}
-
-body > .el-container {
-  margin-bottom: 40px;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
+  position:relative;
 }
 
 .text-css{

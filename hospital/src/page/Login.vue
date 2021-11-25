@@ -216,9 +216,14 @@ export default {
                 message: "登录成功！",
                 type: "success",
               });
-              
-              this.$store.dispatch('Login',this.loginForm)                                  
-              this.$router.push({ name: "Main" });
+
+              this.$store.dispatch("Login", this.loginForm);
+              this.$router.push({
+                name: "Main",
+                query: {
+                  user_id: this.loginForm.user_id,
+                },
+              });
             }
           })
           .catch((error) => {
@@ -252,7 +257,7 @@ export default {
                 message: "登录成功！",
                 type: "success",
               });
-              this.$store.dispatch('Login',this.loginForm) 
+              this.$store.dispatch("Login", this.loginForm);
               this.$router.push({ name: "Main" });
             }
           })
