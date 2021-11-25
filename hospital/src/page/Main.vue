@@ -22,9 +22,9 @@
             ></el-button>
           <el-button
             type="primary"
-            @click="login()"
+            @click="exit()"
             :style="loginTemp"
-            >登录/注册
+            >退出登录
           </el-button>
           <el-avatar
             icon="el-icon-user-solid"
@@ -36,7 +36,6 @@
       </el-header>
 
       <!-- 页面内容 -->
-      <div class="blank">
       <el-container style="position:sticky">
         
         <!-- <el-header>
@@ -192,7 +191,7 @@
         
 
       </el-container>
-      </div>
+      
       <!-- 页面底部 -->
       <el-footer>请拨打 +021 6895 1732 或 +021 6843 9284 联系我们</el-footer>
 
@@ -279,7 +278,8 @@ export default {
         name: "Register",
       });
     },
-    login() {
+    exit() {
+      this.$store.dispatch("LogOut")
       this.$router.push({ name: "Login" });
     },
     //医院图标跳转
