@@ -294,11 +294,11 @@ export default {
     showHos() {
       //目前这个接口调过一次数据库就会不让调，state变为1，认为本地应该已存储医院数据
       this.$axios
-        .get("http://139.196.194.51:18080/api/hospitals/" + this.hosData.id)
+        .get("/api/hospitals/updateInfo/1")
         .then((response) => {
-          console.log(response.data.data);
-          this.hosData = response.data.data;
-          console.log(hosData);
+          console.log(response);
+          //this.hosData = response.data.data;
+          //console.log(hosData);
         });
       this.hosDataVisible = true;
     },
