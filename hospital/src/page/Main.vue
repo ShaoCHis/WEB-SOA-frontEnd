@@ -1,12 +1,15 @@
 <template>
   <div>
-    <el-container class="page">
+    
       <!-- 页面头部 -->
-      <el-header >
+    <!-- <el-container style="height:100px"> -->
+      <!-- <el-header > -->
         <!-- <div class="page-header"> -->
+          <div class="sticky">
           <div class="topic">
             <el-button type="text"  @click="showHospitalInfo" class="topic">医济达</el-button><br />
           </div>
+          <!-- <div class="other-header"> -->
           <el-input
             class="search-hospital"
             :style="searchInput"
@@ -32,16 +35,14 @@
             :style="avatarHos"
             class="hosInfo"
           ></el-avatar>
+          </div>
           <!-- </div> -->
-      </el-header>
-
+          <!-- </div> -->
+      <!-- </el-header> -->
+    <!-- </el-container> -->
       <!-- 页面内容 -->
-      <el-container style="position:sticky">
-        
-        <!-- <el-header>
-          <div></div>
-        </el-header> -->
-
+      <el-container class="page">
+      <el-container >
           <el-aside>
             <div>
               <div v-if="this.form.focus==='hosInfo'">
@@ -87,7 +88,8 @@
         
         
         <el-main>
-          
+        
+
         <!-- 指示信息栏（所有栏目都会显示的信息） -->
         <el-container>
           <!-- avatar放logo -->
@@ -206,30 +208,29 @@ export default {
   name: "Main",
   data() {
     return {
-      
-      isFixed: false,
-      offsetTop:0,
-      
+      user_id: this.$route.query.user_id + "",
+     
       form:{focus:''},
       
       loginTemp:{
-        position:"fixed",
-        top:"3%",
+        position:"absolute",
+        top:"18px",
         right:"5.5%",
       },
       avatarHos:{
-        position:"fixed",
-        top:"3%",
+        position:"absolute",
+        top:"18px",
         right:"2%",
       },
       searchInput:{
         width: "66%", 
+        top:"3%",
         left: "18%",
-        position:"fixed"
+        position:"absolute",
       },
       searchBtn:{
-        position: "fixed",
-        top:"3%",
+        position: "absolute",
+        top:"18px",
         right: "12%",
       },
       //医院信息
@@ -261,17 +262,10 @@ export default {
 
     //页面初始化
     pageInit(){
-      window.addEventListener('scroll',this.initHeight);
-      this.$nextTick( () => {
-        this.offsetTop = document.querySelector('#boxFixed').offsetTop;
-      })
+    
     },
   },
   methods: {
-     initHeight () {
-        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        this.isFixed = scrollTop > this.offsetTop ? true : false;
-      },
 
     register() {
       this.$router.push({
@@ -374,14 +368,19 @@ export default {
   //   margin: 0 auto;
   //   line-height: 40px;
   //   background: #eee;
-  // }
-  .is_fixed{
-    position: fixed;
-    top: 0;
-    left: 50%;
-    margin-left: -250px;
-    z-index: 999;
-  }
+  // }\
+
+  div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 5px;
+  height: 70px;
+  background-color: white;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.1);
+  // border: 2px solid #4CAF50;
+}
   .page-header{
     background-color:white;
   }
@@ -389,12 +388,12 @@ export default {
 
 .topic {
   color: cornflowerblue;
-  font-size: 50px;
+  font-size: 42px;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   padding-top:0.3%;
   padding-left: 1.5%;
-  position: fixed;
+  position: inherit;
 }
 .btns {
   display: flex;
@@ -453,13 +452,11 @@ export default {
   right: 5%;
 }
 
-.el-head{
-  position:fixed;
-  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-  
-  // background-color:aquamarine;
-  background-color: #ffffffe7;
-}
+// .el-head{
+//   position:fixed;
+//   box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
+//   background-color: #ffffffe7;
+// }
 
 .el-footer {
   // background-color: #ffffffe7;
