@@ -386,9 +386,6 @@ export default {
     background-color:white;
   }
 
-  .blank{
-    z-index:-2;
-  }
 
 .topic {
   color: cornflowerblue;

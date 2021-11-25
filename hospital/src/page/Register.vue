@@ -236,8 +236,8 @@ export default {
 }
 
 .register_box {
-  width: 500px;
-  height: 550px;
+  width: 520px;
+  height: 650px;
   background-color: #fff;
   border-radius: 25px;
   position: absolute;
