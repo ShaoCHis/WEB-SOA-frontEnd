@@ -29,6 +29,7 @@
                  :style="avatarHos"
                  class="hosInfo"></el-avatar>
     </div>
+
     <!-- </div> -->
     <!-- </div> -->
     <!-- </el-header> -->
@@ -41,60 +42,80 @@
             <div v-if="this.form.focus === 'hosInfo'">
               <el-button type="text"
                          icon="el-icon-caret-right"
-                         class="text-css-focus">医院信息</el-button><br />
+                         class="text-css-focus">
+                <router-link to="/Notice">医院公告</router-link>
+              </el-button><br />
             </div>
             <div v-else>
               <el-button type="text"
                          @click="showHosInfo()"
-                         class="text-css">医院信息</el-button><br />
+                         class="text-css">
+                <router-link to="/Notice">医院公告</router-link>
+              </el-button><br />
             </div>
           </div>
           <div>
             <div v-if="this.form.focus === 'room'">
               <el-button type="text"
                          icon="el-icon-caret-right"
-                         class="text-css-focus">科室信息</el-button><br />
+                         class="text-css-focus">
+                <router-link to="/RoomInfo">科室信息</router-link>
+              </el-button><br />
             </div>
             <div v-else>
               <el-button type="text"
                          @click="showRoom()"
-                         class="text-css">科室信息</el-button><br />
+                         class="text-css">
+                <router-link to="/RoomInfo">科室信息</router-link>
+              </el-button><br />
             </div>
           </div>
           <div>
             <div v-if="this.form.focus === 'res'">
               <el-button type="text"
                          icon="el-icon-caret-right"
-                         class="text-css-focus">预约情况</el-button><br />
+                         class="text-css-focus">
+                <router-link to="/ReservationStatus">预约情况</router-link>
+              </el-button><br />
             </div>
             <div v-else>
               <el-button type="text"
                          @click="showRes()"
-                         class="text-css">预约情况</el-button><br />
+                         class="text-css">
+                <router-link to="/ReservationStatus">预约情况</router-link>
+              </el-button><br />
             </div>
           </div>
           <div>
             <div v-if="this.form.focus === 'suspend'">
               <el-button type="text"
                          icon="el-icon-caret-right"
-                         class="text-css-focus">停诊信息</el-button><br />
+                         class="text-css-focus">
+                <router-link to="/suspendStatus">停诊信息</router-link>
+              </el-button><br />
             </div>
             <div v-else>
               <el-button type="text"
                          @click="showSuspend()"
-                         class="text-css">停诊信息</el-button><br />
+                         class="text-css">
+                <router-link to="/suspendStatus">停诊信息</router-link>
+              </el-button><br />
             </div>
           </div>
           <div>
             <div v-if="this.form.focus === 'money'">
               <el-button type="text"
                          icon="el-icon-caret-right"
-                         class="text-css-focus">平台流水</el-button><br />
+                         class="text-css-focus">
+                <router-link to="/MoneyFlow">平台流水</router-link>
+              </el-button><br />
             </div>
             <div v-else>
               <el-button type="text"
                          @click="showMoney()"
-                         class="text-css">平台流水</el-button><br />
+                         class="text-css">
+                <router-link to="/MoneyFlow">平台流水</router-link>
+              </el-button><br />
             </div>
           </div>
         </el-aside>
@@ -120,33 +141,34 @@
                      :before-close="handleCloseHos">
             <!-- 医院头像 -->
             <div>
-                <div>
-                    <img class="hosPic"
+              <div>
+                <img class="hosPic"
                      src="../assets/head.png"
                      style="width:50%;height:50%;float:center;"
                      :fit="fit"></img>
-                </div>
-                <el-button type="primary"
-                           @click="uploadImg">上传头像</el-button>
+              </div>
+              <el-button type="primary"
+                         @click="uploadImg">上传头像</el-button>
             </div>
 
-            <div class="ivu-row" style="margin-top:15px;margin-left: -16px; margin-right: -16px;">
+            <div class="ivu-row"
+                 style="margin-top:15px;margin-left: -16px; margin-right: -16px;">
               <!-- 医院名称 -->
-              <div class="ivu-col ivu-col-span-12" style="padding-left: 16px; padding-right: 16px;">
+              <div class="ivu-col ivu-col-span-12"
+                   style="padding-left: 16px; padding-right: 16px;">
                 <div class="ivu-form-item ivu-form-item-required">
-                    <label class="ivu-form-item-label">医院名称:</label>
+                  <label class="ivu-form-item-label">医院名称:</label>
                   <div class="ivu-form-item-content">
                     <div class="ivu-input-wrapper ivu-input-wrapper-default ivu-input-type-text ivu-input-wrapper-disabled">
-                       <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop ivu-input-icon ivu-input-icon-validate"></i>
-                       <el-input autocomplete="off"
-                             spellcheck="false"
-                             type="text"
-                             placeholder="请输入医院名称..."
-                             v-model=hosData.name
-                             disabled="disabled"
-                             class="el-input"
-                             >
-                        </el-input>
+                      <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop ivu-input-icon ivu-input-icon-validate"></i>
+                      <el-input autocomplete="off"
+                                spellcheck="false"
+                                type="text"
+                                placeholder="请输入医院名称..."
+                                v-model=hosData.name
+                                disabled="disabled"
+                                class="el-input">
+                      </el-input>
                     </div>
                   </div>
                 </div>
@@ -155,42 +177,43 @@
               <div class="ivu-col ivu-col-span-12"
                    style="padding-left: 16px; padding-right: 16px;">
                 <div class="ivu-form-item ivu-form-item-required">
-                    <label class="ivu-form-item-label">医院编号:</label>
+                  <label class="ivu-form-item-label">医院编号:</label>
                   <div class="ivu-form-item-content">
                     <div class="ivu-input-wrapper ivu-input-wrapper-default ivu-input-type-text ivu-input-wrapper-disabled">
-                      <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop ivu-input-icon ivu-input-icon-validate"></i> 
+                      <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop ivu-input-icon ivu-input-icon-validate"></i>
                       <el-input autocomplete="off"
-                             spellcheck="false"
-                             type="text"
-                             placeholder="请输入医院编号..."
-                             v-model=hosData.id
-                             disabled="disabled"
-                             maxlength="11"
-                             class="el-input"></el-input>
+                                spellcheck="false"
+                                type="text"
+                                placeholder="请输入医院编号..."
+                                v-model=hosData.id
+                                disabled="disabled"
+                                maxlength="11"
+                                class="el-input"></el-input>
                     </div>
                   </div>
                 </div>
               </div>
               <!-- 医院简介 -->
-              <div class="ivu-col ivu-col-span-12" style="padding-left: 16px; padding-right: 16px;">
+              <div class="ivu-col ivu-col-span-12"
+                   style="padding-left: 16px; padding-right: 16px;">
                 <div class="ivu-form-item ivu-form-item-required">
-                    <label class="ivu-form-item-label">医院简介:</label>
+                  <label class="ivu-form-item-label">医院简介:</label>
                   <div class="ivu-form-item-content">
                     <div class="ivu-input-wrapper ivu-input-wrapper-default ivu-input-type-text ivu-input-wrapper-disabled">
-                       <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop ivu-input-icon ivu-input-icon-validate"></i>
-                       
-                        <el-input
-                            type="textarea"
-                            placeholder="请输入医院简介..."
-                            v-model="hosData.introduction"
-                            maxlength="30"
-                            disabled="disabled"
-                            show-word-limit
-                            style="margin-bottom:15px;"
-                            >
-                        </el-input>
-                        <el-button type="warning" @click="modifyInfo">修改</el-button>
-                        <el-button type="primary" @click="confirmInfo">确认</el-button>
+                      <i class="ivu-icon ivu-icon-ios-loading ivu-load-loop ivu-input-icon ivu-input-icon-validate"></i>
+
+                      <el-input type="textarea"
+                                placeholder="请输入医院简介..."
+                                v-model="hosData.introduction"
+                                maxlength="30"
+                                disabled="disabled"
+                                show-word-limit
+                                style="margin-bottom:15px;">
+                      </el-input>
+                      <el-button type="warning"
+                                 @click="modifyInfo">修改</el-button>
+                      <el-button type="primary"
+                                 @click="confirmInfo">确认</el-button>
                     </div>
                   </div>
                 </div>
@@ -250,6 +273,52 @@
             <div style="height: 320px"
                  :data="hosMoney">
               <showMoney />
+              <!-- 医院通知 -->
+              <el-card title="医院通知"
+                       v-if="this.hosInfo.dialogVisible"
+                       width="40%">
+                <router-view></router-view>
+                <div style="height: 500px"
+                     :data="hosInfo"></div>
+              </el-card>
+
+              <!-- 科室信息 -->
+              <el-card title="科室信息"
+                       v-if="this.hosRoom.dialogVisible"
+                       width="40%">
+                <router-view></router-view>
+                <div style="height: 500px"
+                     :data="hosRoom"></div>
+              </el-card>
+
+              <!-- 查看预约情况 -->
+              <el-card title="查看预约情况"
+                       v-if="this.hosRes.dialogVisible"
+                       width="40%">
+                <router-view></router-view>
+                <div style="height: 320px"
+                     :data="hosRes"></div>
+              </el-card>
+
+              <!-- 停诊信息 -->
+              <el-card title="查看停诊情况"
+                       v-if="this.hosSuspend.dialogVisible"
+                       width="40%">
+                <router-view></router-view>
+                <div style="height: 320px"
+                     :data="hosSuspend"></div>
+              </el-card>
+
+              <!-- 平台流水 -->
+              <el-card title="显示平台流水"
+                       v-if="this.hosMoney.dialogVisible"
+                       width="40%">
+                <div style="height: 320px"
+                     :data="hosMoney">
+
+                  <router-view></router-view>
+                </div>
+              </el-card>
             </div>
           </el-card>
         </el-main>
@@ -262,21 +331,7 @@
 </template>
 
 <script>
-import identify from '../components/identify.vue'
-import releaseNotice from '../components/MainComponents/releaseNotice.vue'
-import roomInfo from '../components/MainComponents/roomInfo.vue'
-import reservationStatus from '../components/MainComponents/reservationStatus.vue'
-import showMoneyFlow from '../components/MainComponents/showMoneyFlow.vue'
-import suspendStatus from '../components/MainComponents/suspendStatus.vue'
 export default {
-  components: {
-    identify,
-    releaseNotice,
-    roomInfo,
-    reservationStatus,
-    showMoneyFlow,
-    suspendStatus,
-  },
   name: 'Main',
   data() {
     return {
@@ -305,12 +360,13 @@ export default {
         top: '18px',
         right: '12%',
       },
+      hospitalName: '',
       //医院信息
       hosDataVisible: false, //控制el-card是否显示
       hosData: {
         id: 1,
-        name:"光明医院",
-        introduction:"光明医院是上海最好的医院子",
+        name: '光明医院',
+        introduction: '光明医院是上海最好的医院子',
       },
       hosInfo: {
         dialogVisible: true,
@@ -434,7 +490,6 @@ export default {
 // }\
 
 div.sticky {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -546,10 +601,10 @@ div.sticky {
   text-align: center;
   position: relative;
 }
-.el-input{
-    width:50%;
-    margin-top:15px;
-    margin-bottom:15px;
+.el-input {
+  width: 50%;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .text-css {
@@ -563,43 +618,43 @@ div.sticky {
   font-weight: bold;
 }
 .ivu-row {
-    flex-flow: row wrap;
+  flex-flow: row wrap;
 }
 .ivu-col-span-12 {
-    display: block;
-    flex: 0 0 50%;
-    max-width: 50%;
+  display: block;
+  flex: 0 0 50%;
+  max-width: 50%;
 }
 .ivu-col {
-    position: relative;
-    max-width: 100%;
-    min-height: 1px;
+  position: relative;
+  max-width: 100%;
+  min-height: 1px;
 }
 .ivu-form-item {
-    margin-bottom: 24px;
-    vertical-align: top;
-    zoom: 1;
+  margin-bottom: 24px;
+  vertical-align: top;
+  zoom: 1;
 }
 .ivu-form-item-content {
-    position: relative;
-    line-height: 32px;
-    font-size: 14px;
+  position: relative;
+  line-height: 32px;
+  font-size: 14px;
 }
 .ivu-input-wrapper {
-    display: inline-block;
-    width: 100%;
-    position: relative;
-    vertical-align: middle;
-    line-height: normal;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  vertical-align: middle;
+  line-height: normal;
 }
 .ivu-drawer-body {
-    width: 100%;
-    height: 100%;
-    padding: 16px;
-    font-size: 20px;
-    line-height: 1.5;
-    word-wrap: break-word;
-    position: flex;
-    overflow: auto;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  font-size: 20px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  position: flex;
+  overflow: auto;
 }
 </style>
