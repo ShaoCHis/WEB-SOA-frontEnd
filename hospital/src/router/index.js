@@ -17,12 +17,12 @@ export const ConstantRouterMap = [
   { path: '/register', name: "Register", component: Register, hidden: true },
   {
     path: '/', name: "Main", component: Main, hidden: true,
-    childre: [
-      { path: '/Notice', name: 'Notice', component: Notice, hidden: true },
-      { path: '/ReservationStatus', name: 'ReservationStatus', component: ReservationStatus, hidden: true },
-      { path: '/roomInfo', name: 'roomInfo', component: RoomInfo, hidden: true },
-      { path: '/showMoneyFlow', name: 'showMoneyFlow', component: MoneyFlow, hidden: true },
-      { path: '/suspendStatus', name: 'suspendStatus', component: SuspendStatus, hidden: true },
+    children: [
+      { path: 'Notice', name: 'Notice', component: Notice, hidden: true },
+      { path: 'ReservationStatus', name: 'ReservationStatus', component: ReservationStatus, hidden: true },
+      { path: 'RoomInfo', name: 'RoomInfo', component: RoomInfo, hidden: true },
+      { path: 'MoneyFlow', name: 'MoneyFlow', component: MoneyFlow, hidden: true },
+      { path: 'SuspendStatus', name: 'SuspendStatus', component: SuspendStatus, hidden: true },
     ]
   },
 ]
