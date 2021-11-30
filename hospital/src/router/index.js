@@ -17,7 +17,7 @@ export const ConstantRouterMap = [
   { path: '/register', name: "Register", component: Register, hidden: true },
   {
     path: '/', name: "Main", component: Main, hidden: true,
-    childre: [
+    children: [
       { path: '/Notice', name: 'Notice', component: Notice, hidden: true },
       { path: '/ReservationStatus', name: 'ReservationStatus', component: ReservationStatus, hidden: true },
       { path: '/roomInfo', name: 'roomInfo', component: RoomInfo, hidden: true },
