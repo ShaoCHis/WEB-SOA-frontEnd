@@ -5,7 +5,7 @@
         <div class="tip">
           <h1>医院加入申请</h1>
         </div>
-
+        
         <el-form
           ref="registerFormRef"
           :model="registerForm"
