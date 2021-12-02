@@ -1,22 +1,56 @@
 <template>
   <div>
-      <el-button>科室信息</el-button>
+    <!-- :data="tableData" -->
+    <!-- v-for="item in items" :key="item" -->
+    <el-table :data="tableData" border style="width: 100%">
+      <el-table-column prop="id" label="编号" width="300"> </el-table-column>
+      <el-table-column prop="name" label="名称" width="300"> </el-table-column>
+      <el-table-column prop="introduction" label="简介" >
+      </el-table-column>
+
+      <el-table-column fixed="right" label="操作" width="300">
+        <template slot-scope="scope">
+          <el-button @click="handleClick(scope.row)" type="text" size="small"
+            >查看</el-button
+          >
+          <el-button type="text" size="small">编辑</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-button @click="see">测试</el-button>
   </div>
 </template>
 
 <script>
 export default {
-name:'RoomInfo',
+  name: "RoomInfo",
 
+  data() {
+    return {
+      tableData: [
+        this.$store.state.datas.departData[0],
+        this.$store.state.datas.departData[1],
+        ],
+    }
+  },
 
-created(){
-  console.log(123)
-}
-
-
-}
+  created() { 
+    // for (var i=0;i<=1;i++)
+    // this.tableData[i]=this.$store.state.datas.departData[i];
+    // this.cleanData[i]=[this.$store.state.datas.departData[i].id,this.$store.state.datas.departData[i].name,this.$store.state.datas.departData[i].introduction]; 
+  },
+  mounted:{
+  },
+  methods: {
+    handleClick(row) {
+      console.log(row);
+    },
+    see(){
+      console.log(this.tableData);
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>
