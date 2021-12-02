@@ -37,10 +37,10 @@
 
     <!-- 页面内容 -->
     <el-container class="page">
-      <el-aside style="height: 60%">
+      <el-aside style="height: 60%" width=150px>
         <el-menu>
           <el-menu-item>
-            <div v-if="this.form.focus === 'hosInfo'">
+            <div v-if="this.form.focus === 'hosNotice'">
               <router-link to="/Notice">
                 <el-button
                   type="text"
@@ -53,7 +53,7 @@
             </div>
             <div v-else>
               <router-link to="/Notice"
-                ><el-button type="text" @click="showHosInfo()" class="text-css"
+                ><el-button type="text" @click="showHosNotice()" class="text-css"
                   >医院公告</el-button
                 >
               </router-link>
@@ -149,23 +149,20 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-container>
-        <!-- 指示信息栏（所有栏目都会显示的信息） -->
-        <!-- avatar放logo -->
-       
-          <el-avatar class="avatar-head" icon="el-icon-user-solid"></el-avatar>
-          <p class="name-head">xx市人民医院</p>
-          <p class="level-head">三甲医院</p>
-        
+
+      <!-- 指示信息栏（所有栏目都会显示的信息） -->
+      <!-- avatar放logo -->
+      <el-main style="left: 0%; width: 90%">       
+
         <!-- 选择信息栏，依据展示信息的不同而不同 -->
 
         <!-- 医院信息 -->
-        <el-main style="left: 5%; width: 80%">
-          <el-card title="平台流水" style="width: 90%; top: 10%">
-            <router-view></router-view>
-          </el-card>
-        </el-main>
-      </el-container>
+
+        <el-card title="页面内容" >
+          <router-view></router-view>
+        </el-card>
+      </el-main>
+      <el-footer>请拨打 +021 6895 1732 或 +021 6843 9284 联系我们</el-footer>
     </el-container>
 
     <el-drawer
@@ -315,8 +312,7 @@
       </div>
     </el-drawer>
 
-    <!-- 页面底部 -->
-    <el-footer>请拨打 +021 6895 1732 或 +021 6843 9284 联系我们</el-footer>
+    <!-- 页面底部 -->   
   </div>
 </template>
 
@@ -327,7 +323,7 @@ export default {
     return {
       user_id: this.$route.query.user_id + "",
 
-      form: { focus: "" },
+      form: { focus: "hosNotice" },
 
       loginTemp: {
         position: "absolute",
@@ -414,8 +410,8 @@ export default {
       hosDataVisible = false;
     },
     //公告板
-    showHosInfo() {
-      this.form.focus = "hosInfo";
+    showHosNotice() {
+      this.form.focus = "hosNotice";
       this.hosInfo.dialogVisible = true; //控制el-card是否显示
       this.hosRoom.dialogVisible = false;
       this.hosRes.dialogVisible = false;
