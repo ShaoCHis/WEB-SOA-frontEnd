@@ -204,12 +204,12 @@ export default {
         .dispatch("Login", this.loginForm)
         .then(() => {
           this.LoginSuccess();
-          console.log(1);
+          //console.log(1);
         })
         .catch(() => {
-          console.log(2);
+          //console.log(2);
           //this.LoginFail();
-          this.LoginSuccess()
+          this.LoginFail()
         })
         
     },
@@ -239,6 +239,8 @@ export default {
           message: "code或密码错误，请重新输入！",
           type: "error",
         });
+      this.refreshCode()
+      this.loginForm.input_code=""
     },
 
     //跳转注册

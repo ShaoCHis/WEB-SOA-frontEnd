@@ -29,11 +29,8 @@ const user = {
     Login({ commit }, userInfo) {
 
       const DATA = { 'token': 'admin' }
-      // setToken(data.token)
-      // commit('SET_TOKEN', data.token)
-
       const id = userInfo.user_id
-      console.log(userInfo.isCode)
+      //console.log(userInfo.isCode)
       if (userInfo.isCode != true)
         return new Promise((resolve, reject) => {
           login_ID(id, userInfo.password)
