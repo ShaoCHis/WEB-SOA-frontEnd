@@ -152,7 +152,7 @@
 
       <!-- 指示信息栏（所有栏目都会显示的信息） -->
       <!-- avatar放logo -->
-      <el-main style="left: 0%; width: 90%">       
+      <el-main style="left: -5%; width: 80%">       
 
         <!-- 选择信息栏，依据展示信息的不同而不同 -->
 
@@ -385,6 +385,7 @@ export default {
     },
     exit() {
       this.$store.dispatch("LogOut");
+      console.log(this.$store.state.user)
       this.$router.push({ name: "Login" });
     },
     //医院图标跳转

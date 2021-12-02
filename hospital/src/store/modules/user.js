@@ -1,4 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login_ID,login_Code } from '@/api/login'
 
 const user = {
   state: {
@@ -27,28 +28,44 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
 
-      const data = {'token':'admin'}
-      setToken(data.token)
-      commit('SET_TOKEN', data.token)
+      const DATA = { 'token': 'admin' }
+      // setToken(data.token)
+      // commit('SET_TOKEN', data.token)
 
-      // const username = userInfo.username.trim()
-      // return new Promise((resolve, reject) => {
-      //   login(username, userInfo.password).then(response => {
-      //     const data = response.data
-      //     setToken(data.token)
-      //     commit('SET_TOKEN', data.token)
-      //     resolve()
-      //   }).catch(error => {
-      //     reject(error)
-      //   })
-      // })
-
+      const id = userInfo.user_id
+      console.log(userInfo.isCode)
+      if (userInfo.isCode != true)
+        return new Promise((resolve, reject) => {
+          login_ID(id, userInfo.password)
+            .then(response => {
+              const data = response
+              setToken(data.token)
+              commit('SET_TOKEN', DATA.token)
+              resolve()
+            }).catch(error => {
+              reject(error)
+              //console.log(error)
+            })
+        })
+      else
+        return new Promise((resolve, reject) => {
+          login_Code(id, userInfo.password)
+            .then(response => {
+              const data = response
+              setToken(data.token)
+              commit('SET_TOKEN', DATA.token)
+              resolve()
+            }).catch(error => {
+              reject(error)
+              //console.log(error)
+            })
+        })
     },
 
     // 获取用户信息
     GetInfo({ commit, state }) {
 
-      const data = {'roles':'admin','name':'admin','avatar':'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'}
+      const data = { 'roles': 'admin', 'name': 'admin', 'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif' }
       if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
         commit('SET_ROLES', data.roles)
       } else {
@@ -78,6 +95,7 @@ const user = {
     LogOut({ commit, state }) {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
+      commit('SET_NAME', '')
       removeToken()
       // return new Promise((resolve, reject) => {
       //   logout(state.token).then(() => {
@@ -94,9 +112,9 @@ const user = {
     // 前端 登出
     FedLogOut({ commit }) {
       //return new Promise(resolve => {
-        commit('SET_TOKEN', '')
-        removeToken()
-        resolve()
+      commit('SET_TOKEN', '')
+      removeToken()
+      resolve()
       //})
     }
   }
