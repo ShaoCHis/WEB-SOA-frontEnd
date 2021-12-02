@@ -7,3 +7,19 @@ export function getHospInfo(params) {
         params
     })
 }
+
+export function getDepartById(params) {
+    return request({
+        url: `/department/getDepartInfo/${params.id}`,
+        method: 'get',
+        params
+    })
+}
+
+export function getDepartListById(params){
+    return request({
+        url: `/department/getDepartListInfo/${params.id}`,
+        method:'get',
+        params
+    })
+}

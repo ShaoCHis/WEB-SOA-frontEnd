@@ -57,7 +57,8 @@
                   icon="el-icon-caret-right"
                   class="text-css-focus"
                   >科室信息</el-button
-                ></router-link
+                >
+                </router-link
               >
               <br />
             </div>
@@ -128,7 +129,7 @@
             </div>
             <div v-else>
               <router-link to="/MoneyFlow"
-                ><el-button type="text" @click="showMoney()" class="text-css"
+                @select="getResData"><el-button type="text" @click="showMoney()" class="text-css"
                   >平台流水</el-button
                 ></router-link
               >
@@ -253,11 +254,16 @@
 
 <script>
 import {getHospInfo} from "../api/main"
+import {getDepartListById} from '../api/main';
+
 export default {
   name: "Main",
   data() {
     return {
-      user_id: this.$route.query.user_id + "",
+      resData:[],
+
+      user_id: this.$route.query.type + "",
+      temp_id:"1",
 
       form: { focus: "hosNotice" },
       
@@ -323,6 +329,7 @@ export default {
             behavior: 'smooth'
         });
     },
+
     register() {
       this.$router.push({
         name: "Register",
@@ -374,7 +381,27 @@ export default {
       this.hosRes.dialogVisible = false;
       this.hosSuspend.dialogVisible = false;
       this.hosMoney.dialogVisible = false;
+      getDepartListById({
+        id:this.temp_id+"",
+      }).then(response=>{
+        this.resData=response.data;
+        
+        this.$store
+        .dispatch("setDepart",this.resData)
+        .then(()=>{
+          console.log(1);
+        })
+        .catch(err=>{
+          consoler.log(0);
+        })
+        
+      }).catch(error=>{
+        console.log(0);
+      });
     },
+    // getResData(){
+    //   return this.cleanData;
+    // },
     //预约信息
     showRes() {
       this.form.focus = "res";
@@ -406,6 +433,7 @@ export default {
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
   },
+  
 };
 </script>
 
