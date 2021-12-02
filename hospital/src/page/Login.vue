@@ -204,12 +204,12 @@ export default {
         .dispatch("Login", this.loginForm)
         .then(() => {
           this.LoginSuccess();
-          console.log(1);
+          //console.log(1);
         })
         .catch(() => {
-          console.log(2);
+          //console.log(2);
           //this.LoginFail();
-          this.LoginSuccess()
+          this.LoginFail()
         })
         
     },

@@ -1,25 +1,31 @@
 import request from '@/utils/request'
 
-export function login_ID(id,password)
-{
+//用ID登录
+export function login_ID(id, password) {
     return request({
-        url:'/api/hospital/session',
-        method:'post',
-        data:{
+        url: '/api/hospital/session',
+        method: 'post',
+        data: {
             id,
             password
         }
     })
 }
-
-export function login_Code(code,password)
-{
+//用Code登录
+export function login_Code(code, password) {
     return request({
-        url:'/api/hospital/session',
-        method:'post',
-        data:{
+        url: '/api/hospital/session',
+        method: 'post',
+        data: {
             code,
             password
         }
+    })
+}
+
+export function register(Info) {
+    return request({
+        url: '/apply/Info',
+        method: 'post',
     })
 }
