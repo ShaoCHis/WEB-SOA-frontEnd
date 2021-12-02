@@ -239,6 +239,8 @@ export default {
           message: "code或密码错误，请重新输入！",
           type: "error",
         });
+      this.refreshCode()
+      this.loginForm.input_code=""
     },
 
     //跳转注册
