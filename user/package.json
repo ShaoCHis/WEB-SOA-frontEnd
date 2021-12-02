@@ -18,5 +18,8 @@
     "nuxt": {
       "port": 8087
     }
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.12.2"
   }
 }
