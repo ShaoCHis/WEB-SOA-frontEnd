@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="background">
     <!-- 页面头部 -->
     <!-- <el-container style="height:100px"> -->
     <!-- <el-header > -->
     <!-- <div class="page-header"> -->
     <div class="sticky">
-      <div class="topic">
+      <div>
         <el-button type="text" @click="showHospitalInfo" class="topic"
           >医济达</el-button
         ><br />
@@ -20,13 +20,13 @@
         :style="avatarHos"
         class="hosInfo"
       ></el-avatar>
-        <el-button class="el-icon-caret-top sticky" style="float:right;margin-right:20px;margin-top:400px;" type="primary" @click="scrollTop">返回顶部</el-button>
+        <el-button class="el-icon-caret-top sticky" style="float:right;margin-right:20px;margin-top:400px;" type="primary" circle @click="scrollTop"></el-button>
     </div>
 
     <!-- 页面内容 -->
     <el-container class="page">
-      <el-aside style="height: 60%" width=150px>
-        <el-menu>
+      <el-aside style="height: 60%;" width=150px>
+        <el-menu style="height: 90%;padding-top:10%;">
           <el-menu-item>
             <div v-if="this.form.focus === 'hosNotice'">
               <router-link to="/Notice">
@@ -441,11 +441,13 @@ export default {
 div.sticky {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 999;
   padding: 5px;
   height: 70px;
-  background-color: white;
-  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 3px 16px rgba(0, 0, 0,0.2);
+//   background-color: rgba(0, 0, 0, 0.25);
+//   box-shadow: 0 10px 25px rgba(255, 255, 255, 1);
   // border: 2px solid #4CAF50;
 }
 .page-header {
@@ -457,9 +459,10 @@ div.sticky {
   font-size: 42px;
   font-weight: bold;
   text-align: left;
-  padding-top: 0.3%;
+  padding-top: 1%;
   padding-left: 1.5%;
   position: inherit;
+  text-shadow:1px 1px 3px rgba(0, 0, 0,0.3);
 }
 .btns {
   display: flex;
@@ -598,5 +601,10 @@ div.sticky {
   word-wrap: break-word;
   position: flex;
   overflow: auto;
+}
+.background{
+    background-image: url('../assets/backgrond.jpg');
+    background-size: 100%,100%;
+    padding-bottom: 30%;
 }
 </style>
