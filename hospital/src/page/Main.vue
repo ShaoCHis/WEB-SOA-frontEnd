@@ -11,28 +11,16 @@
         ><br />
       </div>
       <!-- <div class="other-header"> -->
-      <el-input
-        class="search-hospital"
-        :style="searchInput"
-        v-model="hospitalName"
-        placeholder="请输入......"
-      ></el-input>
-      <el-button
-        @click="search()"
-        type="primary"
-        icon="el-icon-search"
-        :style="searchBtn"
-        circle
-      ></el-button>
-      <el-button type="primary" @click="exit()" :style="loginTemp"
+      <el-button type="danger" class="searchBtn" @click="exit()" :style="loginTemp"
         >退出登录
       </el-button>
       <el-avatar
         icon="el-icon-user-solid"
-        @click.native="showHos()"
+        @click.native="getHospitalInfo()"
         :style="avatarHos"
         class="hosInfo"
       ></el-avatar>
+        <el-button class="el-icon-caret-top sticky" style="float:right;margin-right:20px;margin-top:400px;" type="primary" @click="scrollTop">返回顶部</el-button>
     </div>
 
     <!-- 页面内容 -->
@@ -152,19 +140,20 @@
 
       <!-- 指示信息栏（所有栏目都会显示的信息） -->
       <!-- avatar放logo -->
-      <el-main style="left: -5%; width: 80%">       
+      <el-main style="left: 0%; width: 90%">       
 
         <!-- 选择信息栏，依据展示信息的不同而不同 -->
 
         <!-- 医院信息 -->
 
-        <el-card title="页面内容" >
+        <el-contaniner title="页面内容" >
           <router-view></router-view>
-        </el-card>
+        </el-contaniner>
       </el-main>
       <el-footer>请拨打 +021 6895 1732 或 +021 6843 9284 联系我们</el-footer>
     </el-container>
-
+    
+    
     <el-drawer
       title="医院基本信息"
       class="ivu-drawer-body"
@@ -177,43 +166,21 @@
         <div>
           <img
             class="hosPic"
-            src="../assets/head.png"
-            style="width: 50%; height: 50%; float: center"
+            :src=hosData.image
+            style="margin-left:20%;width: 50%; height: 50%; float: center"
             :fit="fit"
           />
         </div>
-        <el-button type="primary" @click="uploadImg">上传头像</el-button>
+        <el-button type="primary" style="margin-left:40%;" @click="uploadImg">上传头像</el-button>
       </div>
 
-      <div
-        class="ivu-row"
-        style="margin-top: 15px; margin-left: -16px; margin-right: -16px"
-      >
+      <div class="ivu-row" style="margin-top: 15px; margin-left: 10px; margin-right: -16px">
         <!-- 医院名称 -->
-        <div
-          class="ivu-col ivu-col-span-12"
-          style="padding-left: 16px; padding-right: 16px"
-        >
-          <div class="ivu-form-item ivu-form-item-required">
-            <label class="ivu-form-item-label">医院名称:</label>
+        <div class="ivu-col ivu-col-span-12" style="padding-left: 16px; padding-right: 16px">
+          <div class="ivu-form-item">
+            <label>医院名称:</label>
             <div class="ivu-form-item-content">
-              <div
-                class="
-                  ivu-input-wrapper
-                  ivu-input-wrapper-default
-                  ivu-input-type-text
-                  ivu-input-wrapper-disabled
-                "
-              >
-                <i
-                  class="
-                    ivu-icon
-                    ivu-icon-ios-loading
-                    ivu-load-loop
-                    ivu-input-icon
-                    ivu-input-icon-validate
-                  "
-                ></i>
+              <div class="ivu-input-wrapper">
                 <el-input
                   autocomplete="off"
                   spellcheck="false"
@@ -233,26 +200,10 @@
           class="ivu-col ivu-col-span-12"
           style="padding-left: 16px; padding-right: 16px"
         >
-          <div class="ivu-form-item ivu-form-item-required">
-            <label class="ivu-form-item-label">医院编号:</label>
+          <div class="ivu-form-item">
+            <label>医院编号:</label>
             <div class="ivu-form-item-content">
-              <div
-                class="
-                  ivu-input-wrapper
-                  ivu-input-wrapper-default
-                  ivu-input-type-text
-                  ivu-input-wrapper-disabled
-                "
-              >
-                <i
-                  class="
-                    ivu-icon
-                    ivu-icon-ios-loading
-                    ivu-load-loop
-                    ivu-input-icon
-                    ivu-input-icon-validate
-                  "
-                ></i>
+              <div class="ivu-input-wrapper">
                 <el-input
                   autocomplete="off"
                   spellcheck="false"
@@ -272,28 +223,12 @@
           class="ivu-col ivu-col-span-12"
           style="padding-left: 16px; padding-right: 16px"
         >
-          <div class="ivu-form-item ivu-form-item-required">
-            <label class="ivu-form-item-label">医院简介:</label>
+          <div class="ivu-form-item">
+            <label>医院简介:</label>
             <div class="ivu-form-item-content">
-              <div
-                class="
-                  ivu-input-wrapper
-                  ivu-input-wrapper-default
-                  ivu-input-type-text
-                  ivu-input-wrapper-disabled
-                "
-              >
-                <i
-                  class="
-                    ivu-icon
-                    ivu-icon-ios-loading
-                    ivu-load-loop
-                    ivu-input-icon
-                    ivu-input-icon-validate
-                  "
-                ></i>
-
+              <div class="ivu-input-wrapper">
                 <el-input
+                  autocomplete="false"
                   type="textarea"
                   placeholder="请输入医院简介..."
                   v-model="hosData.introduction"
@@ -317,6 +252,7 @@
 </template>
 
 <script>
+import {getHospInfo} from "../api/main"
 export default {
   name: "Main",
   data() {
@@ -324,7 +260,7 @@ export default {
       user_id: this.$route.query.user_id + "",
 
       form: { focus: "hosNotice" },
-
+      
       loginTemp: {
         position: "absolute",
         top: "18px",
@@ -351,8 +287,6 @@ export default {
       hosDataVisible: false, //控制el-card是否显示
       hosData: {
         id: 1,
-        name: "光明医院",
-        introduction: "光明医院是上海最好的医院子",
       },
       hosInfo: {
         dialogVisible: true,
@@ -373,11 +307,22 @@ export default {
       },
     };
   },
-  mounted: {
+  mounted() {
     //页面初始化
-    pageInit() {},
+    pageInit();
+    getHospitalInfo();
   },
   methods: {
+    uploadImg(){
+
+    },
+    scrollTop(){
+        window.scrollTo({
+            left: 0,
+            top: 0,
+            behavior: 'smooth'
+        });
+    },
     register() {
       this.$router.push({
         name: "Register",
@@ -385,23 +330,25 @@ export default {
     },
     exit() {
       this.$store.dispatch("LogOut");
-      console.log(this.$store.state.user)
       this.$router.push({ name: "Login" });
     },
     //医院图标跳转
-    showHospitalInfo() {},
+    getHospitalInfo() {
+        this.hosDataVisible = true;
+        getHospInfo({
+            id:this.hosData.id+'',
+        })
+        .then(response=>{
+            this.hosData=response.data;
+            console.log(response.data);
+        })
+        .catch(error=>{
+            console.log(-1);
+        })
+    },
     //查询按钮
     search() {},
     //医院头像处信息
-    showHos() {
-      //目前这个接口调过一次数据库就会不让调，state变为1，认为本地应该已存储医院数据
-      this.$axios.get("/api/hospitals/updateInfo/1").then((response) => {
-        console.log(response);
-        //this.hosData = response.data.data;
-        //console.log(hosData);
-      });
-      this.hosDataVisible = true;
-    },
     handleCloseHos(done) {
       this.$confirm("确认关闭？")
         .then((_) => {
@@ -463,19 +410,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-// .page{
-//     max-height: 800px;
-// }
-// .box_fixed{
-//   width: 500px;
-//   height: 40px;
-//   border: 2px dashed pink;
-//   border-radius: 20px;
-//   margin: 0 auto;
-//   line-height: 40px;
-//   background: #eee;
-// }
-
 div.sticky {
   position: sticky;
   top: 0;
@@ -555,13 +489,6 @@ div.sticky {
   font-size: 17px;
   right: 5%;
 }
-
-// .el-head{
-//   position:fixed;
-//   box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-//   background-color: #ffffffe7;
-// }
-
 .el-footer {
   // background-color: #ffffffe7;
   color: #333;
