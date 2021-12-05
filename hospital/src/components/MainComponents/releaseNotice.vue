@@ -29,7 +29,7 @@
                 </div>
             </el-card>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
             <el-card class="box-card">
                 <el-button type="text" style="font-size:20px;margin-top:25%;" @click="addNotice">
                     +新增公告
