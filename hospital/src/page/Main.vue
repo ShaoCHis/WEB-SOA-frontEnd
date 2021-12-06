@@ -11,7 +11,11 @@
         ><br />
       </div>
       <!-- <div class="other-header"> -->
-      <el-button type="danger" class="searchBtn" @click="exit()" :style="loginTemp"
+      <el-button
+        type="danger"
+        class="searchBtn"
+        @click="exit()"
+        :style="loginTemp"
         >退出登录
       </el-button>
       <el-avatar
@@ -20,13 +24,19 @@
         :style="avatarHos"
         class="hosInfo"
       ></el-avatar>
-        <el-button class="el-icon-caret-top sticky" style="float:right;margin-right:20px;margin-top:400px;" type="primary" circle @click="scrollTop"></el-button>
+      <el-button
+        class="el-icon-caret-top sticky"
+        style="float: right; margin-right: 20px; margin-top: 400px"
+        type="primary"
+        circle
+        @click="scrollTop"
+      ></el-button>
     </div>
 
     <!-- 页面内容 -->
     <el-container class="page">
-      <el-aside style="height: 60%;" width=150px>
-        <el-menu style="height: 90%;padding-top:10%;">
+      <el-aside style="height: 60%" width="150px">
+        <el-menu style="height: 90%; padding-top: 10%">
           <el-menu-item>
             <div v-if="this.form.focus === 'hosNotice'">
               <router-link to="/Notice">
@@ -41,7 +51,14 @@
             </div>
             <div v-else>
               <router-link to="/Notice"
-                ><el-button type="text" @click="showHosNotice()" class="text-css"
+                ><el-button
+                  type="text"
+                  @click="
+                    () => {
+                      this.form.focus = 'hosNotice';
+                    }
+                  "
+                  class="text-css"
                   >医院公告</el-button
                 >
               </router-link>
@@ -58,13 +75,19 @@
                   class="text-css-focus"
                   >科室信息</el-button
                 >
-                </router-link
-              >
+              </router-link>
               <br />
             </div>
             <div v-else>
               <router-link to="/RoomInfo"
-                ><el-button type="text" @click="showRoom()" class="text-css"
+                ><el-button
+                  type="text"
+                  @click="
+                    () => {
+                      this.form.focus = 'room';
+                    }
+                  "
+                  class="text-css"
                   >科室信息</el-button
                 ></router-link
               >
@@ -86,7 +109,14 @@
             </div>
             <div v-else>
               <router-link to="/ReservationStatus"
-                ><el-button type="text" @click="showRes()" class="text-css"
+                ><el-button
+                  type="text"
+                  @click="
+                    () => {
+                      this.form.focus = 'res';
+                    }
+                  "
+                  class="text-css"
                   >预约情况</el-button
                 ></router-link
               >
@@ -108,7 +138,14 @@
             </div>
             <div v-else>
               <router-link to="/suspendStatus"
-                ><el-button type="text" @click="showSuspend()" class="text-css"
+                ><el-button
+                  type="text"
+                  @click="
+                    () => {
+                      this.form.focus = 'suspend';
+                    }
+                  "
+                  class="text-css"
                   >停诊信息
                 </el-button></router-link
               ><br />
@@ -128,8 +165,15 @@
               <br />
             </div>
             <div v-else>
-              <router-link to="/MoneyFlow"
-                @select="getResData"><el-button type="text" @click="showMoney()" class="text-css"
+              <router-link to="/MoneyFlow" @select="getResData"
+                ><el-button
+                  type="text"
+                  @click="
+                    () => {
+                      this.form.focus = 'money';
+                    }
+                  "
+                  class="text-css"
                   >平台流水</el-button
                 ></router-link
               >
@@ -141,20 +185,17 @@
 
       <!-- 指示信息栏（所有栏目都会显示的信息） -->
       <!-- avatar放logo -->
-      <el-main style="left: 0%; width: 90%">       
-
+      <el-main style="left: 0%; width: 90%">
         <!-- 选择信息栏，依据展示信息的不同而不同 -->
 
         <!-- 医院信息 -->
 
-        <el-contaniner title="页面内容" >
+        <el-contaniner title="页面内容">
           <router-view></router-view>
         </el-contaniner>
       </el-main>
-      <el-footer>请拨打 +021 6895 1732 或 +021 6843 9284 联系我们</el-footer>
     </el-container>
-    
-    
+
     <el-drawer
       title="医院基本信息"
       class="ivu-drawer-body"
@@ -167,17 +208,25 @@
         <div>
           <img
             class="hosPic"
-            :src=hosData.image
-            style="margin-left:20%;width: 50%; height: 50%; float: center"
+            :src="hosData.image"
+            style="margin-left: 20%; width: 50%; height: 50%; float: center"
             :fit="fit"
           />
         </div>
-        <el-button type="primary" style="margin-left:40%;" @click="uploadImg">上传头像</el-button>
+        <el-button type="primary" style="margin-left: 40%" @click="uploadImg"
+          >上传头像</el-button
+        >
       </div>
 
-      <div class="ivu-row" style="margin-top: 15px; margin-left: 10px; margin-right: -16px">
+      <div
+        class="ivu-row"
+        style="margin-top: 15px; margin-left: 10px; margin-right: -16px"
+      >
         <!-- 医院名称 -->
-        <div class="ivu-col ivu-col-span-12" style="padding-left: 16px; padding-right: 16px">
+        <div
+          class="ivu-col ivu-col-span-12"
+          style="padding-left: 16px; padding-right: 16px"
+        >
           <div class="ivu-form-item">
             <label>医院名称:</label>
             <div class="ivu-form-item-content">
@@ -248,25 +297,28 @@
       </div>
     </el-drawer>
 
-    <!-- 页面底部 -->   
+    <!-- 页面底部 -->
+    <footer class="footer">
+      请拨打 +021 6895 1732 或 +021 6843 9284 联系我们
+    </footer>
   </div>
 </template>
 
 <script>
-import {getHospInfo} from "../api/main"
-import {getDepartListById} from '../api/main';
+import { getHospInfo } from "../api/main";
+import { getDepartListById } from "../api/main";
 
 export default {
   name: "Main",
   data() {
     return {
-      resData:[],
+      resData: [],
 
       user_id: this.$route.query.type + "",
-      temp_id:"1",
+      temp_id: "1",
 
       form: { focus: "hosNotice" },
-      
+
       loginTemp: {
         position: "absolute",
         top: "18px",
@@ -294,42 +346,20 @@ export default {
       hosData: {
         id: 1,
       },
-      hosInfo: {
-        dialogVisible: true,
-        content: "",
-      },
-      hosRoom: {
-        dialogVisible: false,
-        name: "",
-      },
-      hosRes: {
-        dialogVisible: false,
-      },
-      hosSuspend: {
-        dialogVisible: false,
-      },
-      hosMoney: {
-        dialogVisible: false,
-      },
     };
   },
   mounted() {
     //页面初始化
-    pageInit();
     getHospitalInfo();
   },
   methods: {
-    uploadImg(){
-
+    scrollTop() {
+      window.scrollTo({
+        left: 0,
+        top: 0,
+        behavior: "smooth",
+      });
     },
-    scrollTop(){
-        window.scrollTo({
-            left: 0,
-            top: 0,
-            behavior: 'smooth'
-        });
-    },
-
     register() {
       this.$router.push({
         name: "Register",
@@ -341,20 +371,18 @@ export default {
     },
     //医院图标跳转
     getHospitalInfo() {
-        this.hosDataVisible = true;
-        getHospInfo({
-            id:this.hosData.id+'',
+      this.hosDataVisible = true;
+      getHospInfo({
+        id: this.hosData.id + "",
+      })
+        .then((response) => {
+          this.hosData = response.data;
+          console.log(response.data);
         })
-        .then(response=>{
-            this.hosData=response.data;
-            console.log(response.data);
-        })
-        .catch(error=>{
-            console.log(-1);
-        })
+        .catch((error) => {
+          console.log(-1);
+        });
     },
-    //查询按钮
-    search() {},
     //医院头像处信息
     handleCloseHos(done) {
       this.$confirm("确认关闭？")
@@ -364,76 +392,10 @@ export default {
         .catch((_) => {});
       hosDataVisible = false;
     },
-    //公告板
-    showHosNotice() {
-      this.form.focus = "hosNotice";
-      this.hosInfo.dialogVisible = true; //控制el-card是否显示
-      this.hosRoom.dialogVisible = false;
-      this.hosRes.dialogVisible = false;
-      this.hosSuspend.dialogVisible = false;
-      this.hosMoney.dialogVisible = false;
-    },
-    //科室信息
-    showRoom() {
-      this.form.focus = "room";
-      this.hosRoom.dialogVisible = true;
-      this.hosInfo.dialogVisible = false;
-      this.hosRes.dialogVisible = false;
-      this.hosSuspend.dialogVisible = false;
-      this.hosMoney.dialogVisible = false;
-      getDepartListById({
-        id:this.temp_id+"",
-      }).then(response=>{
-        this.resData=response.data;
-        
-        this.$store
-        .dispatch("setDepart",this.resData)
-        .then(()=>{
-          console.log(1);
-        })
-        .catch(err=>{
-          consoler.log(0);
-        })
-        
-      }).catch(error=>{
-        console.log(0);
-      });
-    },
-    // getResData(){
-    //   return this.cleanData;
-    // },
-    //预约信息
-    showRes() {
-      this.form.focus = "res";
-      this.hosRoom.dialogVisible = false;
-      this.hosInfo.dialogVisible = false;
-      this.hosRes.dialogVisible = true;
-      this.hosSuspend.dialogVisible = false;
-      this.hosMoney.dialogVisible = false;
-    },
-    //停诊信息
-    showSuspend() {
-      this.form.focus = "suspend";
-      this.hosRoom.dialogVisible = false;
-      this.hosInfo.dialogVisible = false;
-      this.hosRes.dialogVisible = false;
-      this.hosSuspend.dialogVisible = true;
-      this.hosMoney.dialogVisible = false;
-    },
-    //平台流水
-    showMoney() {
-      this.form.focus = "money";
-      this.hosRoom.dialogVisible = false;
-      this.hosInfo.dialogVisible = false;
-      this.hosRes.dialogVisible = false;
-      this.hosSuspend.dialogVisible = false;
-      this.hosMoney.dialogVisible = true;
-    },
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
   },
-  
 };
 </script>
 
@@ -445,9 +407,9 @@ div.sticky {
   padding: 5px;
   height: 70px;
   background-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 3px 16px rgba(0, 0, 0,0.2);
-//   background-color: rgba(0, 0, 0, 0.25);
-//   box-shadow: 0 10px 25px rgba(255, 255, 255, 1);
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.2);
+  //   background-color: rgba(0, 0, 0, 0.25);
+  //   box-shadow: 0 10px 25px rgba(255, 255, 255, 1);
   // border: 2px solid #4CAF50;
 }
 .page-header {
@@ -462,7 +424,7 @@ div.sticky {
   padding-top: 1%;
   padding-left: 1.5%;
   position: inherit;
-  text-shadow:1px 1px 3px rgba(0, 0, 0,0.3);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 .btns {
   display: flex;
@@ -602,9 +564,17 @@ div.sticky {
   position: flex;
   overflow: auto;
 }
-.background{
-    background-image: url('../assets/backgrond.jpg');
-    background-size: 100%,100%;
-    padding-bottom: 30%;
+.background {
+  background-image: url("../assets/backgrond.jpg");
+  background-size: 100%, 100%;
+  padding-bottom: 30%;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+}
+.footer {
+  position: fixed;
+  left: 35%;
+  bottom: 5%;
 }
 </style>
