@@ -27,7 +27,6 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-
       const DATA = { 'token': 'admin' }
       const id = userInfo.user_id
       //console.log(userInfo.isCode)

@@ -1,201 +1,207 @@
 <template>
-  <div class="background">
-    <!-- 页面头部 -->
-    <!-- <el-container style="height:100px"> -->
-    <!-- <el-header > -->
-    <!-- <div class="page-header"> -->
-    <div class="sticky">
-      <div>
-        <el-button type="text" @click="showHospitalInfo" class="topic"
-          >医济达</el-button
-        ><br />
+  <div>
+    <div class="background">
+      <!-- 页面头部 -->
+      <!-- <el-container style="height:100px"> -->
+      <!-- <el-header > -->
+      <!-- <div class="page-header"> -->
+      <div class="sticky">
+        <div>
+          <el-button type="text" @click="showHospitalInfo" class="topic"
+            >医济达</el-button
+          ><br />
+        </div>
+        <!-- <div class="other-header"> -->
+        <el-button
+          type="danger"
+          class="searchBtn"
+          @click="exit()"
+          :style="loginTemp"
+          >退出登录
+        </el-button>
+        <el-avatar
+          icon="el-icon-user-solid"
+          @click.native="getHospitalInfo()"
+          :style="avatarHos"
+          class="hosInfo"
+        ></el-avatar>
+        <el-button
+          class="el-icon-caret-top sticky"
+          style="float: right; margin-right: 20px; margin-top: 400px"
+          type="primary"
+          circle
+          @click="scrollTop"
+        ></el-button>
       </div>
-      <!-- <div class="other-header"> -->
-      <el-button
-        type="danger"
-        class="searchBtn"
-        @click="exit()"
-        :style="loginTemp"
-        >退出登录
-      </el-button>
-      <el-avatar
-        icon="el-icon-user-solid"
-        @click.native="getHospitalInfo()"
-        :style="avatarHos"
-        class="hosInfo"
-      ></el-avatar>
-      <el-button
-        class="el-icon-caret-top sticky"
-        style="float: right; margin-right: 20px; margin-top: 400px"
-        type="primary"
-        circle
-        @click="scrollTop"
-      ></el-button>
+
+      <!-- 页面内容 -->
+      <el-container class="page">
+        <el-aside style="height: 60%" width="150px">
+          <el-menu style="height: 90%; padding-top: 10%">
+            <el-menu-item>
+              <div v-if="this.form.focus === 'hosNotice'">
+                <router-link to="/Notice">
+                  <el-button
+                    type="text"
+                    icon="el-icon-caret-right"
+                    class="text-css-focus"
+                    >医院公告</el-button
+                  >
+                </router-link>
+                <br />
+              </div>
+              <div v-else>
+                <router-link to="/Notice"
+                  ><el-button
+                    type="text"
+                    @click="
+                      () => {
+                        this.form.focus = 'hosNotice';
+                      }
+                    "
+                    class="text-css"
+                    >医院公告</el-button
+                  >
+                </router-link>
+                <br />
+              </div>
+            </el-menu-item>
+
+            <el-menu-item>
+              <div v-if="this.form.focus === 'room'">
+                <router-link to="/RoomInfo">
+                  <el-button
+                    type="text"
+                    icon="el-icon-caret-right"
+                    class="text-css-focus"
+                    >科室信息</el-button
+                  >
+                </router-link>
+                <br />
+              </div>
+              <div v-else>
+                <router-link to="/RoomInfo"
+                  ><el-button
+                    type="text"
+                    @click="
+                      () => {
+                        this.form.focus = 'room';
+                      }
+                    "
+                    class="text-css"
+                    >科室信息</el-button
+                  ></router-link
+                >
+                <br />
+              </div>
+            </el-menu-item>
+
+            <el-menu-item>
+              <div v-if="this.form.focus === 'res'">
+                <router-link to="/ReservationStatus"
+                  ><el-button
+                    type="text"
+                    icon="el-icon-caret-right"
+                    class="text-css-focus"
+                    >预约情况</el-button
+                  ></router-link
+                >
+                <br />
+              </div>
+              <div v-else>
+                <router-link to="/ReservationStatus"
+                  ><el-button
+                    type="text"
+                    @click="
+                      () => {
+                        this.form.focus = 'res';
+                      }
+                    "
+                    class="text-css"
+                    >预约情况</el-button
+                  ></router-link
+                >
+                <br />
+              </div>
+            </el-menu-item>
+
+            <el-menu-item>
+              <div v-if="this.form.focus === 'suspend'">
+                <router-link to="/suspendStatus">
+                  <el-button
+                    type="text"
+                    icon="el-icon-caret-right"
+                    class="text-css-focus"
+                    >停诊信息</el-button
+                  ></router-link
+                >
+                <br />
+              </div>
+              <div v-else>
+                <router-link to="/suspendStatus"
+                  ><el-button
+                    type="text"
+                    @click="
+                      () => {
+                        this.form.focus = 'suspend';
+                      }
+                    "
+                    class="text-css"
+                    >停诊信息
+                  </el-button></router-link
+                ><br />
+              </div>
+            </el-menu-item>
+
+            <el-menu-item>
+              <div v-if="this.form.focus === 'money'">
+                <router-link to="/MoneyFlow"
+                  ><el-button
+                    type="text"
+                    icon="el-icon-caret-right"
+                    class="text-css-focus"
+                    >平台流水</el-button
+                  ></router-link
+                >
+                <br />
+              </div>
+              <div v-else>
+                <router-link to="/MoneyFlow" @select="getResData"
+                  ><el-button
+                    type="text"
+                    @click="
+                      () => {
+                        this.form.focus = 'money';
+                      }
+                    "
+                    class="text-css"
+                    >平台流水</el-button
+                  ></router-link
+                >
+                <br />
+              </div>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+
+        <!-- 指示信息栏（所有栏目都会显示的信息） -->
+        <!-- avatar放logo -->
+        <el-main style="left: 0%; width: 90%">
+          <!-- 选择信息栏，依据展示信息的不同而不同 -->
+
+          <!-- 医院信息 -->
+
+          <el-contaniner title="页面内容">
+            <router-view></router-view>
+          </el-contaniner>
+        </el-main>
+      </el-container>
+
+      <!-- 页面底部 -->
+      <footer class="footer">
+        请拨打 +021 6895 1732 或 +021 6843 9284 联系我们
+      </footer>
     </div>
-
-    <!-- 页面内容 -->
-    <el-container class="page">
-      <el-aside style="height: 60%" width="150px">
-        <el-menu style="height: 90%; padding-top: 10%">
-          <el-menu-item>
-            <div v-if="this.form.focus === 'hosNotice'">
-              <router-link to="/Notice">
-                <el-button
-                  type="text"
-                  icon="el-icon-caret-right"
-                  class="text-css-focus"
-                  >医院公告</el-button
-                >
-              </router-link>
-              <br />
-            </div>
-            <div v-else>
-              <router-link to="/Notice"
-                ><el-button
-                  type="text"
-                  @click="
-                    () => {
-                      this.form.focus = 'hosNotice';
-                    }
-                  "
-                  class="text-css"
-                  >医院公告</el-button
-                >
-              </router-link>
-              <br />
-            </div>
-          </el-menu-item>
-
-          <el-menu-item>
-            <div v-if="this.form.focus === 'room'">
-              <router-link to="/RoomInfo">
-                <el-button
-                  type="text"
-                  icon="el-icon-caret-right"
-                  class="text-css-focus"
-                  >科室信息</el-button
-                >
-              </router-link>
-              <br />
-            </div>
-            <div v-else>
-              <router-link to="/RoomInfo"
-                ><el-button
-                  type="text"
-                  @click="
-                    () => {
-                      this.form.focus = 'room';
-                    }
-                  "
-                  class="text-css"
-                  >科室信息</el-button
-                ></router-link
-              >
-              <br />
-            </div>
-          </el-menu-item>
-
-          <el-menu-item>
-            <div v-if="this.form.focus === 'res'">
-              <router-link to="/ReservationStatus"
-                ><el-button
-                  type="text"
-                  icon="el-icon-caret-right"
-                  class="text-css-focus"
-                  >预约情况</el-button
-                ></router-link
-              >
-              <br />
-            </div>
-            <div v-else>
-              <router-link to="/ReservationStatus"
-                ><el-button
-                  type="text"
-                  @click="
-                    () => {
-                      this.form.focus = 'res';
-                    }
-                  "
-                  class="text-css"
-                  >预约情况</el-button
-                ></router-link
-              >
-              <br />
-            </div>
-          </el-menu-item>
-
-          <el-menu-item>
-            <div v-if="this.form.focus === 'suspend'">
-              <router-link to="/suspendStatus">
-                <el-button
-                  type="text"
-                  icon="el-icon-caret-right"
-                  class="text-css-focus"
-                  >停诊信息</el-button
-                ></router-link
-              >
-              <br />
-            </div>
-            <div v-else>
-              <router-link to="/suspendStatus"
-                ><el-button
-                  type="text"
-                  @click="
-                    () => {
-                      this.form.focus = 'suspend';
-                    }
-                  "
-                  class="text-css"
-                  >停诊信息
-                </el-button></router-link
-              ><br />
-            </div>
-          </el-menu-item>
-
-          <el-menu-item>
-            <div v-if="this.form.focus === 'money'">
-              <router-link to="/MoneyFlow"
-                ><el-button
-                  type="text"
-                  icon="el-icon-caret-right"
-                  class="text-css-focus"
-                  >平台流水</el-button
-                ></router-link
-              >
-              <br />
-            </div>
-            <div v-else>
-              <router-link to="/MoneyFlow" @select="getResData"
-                ><el-button
-                  type="text"
-                  @click="
-                    () => {
-                      this.form.focus = 'money';
-                    }
-                  "
-                  class="text-css"
-                  >平台流水</el-button
-                ></router-link
-              >
-              <br />
-            </div>
-          </el-menu-item>
-        </el-menu>
-      </el-aside>
-
-      <!-- 指示信息栏（所有栏目都会显示的信息） -->
-      <!-- avatar放logo -->
-      <el-main style="left: 0%; width: 90%">
-        <!-- 选择信息栏，依据展示信息的不同而不同 -->
-
-        <!-- 医院信息 -->
-
-        <el-contaniner title="页面内容">
-          <router-view></router-view>
-        </el-contaniner>
-      </el-main>
-    </el-container>
-
     <el-drawer
       title="医院基本信息"
       class="ivu-drawer-body"
@@ -296,17 +302,11 @@
         </div>
       </div>
     </el-drawer>
-
-    <!-- 页面底部 -->
-    <footer class="footer">
-      请拨打 +021 6895 1732 或 +021 6843 9284 联系我们
-    </footer>
   </div>
 </template>
 
 <script>
 import { getHospInfo } from "../api/main";
-import { getDepartListById } from "../api/main";
 
 export default {
   name: "Main",
