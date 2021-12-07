@@ -1,13 +1,6 @@
 import request from '@/utils/request'
 
-export function getHospInfo(params) {
-    return request({
-        url: `/hosp/getHospInfo/${params.id}`,
-        method:'get',
-        params
-    })
-}
-
+//根据科室ID查找科室
 export function getDepartById(params) {
     return request({
         url: `/department/getDepartInfo/${params.id}`,
@@ -16,6 +9,7 @@ export function getDepartById(params) {
     })
 }
 
+//根据医院ID获取科室列表
 export function getDepartListById(params){
     return request({
         url: `/department/getDepartListInfo/${params.id}`,

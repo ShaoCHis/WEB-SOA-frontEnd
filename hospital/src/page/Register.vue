@@ -5,7 +5,7 @@
         <div class="tip">
           <h1>医院加入申请</h1>
         </div>
-        
+
         <el-form
           ref="registerFormRef"
           :model="registerForm"
@@ -18,7 +18,7 @@
             <el-input v-model="registerForm.name" type="code"></el-input>
           </el-form-item>
           <!-- 密码 -->
-          <el-form-item label="密码" prop="code" class="item-form">
+          <el-form-item label="医院编码" prop="code" class="item-form">
             <el-input
               v-model="registerForm.code"
               prefix-icon="el-icon-lock"
@@ -26,7 +26,7 @@
             ></el-input>
           </el-form-item>
           <!-- 联系方式 -->
-          <el-form-item label="联系电话" prop="contact" class="item-form">
+          <el-form-item label="联系方式" prop="contact" class="item-form">
             <el-input v-model="registerForm.contact" type="code"></el-input>
           </el-form-item>
           <!-- 医院地址 -->
@@ -54,22 +54,28 @@
           <!--上传图片-->
           <el-form-item>
             <el-upload
-              class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :file-list="fileList"
-              list-type="picture"
+              action="http://localhost:8084/oss/fileoss"
+              class="upload"
+              :auto-upload="false"
+              ref="upload"
+              accept=".jpg,.png"
+              :limit="1"
+              :on-exceed="
+                () => {
+                  this.$message({
+                    message: '最多上传一个文件',
+                    type: 'error',
+                  });
+                }
+              "
             >
               <el-button size="small" type="primary">点击上传</el-button>
-              <div slot="tip" class="el-upload__tip">
-                只能上传jpg/png文件，且不超过500kb
-              </div>
+              <div slot="tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </el-form-item>
           <!-- 按钮区域 -->
           <el-form-item class="btns">
-            <el-button type="primary" @click="register">申请加入</el-button>
+            <el-button type="primary" @click="Register">申请加入</el-button>
             <el-button type="info" @click="resetRegisterForm">重置</el-button>
             <el-button type="text" @click="login">
               已拥有账号？点此处登录</el-button
@@ -82,7 +88,8 @@
 </template>
 
 <script>
-import { validatePhone, validdateContact } from "@/utils/validator";
+import { validdateContact } from "@/utils/validator";
+import { register } from "@/api/login";
 
 export default {
   name: "Register",
@@ -94,7 +101,6 @@ export default {
         name: "", //医院名称
         code: "", //密码
         contact: "", //联系方式
-        image: "", //图片
         level: "", //医院等级，int类型
         location: "", //位置
       },
@@ -143,53 +149,59 @@ export default {
             min: 1,
           },
         ],
+        location: [
+          {
+            required: true,
+            min: 1,
+            message: "请输入医院地址",
+            trigger: "change",
+          },
+          {
+            required: true,
+            min: 1,
+            message: "请输入医院地址",
+            trigger: "blur",
+          },
+        ],
+        level: [
+          {
+            required: true,
+          },
+        ],
       },
     };
   },
   methods: {
-    getImgBase() {
-      var _this = this;
-      var event = event || window.event;
-      var file = event.target.files[0];
-      var reader = new FileReader();
-      //转base64
-      reader.onload = function (e) {
-        _this.imgBase64.push(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    },
-    //删除图片
-    delImg(index) {
-      this.imgBase64.splice(index, 1);
-    },
-
     //重置按钮
     resetRegisterForm() {
       // console.log(this)
       this.$refs.registerFormRef.resetFields();
     },
-    register() {
-      this.$axios
-        .post("/apply/info", {
-          name: this.registerForm.name, //医院名称
-          code: this.registerForm.code, //密码
-          contact: this.registerForm.contact, //联系方式
-          description: "", //医院简介
-          image: "", //图片
-          level: parseInt(this.registerForm.level), //医院等级，int类型
-          location: "", //位置
-          status: 0, //医院状态（是否激活）
-        })
+    judgeInput() {
+      if (
+        this.registerForm.name == "" ||
+        this.registerForm.code == "" ||
+        this.registerForm.contact == "" ||
+        this.registerForm.location == "" ||
+        this.registerForm.level == ""
+      )
+        return false;
+    },
+    Register() {
+      if (this.judgeInput() == false) {
+        this.$message({
+          message: "请输入完整信息",
+          type: "error",
+        });
+        return;
+      }
+      register({
+        Info: this.registerForm,
+      })
         .then((response) => {
           console.log(1);
           console.log(response.data.success);
-          if (
-            response.data.success == true &&
-            this.registerForm.name != "" &&
-            this.registerForm.code != "" &&
-            this.registerForm.contact != "" &&
-            this.registerForm.level != ""
-          ) {
+          if (response.data.success == true) {
             this.$message({
               message: "申请成功！",
               type: "success",
@@ -267,11 +279,6 @@ export default {
   padding: 0 15px;
   box-sizing: border-box;
 }
-
-//.el-form-item__label: 自动匹配form表单中label的，但需取消scope(注意:中间是连续的两个'_')
-// .item-form .el-form-item__label{
-//     color: cornflowerblue;
-// }
 
 .btns {
   display: flex;

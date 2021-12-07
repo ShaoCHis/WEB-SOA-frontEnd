@@ -306,7 +306,7 @@
 </template>
 
 <script>
-import { getHospInfo } from "../api/main";
+import { getHospInfo } from "../api/hospital";
 
 export default {
   name: "Main",
