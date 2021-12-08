@@ -7,7 +7,7 @@
       <!-- <div class="page-header"> -->
       <div class="sticky">
         <div>
-          <el-button type="text" @click="showHospitalInfo" class="topic"
+          <el-button type="text" @click="showHospitalInfo()" class="topic"
             >医济达</el-button
           ><br />
         </div>
@@ -33,10 +33,10 @@
           @click="scrollTop"
         ></el-button>
       </div>
-
+        
       <!-- 页面内容 -->
       <el-container class="page">
-        <el-aside style="height: 60%" width="150px">
+        <el-aside style="height:auto;margin-top:1%;" width="auto">
           <el-menu style="height: 90%; padding-top: 10%">
             <el-menu-item>
               <div v-if="this.form.focus === 'hosNotice'">
@@ -166,12 +166,13 @@
                 <br />
               </div>
               <div v-else>
-                <router-link to="/MoneyFlow" @select="getResData"
+                <router-link to="/MoneyFlow"
                   ><el-button
                     type="text"
                     @click="
                       () => {
                         this.form.focus = 'money';
+                        console.log(1)
                       }
                     "
                     class="text-css"
@@ -182,6 +183,16 @@
               </div>
             </el-menu-item>
           </el-menu>
+          <!-- <div class="shell">
+            <a href="#" class="box"><i class="iconfont icon-liebiao"></i><span>list</span></a>
+            <a href="#" class="box"><i class="iconfont icon-cangku"></i><span> Warehouse</span></a>
+            <a href="#" class="box"><i class="iconfont icon-zhuti_tiaosepan"></i><span>theme</span></a>
+            <a href="#" class="box"><i class="iconfont icon-qianbao"></i><span>wallet</span></a>
+            <a href="#" class="box"><i class="iconfont icon-tupian"></i><span>picture</span></a>
+            <a href="#" class="box"><i class="iconfont icon-erweima"></i><span>QR code</span></a>
+            <a href="#" class="box"><i class="iconfont icon-dunpaibaoxianrenzheng"></i><span>authentication</span></a>
+            <a href="#" class="box"><i class="iconfont icon-dengchu"></i><span>cancellation</span></a>
+          </div> -->
         </el-aside>
 
         <!-- 指示信息栏（所有栏目都会显示的信息） -->
@@ -191,9 +202,9 @@
 
           <!-- 医院信息 -->
 
-          <el-contaniner title="页面内容">
+          <el-container title="页面内容">
             <router-view></router-view>
-          </el-contaniner>
+          </el-container>
         </el-main>
       </el-container>
 
@@ -216,10 +227,10 @@
             class="hosPic"
             :src="hosData.image"
             style="margin-left: 20%; width: 50%; height: 50%; float: center"
-            :fit="fit"
+            
           />
         </div>
-        <el-button type="primary" style="margin-left: 40%" @click="uploadImg"
+        <el-button type="primary" style="margin-left: 40%"
           >上传头像</el-button
         >
       </div>
@@ -295,7 +306,7 @@
                 >
                 </el-input>
                 <el-button type="warning" @click="modifyInfo">修改</el-button>
-                <el-button type="primary" @click="confirmInfo">确认</el-button>
+                <el-button type="primary">确认</el-button>
               </div>
             </div>
           </div>
@@ -307,6 +318,8 @@
 
 <script>
 import { getHospInfo } from "../api/hospital";
+import "../style/iconfont.css"
+import "../style/main.css"
 
 export default {
   name: "Main",
@@ -350,7 +363,7 @@ export default {
   },
   mounted() {
     //页面初始化
-    getHospitalInfo();
+    //getHospitalInfo();
   },
   methods: {
     scrollTop() {
@@ -390,8 +403,12 @@ export default {
           done();
         })
         .catch((_) => {});
-      hosDataVisible = false;
+      this.hosDataVisible = false;
     },
+    modifyInfo(){
+
+    },
+
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
