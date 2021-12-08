@@ -5,16 +5,17 @@
 }
 
 .shell {
-    width: 200px;
+    width: 140px;
     height: 700px;
     display: flex;
-    justify-content: left;
-    align-items: left;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    background-color: rgb(17, 24, 39);
+    background-color: rgb(255, 255, 255);
     border-radius: 10px;
     transition: .3s;
     overflow: hidden;
+    margin:5px;
 }
 
 .box {
@@ -24,17 +25,16 @@
     margin: 9px;
     border-radius: 5px;
     position: relative;
-    justify-content: center;
     transition: .3s;
-    color: rgb(160, 160, 175);
+    color: rgb(95, 95, 238);
 }
-
 .box i {
     font-size: 60px;
     position: absolute;
     margin: 7px 0 0 13px;
 }
 
+/* 横向分割线 */
 .box:nth-child(1)::before,
 .box:nth-child(5)::before{
     content: '';
@@ -48,32 +48,44 @@
 
 .box span{
     position: relative;
-    top: -15px;
+    top: 22px;
     left: 80px;
     font: 500 20px '';
     opacity: 0;
     transition: .1s;
 }
 .shell:hover{
-    width: 270px;
+    width: 400px;
 }
 .box:hover{
-    background-color: rgb(55, 65, 81);
+    background-color: rgb(87, 121, 175);
+    color: #fff;
 }
 .shell:hover span{
     opacity: 1;
 }
-.box:hover{
-    color: #fff;
+.box:visited{
+    color:rgb(95, 95, 238);
+    background-color: #fff;
 }
 
-.shell:nth-child(1) {
+.shell:nth-child(2) {
     background-color: rgb(243, 244, 246);
 }
-.shell:nth-child(1) .box:hover{
+.shell:nth-child(2) .box:hover{
     background-color: rgb(209, 213, 219);
     color: rgb(241, 159, 159);
 }
-.shell:nth-child(1) .box{
+.shell:nth-child(2) .box{
     color: #000;
+}
+
+.shell:nth-child(3) {
+    background-color: rgb(49,46,129);
+}
+.shell:nth-child(3) .box:hover{
+    background-color: rgb(67, 56, 202);
+}
+.shell:nth-child(3) .box{
+    color: rgb(140, 120, 240);
 }
