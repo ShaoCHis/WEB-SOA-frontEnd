@@ -7,7 +7,7 @@
       <!-- <div class="page-header"> -->
       <div class="sticky">
         <div>
-          <el-button type="text" @click="showHospitalInfo" class="topic"
+          <el-button type="text" @click="showHospitalInfo()" class="topic"
             >医济达</el-button
           ><br />
         </div>
@@ -166,12 +166,13 @@
                 <br />
               </div>
               <div v-else>
-                <router-link to="/MoneyFlow" @select="getResData"
+                <router-link to="/MoneyFlow"
                   ><el-button
                     type="text"
                     @click="
                       () => {
                         this.form.focus = 'money';
+                        console.log(1)
                       }
                     "
                     class="text-css"
@@ -216,10 +217,10 @@
             class="hosPic"
             :src="hosData.image"
             style="margin-left: 20%; width: 50%; height: 50%; float: center"
-            :fit="fit"
+            
           />
         </div>
-        <el-button type="primary" style="margin-left: 40%" @click="uploadImg"
+        <el-button type="primary" style="margin-left: 40%"
           >上传头像</el-button
         >
       </div>
@@ -295,7 +296,7 @@
                 >
                 </el-input>
                 <el-button type="warning" @click="modifyInfo">修改</el-button>
-                <el-button type="primary" @click="confirmInfo">确认</el-button>
+                <el-button type="primary">确认</el-button>
               </div>
             </div>
           </div>
@@ -350,7 +351,7 @@ export default {
   },
   mounted() {
     //页面初始化
-    getHospitalInfo();
+    //getHospitalInfo();
   },
   methods: {
     scrollTop() {
@@ -390,8 +391,12 @@ export default {
           done();
         })
         .catch((_) => {});
-      hosDataVisible = false;
+      this.hosDataVisible = false;
     },
+    modifyInfo(){
+
+    },
+
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
