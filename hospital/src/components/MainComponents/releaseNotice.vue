@@ -22,10 +22,7 @@
                     <el-button style="float: right; padding: 3px 0;" type="text" @click="deleteNotice">删除</el-button>
                 </div>
                 <div class="text item" style="text-align:left;">
-                    根据我院业务发展需要，经评审小组评审，现将院内加装视频监控、门禁等设备及备件等一批采购项目采购结果公布如下：<br/>
-                    项目名称<br/>
-                    医院加装视频监控设备采购<br/>
-                    佛山安盛科技有限公司<br/>
+                    有无懂哥帮忙调下main.vue侧边栏那边被注释掉的新样式
                 </div>
             </el-card>
         </el-col>
