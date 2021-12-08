@@ -134,7 +134,7 @@
   }
 </script>
 
-<!--<style lang="less" scoped>-->
+<!--<style lang="scss" scoped>-->
 //   .s-canvas {
 //     position:relative;
 //     height: 38px;
