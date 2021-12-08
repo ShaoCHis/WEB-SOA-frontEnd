@@ -202,9 +202,9 @@
 
           <!-- 医院信息 -->
 
-          <el-contaniner title="页面内容">
+          <el-container title="页面内容">
             <router-view></router-view>
-          </el-contaniner>
+          </el-container>
         </el-main>
       </el-container>
 
