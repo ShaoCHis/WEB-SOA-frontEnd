@@ -134,14 +134,14 @@
   }
 </script>
 
-<!--<style lang="scss" scoped>-->
-//   .s-canvas {
-//     position:relative;
-//     height: 38px;
-//     width:205px;
-//     right:-70%;
-//     canvas{
-//       margin-top: 5px;
-//     }
-//   }
-// </style>
+<style lang="scss" scoped>
+  .s-canvas {
+    position:relative;
+    height: 38px;
+    width:205px;
+    right:-70%;
+    canvas{
+      margin-top: 5px;
+    }
+  }
+</style>

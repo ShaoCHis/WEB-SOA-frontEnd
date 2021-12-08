@@ -18,6 +18,7 @@
 
       <!-- If using vue-router -->
       <router-view></router-view>
+      <identify></identify>
     </v-container>
   </v-main>
 
@@ -27,7 +28,10 @@
 </v-app>
 </template>
 <script>
+import identify from '../components/identify.vue';
+
 export default {
+  components: { identify },
   created() {},
   mounted() {
     this.GetTest();

@@ -15,10 +15,19 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  
+  /*
+   ** Style Ressources configuration
+   ** See https://axios.nuxtjs.org/options
+   */
+   styleResources: {
+    scss: '~/styles/variables.scss',
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'element-ui/lib/theme-chalk/index.css',
+    '~/styles/variables.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
