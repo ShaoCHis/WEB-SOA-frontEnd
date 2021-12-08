@@ -36,7 +36,7 @@ export default {
     '@nuxtjs/vuetify',
 
     // With options
-    ['@nuxtjs/vuetify', { /* module options */ }]
+    //['@nuxtjs/vuetify', { /* 模块选项 */ } ]
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

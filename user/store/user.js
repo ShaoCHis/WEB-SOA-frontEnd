@@ -7,6 +7,13 @@ export const state = () => ({
   roles: []
 })
 
+export const getters = {
+    token: state => state.user.token,
+    avatar: state => state.user.avatar,
+    name: state => state.user.name,
+    roles: state => state.user.roles
+}
+
 export const mutations = {  //Vuex store状态的更新唯一方式
   SET_TOKEN: (state, token) => {
     state.token = token

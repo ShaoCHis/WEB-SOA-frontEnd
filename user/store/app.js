@@ -8,6 +8,11 @@ export const state = () => ({
   device: 'desktop'
 })
 
+export const getters = {
+  sidebar: state => state.app.sidebar,
+  device: state => state.app.device,
+}
+
 export const mutations = {
   TOGGLE_SIDEBAR: state => {
     if (state.sidebar.opened) {
