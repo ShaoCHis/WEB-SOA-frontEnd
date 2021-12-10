@@ -2,7 +2,7 @@
   <div>
     <!-- :data="tableData" -->
     <!-- v-for="item in items" :key="item" -->
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border style="width: 100%"  v-loading="loading">
       <el-table-column prop="id" label="编号" width="300"> </el-table-column>
       <el-table-column prop="name" label="名称" width="300"> </el-table-column>
       <el-table-column prop="introduction" label="简介" >
@@ -34,9 +34,10 @@ export default {
       user_id: this.$route.query.type + "",
       temp_id: "1",
 
+      loading: true,
       tableData: [
-        this.$store.state.datas.departData[0],
-        this.$store.state.datas.departData[1],
+        // this.$store.state.datas.departData[0],
+        // this.$store.state.datas.departData[1],
         ],
     }
   },
@@ -45,25 +46,41 @@ export default {
     // for (var i=0;i<=1;i++)
     // this.tableData[i]=this.$store.state.datas.departData[i];
     // this.cleanData[i]=[this.$store.state.datas.departData[i].id,this.$store.state.datas.departData[i].name,this.$store.state.datas.departData[i].introduction]; 
+      
   },
+  
   mounted(){
-    getDepartListById({
+    return new Promise((resolve, reject) => {
+      this.loading=true,
+          getDepartListById({
         id:this.temp_id+"",
-      }).then(response=>{
+      })
+      .then(response=>{
         this.resData=response.data;
         console.log(this.resData);
         this.$store
         .dispatch("setDepart",this.resData)
         .then(()=>{
-          console.log(1);
-        })
-        .catch(err=>{
-          consoler.log(0);
-        })
-        
+          console.log(1); })
+        .catch(error=>{
+          consoler.log(0); })
+          this.tableData=[
+        this.$store.state.datas.departData[0],
+        this.$store.state.datas.departData[1],
+        ],
+        this.loading=false,
+        resolve()
       }).catch(error=>{
-        console.log(0);
+        this.loading=false,
+        this.$message({
+          message: "获取失败！",
+          type: "error",
+        });
+        reject(error)
       });
+        })
+ 
+    
   },
   methods: {
     handleClick(row) {
