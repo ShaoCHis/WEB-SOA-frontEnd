@@ -84,6 +84,7 @@
             <el-button type="primary" @click="login">登录</el-button>
             <el-button type="info" @click="resetLoginForm">重置</el-button>
             <el-button type="text" @click="register">加入我们</el-button>
+            <el-button @click="test">test </el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -209,9 +210,8 @@ export default {
         .catch(() => {
           //console.log(2);
           //this.LoginFail();
-          this.LoginFail()
-        })
-        
+          this.LoginFail();
+        });
     },
     //登录成功提示及跳转
     LoginSuccess() {
@@ -239,8 +239,8 @@ export default {
           message: "code或密码错误，请重新输入！",
           type: "error",
         });
-      this.refreshCode()
-      this.loginForm.input_code=""
+      this.refreshCode();
+      this.loginForm.input_code = "";
     },
 
     //跳转注册
