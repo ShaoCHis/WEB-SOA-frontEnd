@@ -36,164 +36,87 @@
         
       <!-- 页面内容 -->
       <el-container class="page">
-        <el-aside style="height:auto;margin-top:1%;" width="auto">
-          <el-menu style="height: 90%; padding-top: 10%">
-            <el-menu-item>
-              <div v-if="this.form.focus === 'hosNotice'">
+          <div class="shell">
+            <!-- <a href="#" class="box"><i class="iconfont icon-liebiao"></i><span>医院公告</span></a> -->
+            <a class="box" v-if="this.form.focus === 'hosNotice'">
                 <router-link to="/Notice">
-                  <el-button
-                    type="text"
-                    icon="el-icon-caret-right"
-                    class="text-css-focus"
-                    >医院公告</el-button
-                  >
+                  <i class="iconfont icon-yiliaojigou"></i><span> 医院公告</span>
                 </router-link>
                 <br />
-              </div>
-              <div v-else>
-                <router-link to="/Notice"
-                  ><el-button
-                    type="text"
-                    @click="
-                      () => {
+              </a>
+            <a class="box" v-else>
+                <router-link to="/Notice">
+                    <i class="iconfont icon-yiliaojigou" @click="() => {
                         this.form.focus = 'hosNotice';
-                      }
-                    "
-                    class="text-css"
-                    >医院公告</el-button
-                  >
-                </router-link>
+                      }"></i><span> 医院公告</span>
+                    </router-link>
                 <br />
-              </div>
-            </el-menu-item>
+            </a>
 
-            <el-menu-item>
-              <div v-if="this.form.focus === 'room'">
+            <a class="box" v-if="this.form.focus === 'room'">
                 <router-link to="/RoomInfo">
-                  <el-button
-                    type="text"
-                    icon="el-icon-caret-right"
-                    class="text-css-focus"
-                    >科室信息</el-button
-                  >
+                  <i class="iconfont icon-yiliaofuwu"></i><span> 科室信息</span>
                 </router-link>
                 <br />
-              </div>
-              <div v-else>
-                <router-link to="/RoomInfo"
-                  ><el-button
-                    type="text"
-                    @click="
-                      () => {
+            </a>
+            <a class="box" v-else>
+                <router-link to="/RoomInfo">
+                    <i class="iconfont icon-yiliaofuwu" @click="() => {
                         this.form.focus = 'room';
-                      }
-                    "
-                    class="text-css"
-                    >科室信息</el-button
-                  ></router-link
-                >
+                      }"></i><span> 科室信息</span>
+                    </router-link>
                 <br />
-              </div>
-            </el-menu-item>
-
-            <el-menu-item>
-              <div v-if="this.form.focus === 'res'">
-                <router-link to="/ReservationStatus"
-                  ><el-button
-                    type="text"
-                    icon="el-icon-caret-right"
-                    class="text-css-focus"
-                    >预约情况</el-button
-                  ></router-link
-                >
+            </a>
+            <!-- <a href="#" class="box"><i class="iconfont icon-cangku"></i><span> 科室信息</span></a> -->
+            <a class="box" v-if="this.form.focus === 'res'">
+                <router-link to="/ReservationStatus">
+                  <i class="iconfont icon-dingdan"></i><span> 预约情况</span>
+                </router-link>
                 <br />
-              </div>
-              <div v-else>
-                <router-link to="/ReservationStatus"
-                  ><el-button
-                    type="text"
-                    @click="
-                      () => {
+            </a>
+            <a class="box" v-else>
+                <router-link to="/ReservationStatus">
+                    <i class="iconfont icon-dingdan" @click="() => {
                         this.form.focus = 'res';
-                      }
-                    "
-                    class="text-css"
-                    >预约情况</el-button
-                  ></router-link
-                >
+                      }"></i><span> 预约情况</span>
+                    </router-link>
                 <br />
-              </div>
-            </el-menu-item>
-
-            <el-menu-item>
-              <div v-if="this.form.focus === 'suspend'">
+            </a>
+            <!-- <a href="#" class="box"><i class="iconfont icon-zhuti_tiaosepan"></i><span>预约信息</span></a> -->
+            <a class="box" v-if="this.form.focus === 'suspend'">
                 <router-link to="/suspendStatus">
-                  <el-button
-                    type="text"
-                    icon="el-icon-caret-right"
-                    class="text-css-focus"
-                    >停诊信息</el-button
-                  ></router-link
-                >
+                  <i class="iconfont icon-shujujianguan"></i><span> 停诊信息</span>
+                </router-link>
                 <br />
-              </div>
-              <div v-else>
-                <router-link to="/suspendStatus"
-                  ><el-button
-                    type="text"
-                    @click="
-                      () => {
+            </a>
+            <a class="box" v-else>
+                <router-link to="/suspendStatus">
+                    <i class="iconfont icon-shujujianguan" @click="() => {
                         this.form.focus = 'suspend';
-                      }
-                    "
-                    class="text-css"
-                    >停诊信息
-                  </el-button></router-link
-                ><br />
-              </div>
-            </el-menu-item>
-
-            <el-menu-item>
-              <div v-if="this.form.focus === 'money'">
-                <router-link to="/MoneyFlow"
-                  ><el-button
-                    type="text"
-                    icon="el-icon-caret-right"
-                    class="text-css-focus"
-                    >平台流水</el-button
-                  ></router-link
-                >
+                      }"></i><span> 停诊信息</span>
+                    </router-link>
                 <br />
-              </div>
-              <div v-else>
-                <router-link to="/MoneyFlow"
-                  ><el-button
-                    type="text"
-                    @click="
-                      () => {
+            </a>
+            <!-- <a href="#" class="box"><i class="iconfont icon-qianbao"></i><span>停诊信息</span></a> -->
+            <a class="box" v-if="this.form.focus === 'money'">
+                <router-link to="/MoneyFlow">
+                  <i class="iconfont icon-renminbi"></i><span> 平台流水</span>
+                </router-link>
+                <br />
+            </a>
+            <a class="box" v-else>
+                <router-link to="/MoneyFlow">
+                    <i class="iconfont icon-renminbi" @click="() => {
                         this.form.focus = 'money';
-                        console.log(1)
-                      }
-                    "
-                    class="text-css"
-                    >平台流水</el-button
-                  ></router-link
-                >
+                      }"></i><span> 平台流水</span>
+                    </router-link>
                 <br />
-              </div>
-            </el-menu-item>
-          </el-menu>
-          <!-- <div class="shell">
-            <a href="#" class="box"><i class="iconfont icon-liebiao"></i><span>list</span></a>
-            <a href="#" class="box"><i class="iconfont icon-cangku"></i><span> Warehouse</span></a>
-            <a href="#" class="box"><i class="iconfont icon-zhuti_tiaosepan"></i><span>theme</span></a>
-            <a href="#" class="box"><i class="iconfont icon-qianbao"></i><span>wallet</span></a>
-            <a href="#" class="box"><i class="iconfont icon-tupian"></i><span>picture</span></a>
+            </a>
+            <!-- <a href="#" class="box"><i class="iconfont icon-tupian"></i><span>平台流水</span></a> -->
             <a href="#" class="box"><i class="iconfont icon-erweima"></i><span>QR code</span></a>
-            <a href="#" class="box"><i class="iconfont icon-dunpaibaoxianrenzheng"></i><span>authentication</span></a>
-            <a href="#" class="box"><i class="iconfont icon-dengchu"></i><span>cancellation</span></a>
-          </div> -->
-        </el-aside>
+            <a href="#" class="box"><i class="iconfont icon-guanli"></i><span>管理</span></a>
+            <a href="#" class="box"><i class="iconfont icon-yuanchengchuantou"></i><span>退出</span></a>
+          </div>
 
         <!-- 指示信息栏（所有栏目都会显示的信息） -->
         <!-- avatar放logo -->
