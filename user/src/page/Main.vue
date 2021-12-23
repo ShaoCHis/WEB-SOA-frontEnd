@@ -242,7 +242,7 @@
 <script>
 import { getHospInfo } from "../api/hospital";
 import "../style/iconfont.css"
-import "../style/main.css"
+import "../style/css/main.css"
 
 export default {
   name: "Main",
