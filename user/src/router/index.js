@@ -1,6 +1,8 @@
 import Vue from 'vue'
+
 import Router from 'vue-router'
 import Login from '@/page/Login'
+
 import Main from '@/page/Main'
 import Register from '@/page/Register'
 import Notice from '@/components/MainComponents/releaseNotice'
@@ -9,6 +11,8 @@ import RoomInfo from '@/components/MainComponents/roomInfo'
 import MoneyFlow from '@/components/MainComponents/showMoneyFlow'
 import SuspendStatus from '@/components/MainComponents/suspendStatus'
 
+import error from '@/page/404/error'
+
 Vue.use(Router)
 
 
@@ -16,7 +20,7 @@ export const ConstantRouterMap = [
   { path: '/login', name: "Login", component: Login, hidden: true },
   { path: '/register', name: "Register", component: Register, hidden: true },
   {
-    path: '/', name: "Main", component: Main, hidden: true,redirect:'/Notice',
+    path: '/', name: "Main", component: Main, hidden: true, redirect: '/Notice',
     children: [
       { path: 'Notice', name: 'Notice', component: Notice, hidden: true },
       { path: 'ReservationStatus', name: 'ReservationStatus', component: ReservationStatus, hidden: true },
@@ -25,6 +29,7 @@ export const ConstantRouterMap = [
       { path: 'SuspendStatus', name: 'SuspendStatus', component: SuspendStatus, hidden: true },
     ]
   },
+  { path: '/error', name: "error", component: error, hidden: true }
 ]
 
 
