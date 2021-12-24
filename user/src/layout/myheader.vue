@@ -37,7 +37,7 @@
       <div class="right-wrapper">
         <span
           class="v-link clickable"
-          @click="patientLoginForm = true"
+          @click="patientLoginForm = true,login()"
           v-if="flag"
           >登录/注册</span
         >
@@ -104,7 +104,9 @@ export default {
   created() {
   },
   methods: {
-
+      login(){
+        this.$router.push({ name: "Login" });
+      }
   },
 };
 </script>
