@@ -1,36 +1,15 @@
 <template>
   <div class="mainContainer">
-    <div class="sticky">
-      <div><el-button type="text" class="topic">医济达</el-button><br /></div>
-      <!-- <div class="other-header"> -->
-      <el-menu
-        :default-active="activeIndex"
-        class="nav"
-        mode="horizontal"
-        @select="handleSelect"
-      >
-        <el-menu-item> 1234 </el-menu-item>
-      </el-menu>
-
-      <el-avatar
-        icon="el-icon-user-solid"
-        @click.native="getHospitalInfo()"
-        :style="avatarHos"
-        class="Info"
-      ></el-avatar>
-      <el-button
-        class="el-icon-caret-top sticky"
-        style="float: right; margin-right: 20px; margin-top: 400px"
-        type="primary"
-        circle
-        @click="scrollTop"
-      ></el-button>
-    </div>
+    <myheader></myheader>
   </div>
 </template>
 
 <script>
+import myfooter from '../layout/myfooter'
+import myheader from '../layout/myheader.vue';
+
 export default {
+  components: { myheader,myfooter },
   name: "Main",
   data: {
     loginTemp: {
