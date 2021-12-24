@@ -117,7 +117,7 @@ export default {
 }
 body {
 	align-items: center;
-    background-image: url("../assets/wallpaper.jpg");
+    background-image: url("../assets/2.jpg");
 	background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
