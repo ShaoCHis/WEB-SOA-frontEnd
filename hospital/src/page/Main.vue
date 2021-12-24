@@ -12,13 +12,6 @@
           ><br />
         </div>
         <!-- <div class="other-header"> -->
-        <el-button
-          type="danger"
-          class="searchBtn"
-          @click="exit()"
-          :style="loginTemp"
-          >退出登录
-        </el-button>
         <el-avatar
           icon="el-icon-user-solid"
           @click.native="getHospitalInfo()"
@@ -115,7 +108,7 @@
             <!-- <a href="#" class="box"><i class="iconfont icon-tupian"></i><span>平台流水</span></a> -->
             <a href="#" class="box"><i class="iconfont icon-erweima"></i><span>QR code</span></a>
             <a href="#" class="box"><i class="iconfont icon-guanli"></i><span>管理</span></a>
-            <a href="#" class="box"><i class="iconfont icon-yuanchengchuantou"></i><span>退出</span></a>
+            <a @click="exit" href="#" class="box"><i class="iconfont icon-yuanchengchuantou"></i><span>退出</span></a>
           </div>
 
         <!-- 指示信息栏（所有栏目都会显示的信息） -->
