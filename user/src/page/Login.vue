@@ -84,6 +84,7 @@
             <el-button type="primary" @click="login">登录</el-button>
             <el-button type="info" @click="resetLoginForm">重置</el-button>
             <el-button type="text" @click="register">加入我们</el-button>
+            <el-button @click="test">test</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -267,6 +268,10 @@ export default {
           this.identifyCodes[this.randomNum(0, this.identifyCodes.length)];
       }
     },
+    test(){
+      this.$router.push({name:"error"})
+    }
+
   },
 
   mounted() {
