@@ -26,7 +26,7 @@ export function login_Code(code, password) {
 //注册
 export function register(Info) {
     return request({
-        url: '/apply/Info',
+        url: '/hospital/applies/info',
         method: 'post',
         data: Info
     })
