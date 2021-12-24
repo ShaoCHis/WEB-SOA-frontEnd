@@ -10,6 +10,8 @@ import error from '@/page/404/error'
 
 import Hospital from '@/page/Hospital'
 
+import Reservation from '@/page/Reservation'
+
 Vue.use(Router)
 
 
@@ -20,7 +22,8 @@ export const ConstantRouterMap = [
     path: '/', name: "Main", component: Main, hidden: true,
   },
   { path: '/error', name: "error", component: error, hidden: true },
-  { path: '/hospital', name: "Hospital", component: Hospital, hidden: true }
+  { path: '/hospital', name: "Hospital", component: Hospital, hidden: true },
+  { path: '/reservation', name: "Reservation", component: Reservation, hidden: true }
 ]
 
 
