@@ -25,18 +25,6 @@
           ></el-menu-item
         >
       </el-menu>
-      <!-- 右侧 -->
-      <div class="right-wrapper">
-        <span
-          class="v-link clickable"
-          @click="patientLoginForm = true,login()"
-          v-if="flag"
-          >登录/注册</span
-        >
-        <span class="v-link clickable" v-else>
-          当前用户:{{ name }}
-          <span @click="quit()" class="thequit">&nbsp; &nbsp; 退出</span>
-        </span>
       <el-input class="search" placeholder="请输入医院名称" />
       <el-button circle icon="el-icon-search" type="primary"></el-button>
       <div class="avatar">
@@ -78,7 +66,6 @@
       </el-form>
     </el-dialog>
   </div>
-</div>
 </template>
 
 <script>
@@ -103,13 +90,6 @@ export default {
     };
   },
 
-  created() {
-  },
-  methods: {
-      login(){
-        this.$router.push({ name: "Login" });
-      }
-  },
   created() {},
   methods: {},
 };

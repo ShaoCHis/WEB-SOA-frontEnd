@@ -1,2 +1,91 @@
-/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}
-/*# sourceMappingURL=normalize.min.css.map */
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+}
+
+.shell {
+    width: 140px;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    transition: .3s;
+    overflow: hidden;
+    margin:5px;
+}
+
+.box {
+    display: block;
+    height: 15%;
+    width: 85%;
+    margin: 9px;
+    border-radius: 5px;
+    position: relative;
+    transition: .3s;
+    color: rgb(95, 95, 238);
+}
+.box i {
+    font-size: 60px;
+    position: absolute;
+    margin: 7px 0 0 13px;
+}
+
+/* 横向分割线 */
+.box:nth-child(1)::before,
+.box:nth-child(5)::before{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: rgb(55, 65, 81);
+    position: absolute;
+    bottom: -10px;
+}
+
+.box span{
+    position: relative;
+    top: 22px;
+    left: 80px;
+    font: 500 20px '';
+    opacity: 0;
+    transition: .1s;
+}
+.shell:hover{
+    width: 400px;
+}
+.box:hover{
+    background-color: rgb(87, 121, 175);
+    color: #fff;
+}
+.shell:hover span{
+    opacity: 1;
+}
+.box:visited{
+    color:rgb(95, 95, 238);
+    background-color: #fff;
+}
+
+.shell:nth-child(2) {
+    background-color: rgb(243, 244, 246);
+}
+.shell:nth-child(2) .box:hover{
+    background-color: rgb(209, 213, 219);
+    color: rgb(241, 159, 159);
+}
+.shell:nth-child(2) .box{
+    color: #000;
+}
+
+.shell:nth-child(3) {
+    background-color: rgb(49,46,129);
+}
+.shell:nth-child(3) .box:hover{
+    background-color: rgb(67, 56, 202);
+}
+.shell:nth-child(3) .box{
+    color: rgb(140, 120, 240);
+}
