@@ -14,47 +14,21 @@
 
       <!-- 导航栏 -->
       <el-menu class="el-menu-demo" mode="horizontal">
-        <!-- 智能分诊 -->
         <el-menu-item index="1"
-          ><nuxt-link to="/triage">首页</nuxt-link></el-menu-item
+          ><router-link style="text-decoration: none" to="/"
+            >首页</router-link
+          ></el-menu-item
         >
-        <!-- 查看医生信息 -->
-        <!-- <el-menu-item index="2"><nuxt-link to='/doctorInfo'>预约挂号</nuxt-link></el-menu-item> -->
-        <!-- 挂号预约 -->
-        <el-submenu index="3">
-          <template #title>挂号预约</template>
-          <el-menu-item index="3-1"
-            ><nuxt-link to="/order">挂号</nuxt-link></el-menu-item
-          >
-          <!-- 查看预约信息 -->
-          <el-menu-item index="3-2"
-            ><nuxt-link to="/orderInfo">查看挂号信息</nuxt-link></el-menu-item
-          >
-        </el-submenu>
-        <!-- 就医反馈 -->
-        <!-- <el-menu-item index="4"><nuxt-link to='/advice'>就医反馈</nuxt-link></el-menu-item> -->
-        <!-- <el-menu-item index="5">  <nuxt-link to='/userInfo'>个人资料</nuxt-link>     </el-menu-item> -->
-        <!-- <el-menu-item index="1">预约处理</el-menu-item>
-        <el-menu-item index="2">预约控制</el-menu-item>
-        <el-menu-item index="3">预约统计</el-menu-item>
-        <el-menu-item index="4">添加预约</el-menu-item> -->
+        <el-menu-item index="2"
+          ><router-link style="text-decoration: none" to="/reservation"
+            >挂号</router-link
+          ></el-menu-item
+        >
       </el-menu>
-      <!-- 右侧 -->
-      <div class="right-wrapper">
-        <span
-          class="v-link clickable"
-          @click="patientLoginForm = true,login()"
-          v-if="flag"
-          >登录/注册</span
-        >
-        <span class="v-link clickable" v-else>
-          当前用户:{{ name }}
-          <span @click="quit()" class="thequit">&nbsp; &nbsp; 退出</span>
-        </span>
       <el-input class="search" placeholder="请输入医院名称" />
       <el-button circle icon="el-icon-search" type="primary"></el-button>
       <div class="avatar">
-        <el-image> </el-image>
+        <el-avatar size="large" fit="fit" :src="avatar"></el-avatar>
       </div>
       <!-- 右侧 -->
       <div class="right-wrapper"></div>
@@ -92,7 +66,6 @@
       </el-form>
     </el-dialog>
   </div>
-</div>
 </template>
 
 <script>
@@ -102,6 +75,9 @@ import "@/style/main.css";
 import "@/style/chunk.css";
 
 export default {
+  props:{
+    avatar:""
+  },
   data() {
     return {
       loginForm: {
@@ -114,13 +90,6 @@ export default {
     };
   },
 
-  created() {
-  },
-  methods: {
-      login(){
-        this.$router.push({ name: "Login" });
-      }
-  },
   created() {},
   methods: {},
 };
@@ -134,7 +103,7 @@ export default {
 .search {
   width: 500px;
 }
-.avatar{
+.avatar {
   margin-right: -150px;
 }
 </style>
