@@ -1,349 +1,542 @@
 <template>
-  <div>
-    <div class="login_container">
-      <div class="login_box">
-        <div class="tip">
-          <h1>医院登录</h1>
-        </div>
-        <el-form
-          ref="loginFormRef"
-          :model="loginForm"
-          :rules="loginRules"
-          class="login_form"
-        >
-          <!-- 用户名 -->
-          <el-form-item prop="user_id">
-            <!-- 机构id -->
-            <el-input
-              v-model="loginForm.user_id"
-              prefix-icon="el-icon-user"
-              placeholder="请输入机构id"
-              v-if="this.loginForm.isCode == false"
-            ></el-input>
-            <!-- 机构Code -->
-            <el-input
-              v-model="loginForm.user_id"
-              prefix-icon="el-icon-user"
-              placeholder="请输入机构code"
-              v-if="this.loginForm.isCode == true"
-            ></el-input>
-            <el-button
-              type="text"
-              style="
-                position: absolute;
-                right: 0%;
-                font-size: 5px;
-                height: 5px;
-                bottom: -50%;
-              "
-              v-if="this.loginForm.isCode == false"
-              @click="changeWay"
-              ><u>使用code登录</u></el-button
-            >
-            <el-button
-              type="text"
-              style="
-                position: absolute;
-                right: 0%;
-                font-size: 5px;
-                height: 5px;
-                bottom: -50%;
-              "
-              v-if="this.loginForm.isCode == true"
-              @click="changeWay"
-              ><u>使用id登录</u></el-button
-            >
-          </el-form-item>
-          <!-- 密码 -->
-          <el-form-item prop="password">
-            <el-input
-              v-model="loginForm.password"
-              prefix-icon="el-icon-lock"
-              type="password"
-              placeholder="请输入密码"
-            ></el-input>
-          </el-form-item>
-
-          <!--验证码-->
-          <el-form-item prop="input_code" label="验证码">
-            <el-input
-              style="position: absolute; width: 45%; left: 15%"
-              placeholder="请输入验证码"
-              v-model="loginForm.input_code"
-            >
-            </el-input>
-            <s-Identify
-              :identifyCode="identifyCode"
-              @click.native="refreshCode()"
-              style="position: absolute; width: 30%; right: 0%"
-            ></s-Identify>
-          </el-form-item>
-
-          <!-- 按钮区域 -->
-          <el-form-item class="btns">
-            <el-button type="primary" @click="login">登录</el-button>
-            <el-button type="info" @click="resetLoginForm">重置</el-button>
-            <el-button type="text" @click="register">加入我们</el-button>
-            <el-button @click="test">test</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+  <div id="container" :class="{'container':this.containerBool, 'right-panel-active':this.RPABool}">
+    <div class="container_form container--signup">
+        <!-- 注册信息表 -->
+        <form action="#" class="form" id="form1">
+            <h2 class="form_title">Sign Up</h2>
+            <input id="rUser" type="text" placeholder="User" class="input" value=""/>
+            <input id="rEmail" type="email" placeholder="Email" class="input" value="" />
+            <input id="rPwd" type="text" placeholder="Password" class="input" value=""/>
+            <!-- 注册 -->
+            <button class="btn" id="realRegister" @click="fun3">Sign Up</button>
+        </form>
     </div>
-  </div>
+
+    
+    <div class="container_form container--signin">
+        <!-- 登陆信息表 -->
+        <form action="#" class="form" id="form2">
+            <h2 class="form_title">Sign In</h2>
+            <input id="lID" type="text" placeholder="userId" class="input" value="" />
+            <input id="lPwd" type="text" placeholder="Password" class="input" value="" />
+            <!-- 登录 -->
+            <button class="btn" id="realSign" @click="fun3">Sign In</button>
+        </form>
+    </div>
+
+    <!-- 浮层 -->
+    <div class="container_overlay">
+        <div class="overlay">
+            <div class="overlay_panel overlay--left">
+                <button class="btn" id="signIn" @click="fun1">Sign In</button>
+            </div>
+            <div class="overlay_panel overlay--right">
+                <button class="btn" id="signUp" @click="fun2">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
 </template>
 
 <script>
-//导入验证规则和验证码组件
-import { validateNumber, isPassword } from "@/utils/validator";
-import SIdentify from "@/components/identify";
-
 export default {
   name: "Login",
   data() {
-    const validate = (rule, value, callback) => {
-      if (this.identifyCode !== value && this.loginForm.input_code !== "") {
-        this.loginForm.input_code = "";
-        this.refreshCode();
-        //callback(new Error("请输入正确的验证码"));
-        this.$message({
-          message: "请输入正确的验证码！",
-          type: "error",
-        });
-      } else {
-        callback();
-      }
-    };
     return {
-      identifyCodes: "1234567890",
-      identifyCode: "", //图形验证码
-
-      //登录框，用户id，密码，验证码
-      loginForm: {
-        user_id: "",
-        password: "",
-        input_code: "",
-        isCode: false,
-      },
-      //登录框输入规则验证
-      loginRules: {
-        user_id: [
-          { required: true, trigger: "change", validator: validateNumber },
-          { required: true, trigger: "blur", validator: validateNumber },
-          {
-            required: true,
-            trigger: "blur",
-            min: 1,
-            message: "机构ID不能为空",
-          },
-        ],
-        password: [
-          { required: true, trigger: "change", validator: isPassword },
-          { required: true, trigger: "blur", validator: isPassword },
-          { required: true, trigger: "blur", min: 1, message: "密码不能为空" },
-        ],
-        input_code: [
-          { required: true, trigger: "blur", validator: validate },
-          {
-            required: true,
-            trigger: "blur",
-            min: 1,
-            message: "验证码不能为空",
-          },
-        ],
-      },
+        container:document.getElementById("container"),
+        containerBool:true,
+        RPABool:true,
     };
-  },
-  //引入验证码组件
-  components: {
-    "s-Identify": SIdentify,
   },
 
   methods: {
-    //重置按钮
-    resetLoginForm() {
-      // console.log(this)
-      this.$refs.loginFormRef.resetFields();
-    },
-    //验证验证码是否正确以及账号密码是否为空
-    validateInput() {
-      if (this.loginForm.user_id === "") {
-        this.$message({
-          message: "机构ID或Code不能为空！",
-          type: "error",
-        });
-        this.$router.push({ name: "Login" });
-        return false;
-      }
-      if (this.loginForm.password === "") {
-        this.$message({
-          message: "密码不能为空！",
-          type: "error",
-        });
-        this.$router.push({ name: "Login" });
-        return false;
-      }
-      if (this.loginForm.input_code === "") {
-        this.$message({
-          message: "验证码不能为空！",
-          type: "error",
-        });
-        this.$router.push({ name: "Login" });
-        return false;
-      }
-      if (this.identifyCode != this.loginForm.input_code) return false;
-      return true;
-    },
-    //登录
-    login() {
-      //this.$router.push({ name: "Main" });
-      //return;
-      if (!this.validateInput()) {
-        return;
-      }
-      //console.log(this.$store.state.user);
-      this.$store
-        .dispatch("Login", this.loginForm)
-        .then(() => {
-          this.LoginSuccess();
-          //console.log(1);
-        })
-        .catch(() => {
-          //console.log(2);
-          //this.LoginFail();
-          this.LoginFail();
-        });
-    },
-    //登录成功提示及跳转
-    LoginSuccess() {
-      if (
-        this.loginForm.user_id != "" &&
-        this.loginForm.password != "" &&
-        this.loginForm.input_code != ""
-      ) {
-        this.$message({
-          message: "登录成功！",
-          type: "success",
-        });
-        this.$router.push({ name: "Main", params: { type: 1 } });
-      }
-    },
-    //登录错误提示
-    LoginFail() {
-      if (this.loginForm.isCode == false)
-        this.$message({
-          message: "id或密码错误，请重新输入！",
-          type: "error",
-        });
-      else if (this.loginForm.isCode == true)
-        this.$message({
-          message: "code或密码错误，请重新输入！",
-          type: "error",
-        });
-      this.refreshCode();
-      this.loginForm.input_code = "";
-    },
-
-    //跳转注册
-    register() {
-      this.$router.push({
-        name: "Register",
-      });
-    },
-    //切换登录模式
-    changeWay() {
-      this.loginForm.isCode = !this.loginForm.isCode;
-    },
-
-    //验证码相关
-    randomNum(min, max) {
-      return Math.floor(Math.random() * (max - min) + min);
-    },
-    refreshCode() {
-      this.identifyCode = "";
-      this.makeCode(this.identifyCodes, 4);
-    },
-    makeCode(o, l) {
-      for (let i = 0; i < l; i++) {
-        this.identifyCode +=
-          this.identifyCodes[this.randomNum(0, this.identifyCodes.length)];
-      }
-    },
-    test(){
-      this.$router.push({name:"error"})
-    }
-
   },
 
   mounted() {
-    const self = this;
-    self.dphone = localStorage.user;
-    self.dpass = localStorage.password;
-    self.identifyCode = "";
-    self.makeCode(this.identifyCodes, 4);
-    console.log(this.identifyCode);
   },
   created() {
-    this.refreshCode();
   },
+  update(){
+  }
 };
 </script>
 
-<style lang="less" scoped>
-.tip {
-  color: cornflowerblue;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 30px;
+<style lang="css">
+@import "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css";
+:root {
+	/* 颜色 */
+	--white: #e9e9e9;
+	--gray: #333;
+	--blue: #095c91;
+	--blue-r: #315a7491;
+	--lightblue: #0393a3;
+
+	/* 圆角 */
+	--button-radius: 0.7rem;
+
+	/* 大小 */
+	--max-width: 758px;
+	--max-height: 420px;
+
+	font-size: 16px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.login_container {
-  background-color: #5c2c948c;
-  background-image: url("../assets/back.jpeg");
-  background-size: 100%, 100%;
-  height: 100%;
-  width: 100%;
-  position: fixed;
+body {
+	align-items: center;
+    background-image: url("../assets/wallpaper.jpg");
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: grid;
+	height: 100vh;
+	place-items: center;
 }
 
-.login_box {
-  width: 450px;
-  height: 350px;
-  background-color: #fff;
-  border-radius: 25px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-  .avatar_box {
-    height: 110px;
-    width: 110px;
-    border: 1px solid #eee;
-    border-radius: 50%;
-    padding: 5px;
-    box-shadow: 0 0 2px #ddd;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.form_title {
+	font-weight: 300;
+	margin: 0;
+	margin-bottom: 1.25rem;
+}
+
+.link {
+	color: var(--gray);
+	font-size: 0.9rem;
+	margin: 1.5rem 0;
+	text-decoration: none;
+}
+
+.container {
+	background-color:white;
+	border-radius: 15px;
+	box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
+		0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
+	height: 500px;
+    min-width: 800px;
+	max-width: 1000px;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.container_form {
+	height: 100%;
+	position: absolute;
+	top: 0;
+	transition: all 0.6s ease-in-out;
+}
+
+.container--signin {
+	left: 0;
+	width: 50%;
+	z-index: 5;
+}
+
+.container .right-panel-active .container--signin {
+	transform: translateX(100%);
+}
+
+.container--signup {
+	left: 0;
+	opacity: 0;
+	width: 50%;
+	z-index: 4;
+}
+
+.container .right-panel-active .container--signup {
+	-webkit-animation: show 0.6s;
+	        animation: show 0.6s;
+	opacity: 1;
+	transform: translateX(100%);
+	z-index: 8;
+}
+
+.container_overlay {
+	height: 100%;
+	left: 50%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	transition: transform 0.6s ease-in-out;
+	width: 50%;
+	z-index: 100;
+}
+
+.container .right-panel-active .container_overlay {
+	transform: translateX(-100%);
+}
+
+.overlay {
+	background-color: rgba(255, 255, 255, 0.25);
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100%;
+	left: -100%;
+	position: relative;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+	width: 200%;
+}
+
+.container .right-panel-active .overlay {
+	transform: translateX(50%);
+}
+
+.overlay_panel {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: center;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+	width: 50%;
+}
+
+.overlay--left {
+	transform: translateX(-20%);
+}
+
+.container .right-panel-active .overlay--left {
+	transform: translateX(0);
+}
+
+.overlay--right {
+	right: 0;
+	transform: translateX(0);
+}
+
+.container .right-panel-active .overlay--right {
+	transform: translateX(20%);
+}
+
+.btn {
+	background-color: var(--blue);
+	background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%);
+	border-radius: 20px;
+	border: 0.2px solid var(--blue-r);
+	color: var(--white);
+	cursor: pointer;
+	font-size: 0.8rem;
+	font-weight: bold;
+	letter-spacing: 0.1rem;
+	padding: 0.9rem 4rem;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.form > .btn {
+	margin-top: 1.5rem;
+}
+
+.btn:active {
+	transform: scale(0.95);
+}
+
+.btn:focus {
+	outline: none;
+}
+
+.form {
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 3rem;
+    height: 100%;
+    text-align: center;
+}
+
+.input {
     background-color: #fff;
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background-color: #eee;
+    border: none;
+    padding: 0.9rem 0.9rem;
+    margin: 0.5rem 0;
+    width: 100%;
+}
+
+@-webkit-keyframes show {
+    0%,
+    49.99% {
+        opacity: 0;
+        z-index: 4;
     }
-  }
+
+    50%,
+    100% {
+        opacity: 1;
+        z-index: 8;
+    }
 }
-.login_form {
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  padding: 0 20px;
-  box-sizing: border-box;
+
+@keyframes show {
+    0%,
+    49.99% {
+        opacity: 0;
+        z-index: 4;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+        z-index: 8;
+    }
 }
-.btns {
-  display: flex;
-  justify-content: center;
+
+
+.slidershow {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.slidershow--image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: no-repeat 50% 50%;
+    background-size: cover;
+    -webkit-animation-name: kenburns;
+    animation-name: kenburns;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-duration: 16s;
+    animation-duration: 16s;
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+.slidershow--image:nth-child(1) {
+    -webkit-animation-name: kenburns-1;
+    animation-name: kenburns-1;
+    z-index: 3;
+}
+
+.slidershow--image:nth-child(2) {
+    -webkit-animation-name: kenburns-2;
+    animation-name: kenburns-2;
+    z-index: 2;
+}
+
+.slidershow--image:nth-child(3) {
+    -webkit-animation-name: kenburns-3;
+    animation-name: kenburns-3;
+    z-index: 1;
+}
+
+.slidershow--image:nth-child(4) {
+    -webkit-animation-name: kenburns-4;
+    animation-name: kenburns-4;
+    z-index: 0;
+}
+
+@-webkit-keyframes kenburns-1 {
+    0% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    1.5625% {
+        opacity: 1;
+    }
+    23.4375% {
+        opacity: 1;
+    }
+    26.5625% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    98.4375% {
+        opacity: 0;
+        -webkit-transform: scale(1.21176);
+        transform: scale(1.21176);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes kenburns-1 {
+    0% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    1.5625% {
+        opacity: 1;
+    }
+    23.4375% {
+        opacity: 1;
+    }
+    26.5625% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    98.4375% {
+        opacity: 0;
+        -webkit-transform: scale(1.21176);
+        transform: scale(1.21176);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes kenburns-2 {
+    23.4375% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    26.5625% {
+        opacity: 1;
+    }
+    48.4375% {
+        opacity: 1;
+    }
+    51.5625% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+}
+
+@keyframes kenburns-2 {
+    23.4375% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    26.5625% {
+        opacity: 1;
+    }
+    48.4375% {
+        opacity: 1;
+    }
+    51.5625% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+}
+
+@-webkit-keyframes kenburns-3 {
+    48.4375% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    51.5625% {
+        opacity: 1;
+    }
+    73.4375% {
+        opacity: 1;
+    }
+    76.5625% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+}
+
+@keyframes kenburns-3 {
+    48.4375% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    51.5625% {
+        opacity: 1;
+    }
+    73.4375% {
+        opacity: 1;
+    }
+    76.5625% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+}
+
+@-webkit-keyframes kenburns-4 {
+    73.4375% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    76.5625% {
+        opacity: 1;
+    }
+    98.4375% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes kenburns-4 {
+    73.4375% {
+        opacity: 1;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    76.5625% {
+        opacity: 1;
+    }
+    98.4375% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
 }
 </style>
