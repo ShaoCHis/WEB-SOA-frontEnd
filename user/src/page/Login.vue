@@ -1,6 +1,6 @@
 <template>
-  <div id="container" :class="{'container':this.containerBool, 'right-panel-active':this.RPABool}">
-    <div class="container_form container--signup">
+  <div id="container" class="container right-panel-active">
+    <div id="left" class="container_form container--signup">
         <!-- 注册信息表 -->
         <form action="#" class="form" id="form1">
             <h2 class="form_title">Sign Up</h2>
@@ -13,7 +13,7 @@
     </div>
 
     
-    <div class="container_form container--signin">
+    <div id="right"class="container_form container--signin">
         <!-- 登陆信息表 -->
         <form action="#" class="form" id="form2">
             <h2 class="form_title">Sign In</h2>
@@ -43,18 +43,36 @@ export default {
   name: "Login",
   data() {
     return {
-        container:document.getElementById("container"),
-        containerBool:true,
-        RPABool:true,
+        left:document.getElementById("left"),
+        right:document.getElementById("right"),
+        
     };
   },
 
   methods: {
+      fun1(){
+          console.log(1);
+          this.left.classList.remove("right-panel-active");
+          console.log(right);
+      },
+      fun2(){
+          console.log(-1);
+          this.right.classList.add("right-panel-active");
+          console.log(this.right);
+      },
   },
 
   mounted() {
+      console.log(left);
+      console.log(right);
   },
   created() {
+      document.getElementById("left").addEventListener("click",function(e){
+          fun1();
+      }),
+      document.getElementById("right").addEventListener("click",function(e){
+          fun2();
+      })
   },
   update(){
   }
@@ -83,17 +101,7 @@ export default {
 		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-body {
-	align-items: center;
-    background-image: url("../assets/wallpaper.jpg");
-	background-attachment: fixed;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	display: grid;
-	height: 100vh;
-	place-items: center;
-}
+
 
 .form_title {
 	font-weight: 300;
@@ -107,9 +115,20 @@ body {
 	margin: 1.5rem 0;
 	text-decoration: none;
 }
-
+body {
+	align-items: center;
+    background-image: url("../assets/2.jpg");
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: grid;
+	height: 100vh;
+	place-items: center;
+}
 .container {
 	background-color:white;
+    background-image: url("../assets/wallpaper.jpg");
 	border-radius: 15px;
 	box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
 		0 0.7rem 0.7rem rgba(0, 0, 0, 0.22);
