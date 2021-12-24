@@ -13,7 +13,7 @@
     </div>
 
     
-    <div id="right"class="container_form container--signin">
+    <div id="right" class="container_form container--signin">
         <!-- 登陆信息表 -->
         <form action="#" class="form" id="form2">
             <h2 class="form_title">Sign In</h2>
