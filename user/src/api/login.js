@@ -3,7 +3,7 @@ import request from '@/utils/request'
 //用ID登录
 export function login_ID(id, password) {
     return request({
-        url: '/api/hospital/session',
+        url: '/loginRegister/hospitals/session',
         method: 'post',
         data: {
             id,
@@ -14,7 +14,7 @@ export function login_ID(id, password) {
 //用Code登录
 export function login_Code(code, password) {
     return request({
-        url: '/api/hospital/session',
+        url: '/loginRegister/hospitals/session',
         method: 'post',
         data: {
             code,
