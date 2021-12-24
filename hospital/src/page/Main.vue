@@ -9,7 +9,7 @@
         <div>
           <el-button type="text" @click="showHospitalInfo()" class="topic"
             >医济达</el-button
-          ><br />
+          >
         </div>
         <!-- <div class="other-header"> -->
         <el-avatar
@@ -311,6 +311,7 @@ export default {
     };
   },
   mounted() {
+    document.getEle
     //页面初始化
     //getHospitalInfo();
   },
