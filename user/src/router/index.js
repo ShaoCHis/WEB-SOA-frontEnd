@@ -13,6 +13,8 @@ import SuspendStatus from '@/components/MainComponents/suspendStatus'
 
 import error from '@/page/404/error'
 
+import Hospital from '@/page/Hospital'
+
 Vue.use(Router)
 
 
@@ -29,7 +31,8 @@ export const ConstantRouterMap = [
       { path: 'SuspendStatus', name: 'SuspendStatus', component: SuspendStatus, hidden: true },
     ]
   },
-  { path: '/error', name: "error", component: error, hidden: true }
+  { path: '/error', name: "error", component: error, hidden: true },
+  { path: '/hospital', name: "Hospital", component: Hospital, hidden: true }
 ]
 
 
