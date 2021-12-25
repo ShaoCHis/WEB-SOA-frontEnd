@@ -18,7 +18,7 @@ export default {};
 </script>
 <style scoped>
 .footer-container{
-      position:absolute;
+      position:relative;
       bottom:0;
       left:50%;
       margin-left:-600px;

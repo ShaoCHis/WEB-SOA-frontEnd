@@ -1,8 +1,19 @@
 <template>
   <div class="mainContainer">
     <myheader></myheader>
+<div class="contentContainer">
+    <!-- 首页走马灯 -->
+     <div class="carousel-container">
+      <div class="home-carousel">
+        <el-carousel indicator-position="inside" height="400px">
+          <el-carousel-item v-for="item in carousel_list" :key="item.img">
+            <img :src="item.img" style="width: 100%; height: 100%" />
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </div>
 
-    <div class="contentContainer">
+    
       <!-- 根据科室选择医院 -->
       <div class="label">
         <div class="label-left"></div>
@@ -105,6 +116,20 @@ export default {
   },
   data() {
     return {
+       carousel_list: [
+        {
+          id: "1",
+          img: require("@/assets/carousel3.jpg"),
+        },
+        {
+          id: "2",
+          img: require("@/assets/carousel2.jpg"),
+        },
+        {
+          id: "3",
+          img: require("@/assets/carousel1.jpg"),
+        },
+      ],
       currentHospital: [],
       pageSize: 2,
       currentPage: 1,
