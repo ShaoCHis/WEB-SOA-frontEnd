@@ -2,6 +2,13 @@
   <div>
     <!-- :data="tableData" -->
     <!-- v-for="item in items" :key="item" -->
+      <el-tabs class="tab" type="border-card" tab-position="left">
+        <el-tab-pane label="用户管理">用户管理</el-tab-pane>
+        <el-tab-pane label="配置管理">配置管理</el-tab-pane>
+        <el-tab-pane label="角色管理">角色管理</el-tab-pane>
+        <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+      </el-tabs>
+
     <el-table :data="tableData" border style="width: 100%" v-loading="loading">
       <el-table-column prop="id" label="编号" width="300"> </el-table-column>
       <el-table-column prop="name" label="名称" width="300"> </el-table-column>
@@ -92,4 +99,9 @@ export default {
 </script>
 
 <style>
+.tab{
+  display: inline-block;
+  height: 400px;
+  width: 1100px;
+}
 </style>

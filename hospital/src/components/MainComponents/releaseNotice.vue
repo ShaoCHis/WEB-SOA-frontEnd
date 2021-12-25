@@ -181,7 +181,7 @@ export default {
 .box-card {
   display: inline-block;
   min-height: 500px;
-  width: 1200px;
+  width: 1100px;
   margin-left: 50px;
   text-align: center;
 }

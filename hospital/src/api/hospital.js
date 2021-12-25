@@ -58,10 +58,13 @@ export function hospModifyPassword(params) {
 }
 
 //根据医院ID修改logo(需求id和oss服务返回的图片url)
-export function hospModifyLogo(params) {
+export function hospModifyLogo(id,image) {
     return request({
         url: '/hospital/hospitals/updateLogoById',
         method: 'post',
-        params
+        data:{
+            id,
+            image
+        }
     })
 }

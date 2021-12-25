@@ -186,6 +186,7 @@
           action="http://localhost:8084/oss/fileoss/upload"
           :limit="1"
           :show-file-list="false"
+          :on-success="upload"
           ><el-button size="small" type="primary">上传医院图片</el-button>
         </el-upload>
       </div>
@@ -274,6 +275,7 @@
 <script>
 import "../style/iconfont.css";
 import "../style/main.css";
+import { hospModifyLogo } from "../api/hospital";
 
 export default {
   name: "Main",
@@ -335,6 +337,20 @@ export default {
       this.hosData = JSON.parse(sessionStorage.getItem("hospital"));
     },
     modifyInfo() {},
+    upload(res) {
+      //console.log(res);
+      hospModifyLogo(sessionStorage.getItem("HospitalID"), res.data)
+        .then((response) => {
+          if (response.success == true)
+            this.$message({ message: "上传成功", type: "success" });
+          //console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.hosData.image = res.data;
+      sessionStorage.setItem("hospital", JSON.stringify(this.hosData));
+    },
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
