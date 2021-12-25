@@ -18,37 +18,6 @@
                     <button class="btn" id="realRegister" @click="fun3">Sign Up</button>
                 </form>
             </div>
-
-            
-            <div id="right"class="container_form container--signin">
-                <!-- 登陆信息表 -->
-                <form action="#" class="form" id="form2">
-                    <h2 class="form_title">Sign In</h2>
-                    <input id="lID" type="text" placeholder="userId" class="input" value="" />
-                    <input id="lPwd" type="text" placeholder="Password" class="input" value="" />
-                    <input id="input_code" type="text" placeholder="VerifyCode" class="input" value="" />
-                    <div class="fuck">
-                        <s-Identify :identifyCode="identifyCode" @click.native="refreshCode()"
-                        style="display:flex;position:relative;"
-                        ></s-Identify>
-                    </div>
-                    
-                    <!-- 登录 -->
-                    <button class="btn" id="realSign" @click="fun4">Sign In</button>
-                </form>
-            </div>
-
-            <!-- 浮层 -->
-            <div class="container_overlay">
-                <div class="overlay">
-                    <div class="overlay_panel overlay--left">
-                        <button class="btn" id="signIn" @click="fun1">Sign In</button>
-                    </div>
-                    <div class="overlay_panel overlay--right">
-                        <button class="btn" id="signUp" @click="fun2">Sign Up</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </template>

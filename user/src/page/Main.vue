@@ -7,13 +7,12 @@
 </template>
 
 <script>
-import myfooter from '../layout/myfooter'
 import Myfooter from '../layout/myfooter.vue';
 import myheader from '../layout/myheader.vue';
 import "@/style/css/main.css";
 
 export default {
-  components: { myheader,myfooter, Myfooter },
+  components: { myheader, Myfooter },
   name: "Main",
   data: {
    

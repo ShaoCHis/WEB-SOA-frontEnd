@@ -1,11 +1,12 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login_ID,login_Code } from '@/api/login'
+import { login_ID, login_Code } from '@/api/login'
 
 const user = {
   state: {
     token: getToken(),
     name: '',
     avatar: '',
+    id:'',
     roles: []
   },
 
@@ -21,6 +22,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_ID: (state, id) => {
+      state.id = id
     }
   },
 
@@ -35,8 +39,12 @@ const user = {
           login_ID(id, userInfo.password)
             .then(response => {
               const data = response
-              setToken(data.token)
+              setToken(DATA.token)
+              //console.log(data.data)
               commit('SET_TOKEN', DATA.token)
+              commit('SET_ID',data.data.id)
+              // this.$store
+              //   .dispatch("setHosID", data.date.id)
               resolve()
             }).catch(error => {
               reject(error)
@@ -48,8 +56,12 @@ const user = {
           login_Code(id, userInfo.password)
             .then(response => {
               const data = response
-              setToken(data.token)
+              setToken(DATA.token)
+              //console.log(response,data)
               commit('SET_TOKEN', DATA.token)
+              commit('SET_ID',data.data.id)
+              // this.$store
+              //   .dispatch("setHosID", data.id)
               resolve()
             }).catch(error => {
               reject(error)

@@ -154,7 +154,7 @@
 
           <!-- 医院信息 -->
 
-          <el-container title="页面内容">
+          <el-container title="页面内容" class="main">
             <router-view></router-view>
           </el-container>
         </el-main>
@@ -268,7 +268,7 @@
 <script>
 import { getHospInfo } from "../api/hospital";
 import "../style/iconfont.css";
-import "../style/css/main.css";
+import "../style/main.css";
 
 export default {
   name: "Main",
@@ -311,9 +311,8 @@ export default {
     };
   },
   mounted() {
-    document.getEle
     //页面初始化
-    //getHospitalInfo();
+    getHospitalInfo();
   },
   methods: {
     scrollTop() {

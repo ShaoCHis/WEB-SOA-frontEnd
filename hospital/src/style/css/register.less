@@ -1,55 +1,60 @@
 .tip {
-    color: cornflowerblue;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    // margin-bottom: 30px;
+  color: cornflowerblue;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  // margin-bottom: 30px;
+}
+
+.register_container {
+  background-color: #5c2c948c;
+  background-image: url("../../assets/back.jpeg");
+  background-size: 100%, 100%;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+
+.register_box {
+  width: 520px;
+  height: 650px;
+  background-color: #fff;
+  border-radius: 25px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
+}
+
+.register_form {
+  margin-top: 15px;
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  .el-form-item {
+    margin-bottom: 22px;
   }
-  
-  .register_container {
-    background-color: #5c2c948c;
-    background-image: url("../../assets/back.jpeg");
-    background-size: 100%, 100%;
-    height: 100%;
-    width: 100%;
-    position: fixed;
-  }
-  
-  .register_box {
-    width: 520px;
-    height: 650px;
-    background-color: #fff;
-    border-radius: 25px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-  }
-  .register_form {
-    margin-top: 15px;
-    position: absolute;
-    top: 20%;
-    width: 100%;
-    padding: 0 20px;
-    box-sizing: border-box;
-  }
-  
-  .item-props {
-    margin-bottom: 0;
-  }
-  
-  .item-form {
-    font-weight: bold;
-    font-size: 15px;
-    bottom: 0;
-    width: 100%;
-    padding: 0 15px;
-    box-sizing: border-box;
-  }
-  
-  .btns {
-    display: flex;
-    justify-content: center;
-    padding: 0 5px;
-  }
+}
+
+.item-props {
+  margin-bottom: 0;
+}
+
+.item-form {
+  font-weight: bold;
+  font-size: 15px;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+  padding: 0 5px;
+}

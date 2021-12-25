@@ -9,7 +9,7 @@
           height="50"
           src="../../static/images/logo.png"
         />
-        <span class="text">智能分诊预约挂号平台</span>
+        <span class="text">医济达预约挂号平台</span>
       </div>
 
       <!-- 导航栏 -->
