@@ -70,6 +70,9 @@
       <hospital-choose></hospital-choose>
       
     </div>
+
+    <router-view></router-view>
+
     <myfooter></myfooter>
   </div>
 </template>

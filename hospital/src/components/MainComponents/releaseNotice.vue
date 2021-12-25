@@ -4,24 +4,42 @@
     <el-row :gutter="20">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span style="font-size: 18px">公告</span>
+          <span style="font-size: 30px"><b>公告</b></span>
           <el-button
+            id="change"
             ref="change"
-            style="float: right; padding: 3px 0"
+            style="
+              float: right;
+              margin-left: 10px;
+              font-size: 18px;
+              visibility: unset;
+            "
             type="text"
             @click="changeNotice"
             >修改</el-button
           >
           <el-button
+            id="commit"
             ref="cancel"
-            style="float: right; padding: 3px 0"
+            style="
+              float: right;
+              margin-left: 10px;
+              font-size: 18px;
+              visibility: hidden;
+            "
             type="text"
             @click="cnacelChange"
             >取消</el-button
           >
           <el-button
+            id="cancel"
             ref="commit"
-            style="float: right; padding: 3px 0"
+            style="
+              float: right;
+              margin-left: 10px;
+              font-size: 18px;
+              visibility: hidden;
+            "
             type="text"
             @click="commitNotice"
             >确定</el-button
@@ -101,6 +119,9 @@ export default {
     changeNotice() {
       document.getElementsByClassName("changeNotice")[0].style.visibility =
         "unset";
+      document.getElementById("commit").style.visibility = "unset";
+      document.getElementById("cancel").style.visibility = "unset";
+      document.getElementById("change").style.visibility = "hidden";
     },
     commitNotice() {
       document.getElementsByClassName("changeNotice")[0].style.visibility =
@@ -110,17 +131,30 @@ export default {
           if (response.success == true) {
             this.getHospitalInfo();
             // window.location.reload()
-            this.notices=JSON.parse(sessionStorage.getItem("hospital")).notice
+            this.notices = JSON.parse(
+              sessionStorage.getItem("hospital")
+            ).notice;
             this.$message({ message: "修改成功", type: "success" });
-          } else alert("修改失败");
+          } else {
+            document.getElementById("commit").style.visibility = "hidden";
+            document.getElementById("cancel").style.visibility = "hidden";
+            document.getElementById("change").style.visibility = "unset";
+            alert("修改失败");
+          }
         })
         .catch((error) => {
           console.log(123456);
         });
+      document.getElementById("commit").style.visibility = "hidden";
+      document.getElementById("cancel").style.visibility = "hidden";
+      document.getElementById("change").style.visibility = "unset";
     },
     cnacelChange() {
       document.getElementsByClassName("changeNotice")[0].style.visibility =
         "hidden";
+      document.getElementById("commit").style.visibility = "hidden";
+      document.getElementById("cancel").style.visibility = "hidden";
+      document.getElementById("change").style.visibility = "unset";
     },
   },
 };

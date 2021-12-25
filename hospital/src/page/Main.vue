@@ -178,10 +178,16 @@
           <img
             class="hosPic"
             :src="hosData.image"
-            style="margin-left: 20%; width: 50%; height: 50%; float: center"
+            style="margin-left: 20%; width: 50%; height: 50%"
           />
         </div>
-        <el-button type="primary" style="margin-left: 40%">上传头像</el-button>
+        <el-upload
+          class="upload"
+          action="http://localhost:8084/oss/fileoss/upload"
+          :limit="1"
+          :show-file-list="false"
+          ><el-button size="small" type="primary">上传医院图片</el-button>
+        </el-upload>
       </div>
 
       <div
@@ -254,8 +260,8 @@
                   style="margin-bottom: 15px"
                 >
                 </el-input>
-                <el-button type="warning" @click="modifyInfo">修改</el-button>
-                <el-button type="primary">确认</el-button>
+                <!-- <el-button type="warning" @click="modifyInfo">修改</el-button>
+                <el-button type="primary">确认</el-button> -->
               </div>
             </div>
           </div>
@@ -273,11 +279,6 @@ export default {
   name: "Main",
   data() {
     return {
-      resData: [],
-
-      user_id: this.$route.query.type + "",
-      temp_id: "1",
-
       form: { focus: "hosNotice" },
 
       loginTemp: {
@@ -301,7 +302,6 @@ export default {
         top: "18px",
         right: "12%",
       },
-      hospitalName: "",
       //医院信息
       hosDataVisible: false, //控制el-card是否显示
       hosData: {
@@ -310,7 +310,7 @@ export default {
     };
   },
   mounted() {
-    //页面初始化
+    console.log(this.hosData);
   },
   methods: {
     scrollTop() {
