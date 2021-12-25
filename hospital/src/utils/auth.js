@@ -14,4 +14,10 @@ export function removeToken() {
   return Cookies.remove(TokenKey)
 }
 
+export function setID(ID){
+  return sessionStorage.setItem("HospitalID",ID) 
+}
 
+export function getID(){
+  return sessionStorage.getItem("HospitalID")
+}

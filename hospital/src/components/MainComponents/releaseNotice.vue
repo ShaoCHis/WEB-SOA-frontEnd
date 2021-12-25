@@ -2,60 +2,47 @@
   <div>
     <!-- <el-button>这里是公告板信息</el-button> -->
     <el-row :gutter="20">
-      <el-col :span="8">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span style="font-size: 18px">致上海市民的一封信</span>
-            <el-button
-              style="float: right; padding: 3px 0"
-              type="text"
-              @click="deleteNotice"
-              >删除</el-button
-            >
-          </div>
-          <div class="text item" style="text-align: left">
-            亲爱的市民朋友，您好！<br />
-            2021年全国消费者满意度测评来啦，一个赞、一个好评，助力上海放心消费创建。
-            届时将会有工作人员在社区向您开展问卷调查，恳请您积极配合、建言献策。
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="8">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span style="font-size: 18px">院内采购结果公示</span>
-            <el-button
-              style="float: right; padding: 3px 0"
-              type="text"
-              @click="deleteNotice"
-              >删除</el-button
-            >
-          </div>
-          <div class="text item" style="text-align: left">
-            有无懂哥帮忙调下main.vue侧边栏那边被注释掉的新样式
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="7">
-        <el-card class="box-card">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span style="font-size: 18px">致上海市民的一封信</span>
           <el-button
+            style="float: right; padding: 3px 0"
             type="text"
-            style="font-size: 20px; margin-top: 25%"
-            @click="addNotice"
+            @click="deleteNotice"
+            >删除</el-button
           >
-            +新增公告
-          </el-button>
-        </el-card>
-      </el-col>
+        </div>
+        <div v-bind="notices" class="text item" style="text-align: left">
+          {{ notices }}
+        </div>
+      </el-card>
+
+      <el-card class="box-card">
+        <el-button
+          type="text"
+          style="font-size: 20px; margin-top: 25%"
+          @click="addNotice"
+        >
+          +新增公告
+        </el-button>
+      </el-card>
     </el-row>
   </div>
 </template>
 
 <script>
+import { getHospInfo } from "@/api/hospital";
+
 export default {
   name: "Notice",
+  data() {
+    return {
+      notices: JSON.parse(sessionStorage.getItem("hospital")).notice,
+    };
+  },
   mounted() {
-      this.getHospitalInfo()
+    //console.log(this.$store.state.user);
+    this.getHospitalInfo();
   },
   created() {
     //   console.log(123)
@@ -69,10 +56,25 @@ export default {
     },
     //获取医院信息
     getHospitalInfo() {
+      var hospital;
       getHospInfo({
-        id: this.hosData.id + "",
+        id: this.$store.state.user.id,
       })
-        .then((response) => {})
+        .then((response) => {
+          //console.log(response.data);
+          hospital = JSON.stringify({
+            name: response.data.name,
+            image: response.data.image,
+            code: response.data.code,
+            level: response.data.level,
+            location: response.data.location,
+            status: response.data.status,
+            introduction: response.data.introduction,
+            notice: response.data.notice,
+          });
+          //console.log(hospital);
+          sessionStorage.setItem("hospital", hospital);
+        })
         .catch((error) => {
           console.log(-1);
         });
@@ -100,6 +102,9 @@ export default {
   clear: both;
 }
 .box-card {
+  display: inline-block;
   height: 250px;
+  width: 300px;
+  margin-left: 50px;
 }
 </style>

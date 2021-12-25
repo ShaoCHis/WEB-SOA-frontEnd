@@ -149,7 +149,7 @@
 
         <!-- 指示信息栏（所有栏目都会显示的信息） -->
         <!-- avatar放logo -->
-        <el-main style="left: 0%; width: 90%">
+        <el-main>
           <!-- 选择信息栏，依据展示信息的不同而不同 -->
 
           <!-- 医院信息 -->
@@ -165,12 +165,12 @@
         请拨打 +021 6895 1732 或 +021 6843 9284 联系我们
       </footer>
     </div>
+
     <el-drawer
       title="医院基本信息"
       class="ivu-drawer-body"
       :visible.sync="hosDataVisible"
       width="100%"
-      :before-close="handleCloseHos"
     >
       <!-- 医院头像 -->
       <div>
@@ -225,7 +225,7 @@
                   spellcheck="false"
                   type="text"
                   placeholder="请输入医院编号..."
-                  v-model="hosData.id"
+                  v-model="hosData.code"
                   disabled="disabled"
                   maxlength="11"
                   class="el-input"
@@ -266,7 +266,6 @@
 </template>
 
 <script>
-import { getHospInfo } from "../api/hospital";
 import "../style/iconfont.css";
 import "../style/main.css";
 
@@ -312,7 +311,6 @@ export default {
   },
   mounted() {
     //页面初始化
-    getHospitalInfo();
   },
   methods: {
     scrollTop() {
@@ -334,25 +332,7 @@ export default {
     //医院图标跳转
     getHospitalInfo() {
       this.hosDataVisible = true;
-      getHospInfo({
-        id: this.hosData.id + "",
-      })
-        .then((response) => {
-          this.hosData = response.data;
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(-1);
-        });
-    },
-    //医院头像处信息
-    handleCloseHos(done) {
-      this.$confirm("确认关闭？")
-        .then((_) => {
-          done();
-        })
-        .catch((_) => {});
-      this.hosDataVisible = false;
+      this.hosData = JSON.parse(sessionStorage.getItem("hospital"));
     },
     modifyInfo() {},
   },

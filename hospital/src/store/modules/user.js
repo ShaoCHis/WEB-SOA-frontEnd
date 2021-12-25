@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setID, getID } from '@/utils/auth'
 import { login_ID, login_Code } from '@/api/login'
 
 const user = {
@@ -6,7 +6,7 @@ const user = {
     token: getToken(),
     name: '',
     avatar: '',
-    id:'',
+    id: getID(),
     roles: []
   },
 
@@ -40,9 +40,10 @@ const user = {
             .then(response => {
               const data = response
               setToken(DATA.token)
+              setID(data.data.id)
               //console.log(data.data)
               commit('SET_TOKEN', DATA.token)
-              commit('SET_ID',data.data.id)
+              commit('SET_ID', data.data.id)
               // this.$store
               //   .dispatch("setHosID", data.date.id)
               resolve()
@@ -57,9 +58,10 @@ const user = {
             .then(response => {
               const data = response
               setToken(DATA.token)
+              setID(data.data.id)
               //console.log(response,data)
               commit('SET_TOKEN', DATA.token)
-              commit('SET_ID',data.data.id)
+              commit('SET_ID', data.data.id)
               // this.$store
               //   .dispatch("setHosID", data.id)
               resolve()
