@@ -3,7 +3,7 @@ import request from '@/utils/request'
 //根据科室ID查找科室
 export function getDepartById(params) {
     return request({
-        url: `/hospital/departments/getDepartInfo/${params.id}`,
+        url: `/hospital/departments/getDepartInfo/${params}`,
         method: 'get',
         params
     })
