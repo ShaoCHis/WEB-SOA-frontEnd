@@ -154,7 +154,7 @@
 
           <!-- 医院信息 -->
 
-          <el-container title="页面内容" class="main">
+          <el-container class="main">
             <router-view></router-view>
           </el-container>
         </el-main>

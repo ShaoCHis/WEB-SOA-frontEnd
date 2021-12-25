@@ -4,7 +4,7 @@ import request from '@/utils/request'
 export function getHospInfo(params) {
     return request({
         url: `/hospital/hospitals/getHospInfo/${params.id}`,
-        method:'get',
+        method: 'get',
         params
     })
 }
@@ -13,7 +13,7 @@ export function getHospInfo(params) {
 export function getHospListInfo(params) {
     return request({
         url: `/hospital/hospitals/getHospListInfo/${params.id}`,
-        method:'get',
+        method: 'get',
         params
     })
 }
@@ -37,11 +37,14 @@ export function hospModifyBasicInfo(params) {
 }
 
 //根据医院ID修改医院公告
-export function hospModifyNotice(params) {
+export function hospModifyNotice(id, notice) {
     return request({
         url: '/hospital/hospitals/updateNoticeById',
         method: 'post',
-        params
+        data: {
+            id,
+            notice
+        }
     })
 }
 

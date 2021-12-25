@@ -4,45 +4,63 @@
     <el-row :gutter="20">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span style="font-size: 18px">致上海市民的一封信</span>
+          <span style="font-size: 18px">公告</span>
           <el-button
+            ref="change"
             style="float: right; padding: 3px 0"
             type="text"
-            @click="deleteNotice"
-            >删除</el-button
+            @click="changeNotice"
+            >修改</el-button
+          >
+          <el-button
+            ref="cancel"
+            style="float: right; padding: 3px 0"
+            type="text"
+            @click="cnacelChange"
+            >取消</el-button
+          >
+          <el-button
+            ref="commit"
+            style="float: right; padding: 3px 0"
+            type="text"
+            @click="commitNotice"
+            >确定</el-button
           >
         </div>
-        <div v-bind="notices" class="text item" style="text-align: left">
+        <div class="text item">
           {{ notices }}
         </div>
-      </el-card>
-
-      <el-card class="box-card">
-        <el-button
-          type="text"
-          style="font-size: 20px; margin-top: 25%"
-          @click="addNotice"
-        >
-          +新增公告
-        </el-button>
+        <div class="changeNotice" style="visibility: hidden">
+          <el-input
+            class="changeNotice"
+            ref="changeNotice"
+            type="textarea"
+            v-model="newNotice"
+            maxlength="100"
+            show-word-limit
+            :autosize="{ minRows: 20, maxRows: 100 }"
+          ></el-input>
+        </div>
       </el-card>
     </el-row>
   </div>
 </template>
 
 <script>
-import { getHospInfo } from "@/api/hospital";
+import { getHospInfo, hospModifyNotice } from "@/api/hospital";
 
 export default {
   name: "Notice",
   data() {
     return {
       notices: JSON.parse(sessionStorage.getItem("hospital")).notice,
+      newNotice: "",
     };
   },
   mounted() {
     //console.log(this.$store.state.user);
     this.getHospitalInfo();
+    this.newNotice = this.notices;
   },
   created() {
     //   console.log(123)
@@ -79,11 +97,36 @@ export default {
           console.log(-1);
         });
     },
+
+    changeNotice() {
+      document.getElementsByClassName("changeNotice")[0].style.visibility =
+        "unset";
+    },
+    commitNotice() {
+      document.getElementsByClassName("changeNotice")[0].style.visibility =
+        "hidden";
+      hospModifyNotice(sessionStorage.getItem("HospitalID"), this.newNotice)
+        .then((response) => {
+          if (response.success == true) {
+            this.getHospitalInfo();
+            // window.location.reload()
+            this.notices=JSON.parse(sessionStorage.getItem("hospital")).notice
+            this.$message({ message: "修改成功", type: "success" });
+          } else alert("修改失败");
+        })
+        .catch((error) => {
+          console.log(123456);
+        });
+    },
+    cnacelChange() {
+      document.getElementsByClassName("changeNotice")[0].style.visibility =
+        "hidden";
+    },
   },
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .text {
   font-size: 18px;
 }
@@ -103,8 +146,19 @@ export default {
 }
 .box-card {
   display: inline-block;
-  height: 250px;
-  width: 300px;
+  min-height: 500px;
+  width: 1200px;
   margin-left: 50px;
+  text-align: center;
+}
+.text {
+  text-align: center;
+}
+.changeNotice {
+  top: -50px;
+  //height: 30px;
+  .textarea {
+    text-align: center;
+  }
 }
 </style>
