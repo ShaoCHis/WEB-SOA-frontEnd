@@ -88,7 +88,11 @@
                 </div>
                 <div class="hospital-content">
                   <div class="hospital-name">{{ item.name }}</div>
-                  <div class="hospital-level">{{ item.level }}</div>
+                  <div class="hospital-level">
+                    <div class="inner-level">
+                      {{ item.level }}
+                      </div>
+                      </div>
                 </div>
                 <div class="enter-hospital">
                   <div class="inner-enter" @click="goToHospitalPage()">
