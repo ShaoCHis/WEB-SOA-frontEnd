@@ -28,7 +28,8 @@
       <el-input class="search" placeholder="请输入医院名称" />
       <el-button circle icon="el-icon-search" type="primary"></el-button>
       <div class="avatar">
-        <el-avatar size="large" fit="fit" :src="avatar"></el-avatar>
+        <el-button v-show="this.ifLogin==false" class="loginBtn" type="primary" @click="login()">登录/注册</el-button>
+        <el-avatar v-show="this.ifLogin==true" size="large" fit="fit" :src="avatar"></el-avatar>
       </div>
       <!-- 右侧 -->
       <div class="right-wrapper"></div>
@@ -76,7 +77,7 @@ import "@/style/chunk.css";
 
 export default {
   props:{
-    avatar:""
+    avatar:"",
   },
   data() {
     return {
@@ -87,11 +88,16 @@ export default {
       patientLoginForm: false,
       name: "", // 用户登录显示的名称
       flag: true,
+      ifLogin:false, //用户是否已经登录
     };
   },
-
+  
   created() {},
-  methods: {},
+  methods: {
+      login(){
+        this.$router.push({ name: "Login" });
+      }
+  },
 };
 </script>
 
@@ -105,5 +111,9 @@ export default {
 }
 .avatar {
   margin-right: -150px;
+}
+.loginBtn{
+    display: flex;
+    position: relative;
 }
 </style>
