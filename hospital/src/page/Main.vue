@@ -312,7 +312,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.hosData);
+    //console.log(this.hosData);
   },
   methods: {
     scrollTop() {

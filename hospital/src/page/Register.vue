@@ -15,11 +15,16 @@
         >
           <!-- 医院名称 -->
           <el-form-item label="医院名称" prop="name" class="item-form">
-            <el-input v-model="registerForm.name" type="code"></el-input>
+            <el-input
+              placeholder="请输入医院名称"
+              v-model="registerForm.name"
+              type="code"
+            ></el-input>
           </el-form-item>
           <!-- 密码 -->
           <el-form-item label="医院编码" prop="code" class="item-form">
             <el-input
+              placeholder="请输入医院编码"
               v-model="registerForm.code"
               prefix-icon="el-icon-lock"
               type="code"
@@ -27,11 +32,19 @@
           </el-form-item>
           <!-- 联系方式 -->
           <el-form-item label="联系方式" prop="contact" class="item-form">
-            <el-input v-model="registerForm.contact" type="code"></el-input>
+            <el-input
+              placeholder="请输入医院联系方式"
+              v-model="registerForm.contact"
+              type="code"
+            ></el-input>
           </el-form-item>
           <!-- 医院地址 -->
           <el-form-item label="医院地址" prop="location" class="item-form">
-            <el-input v-model="registerForm.location" type="text"></el-input>
+            <el-input
+              placeholder="请输入医院地址"
+              v-model="registerForm.location"
+              type="text"
+            ></el-input>
           </el-form-item>
           <!-- 医院等级 -->
           <el-form-item label="医院等级" prop="level" class="item-form">
@@ -54,12 +67,13 @@
           <!--上传图片-->
           <el-form-item>
             <el-upload
-              action="http://localhost:8084/oss/fileoss"
+              action="http://localhost:8084/oss/fileoss/upload"
               class="upload"
               :auto-upload="false"
               ref="upload"
               accept=".jpg,.png"
               :limit="1"
+              :on-success="uploadSuccess"
               :on-exceed="
                 () => {
                   this.$message({
@@ -103,6 +117,7 @@ export default {
         contact: "", //联系方式
         level: "", //医院等级，int类型
         location: "", //位置
+        image: "",
       },
 
       options: [
@@ -183,11 +198,16 @@ export default {
         this.registerForm.code == "" ||
         this.registerForm.contact == "" ||
         this.registerForm.location == "" ||
-        this.registerForm.level == ""
+        this.registerForm.level == "" ||
+        this.registerForm.image == ""
       )
         return false;
     },
+    uploadSuccess(res) {
+      this.registerForm.image = res.data;
+    },
     Register() {
+      this.$refs.upload.submit();
       if (this.judgeInput() == false) {
         this.$message({
           message: "请输入完整信息",
@@ -195,12 +215,13 @@ export default {
         });
         return;
       }
+      this.$refs.upload.submit();
       register({
         Info: this.registerForm,
       })
         .then((response) => {
-          console.log(1);
-          console.log(response.data.success);
+          // console.log(1);
+          // console.log(response.data.success);
           if (response.data.success == true) {
             this.$message({
               message: "申请成功！",
@@ -215,12 +236,8 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(0);
+          console.log(error);
         });
-
-      //  if(this.value=="Student") this.$router.push('/mainpage');
-      //  if(this.value=="Teacher") this.$router.push('/tmainpage');
-      //  if(this.value=="Admin") this.$router.push('/managepage');
     },
     login() {
       this.$router.push({ name: "Login" });
@@ -230,5 +247,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../style/css/register.less';
+@import "../style/css/register.less";
 </style>
