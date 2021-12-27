@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "ReservationStatus",
+  name: "applyList",
 
   created() {},
 };

@@ -31,86 +31,44 @@
       <el-container class="page">
         <div class="shell">
           <!-- <a href="#" class="box"><i class="iconfont icon-liebiao"></i><span>医院公告</span></a> -->
-          <a class="box" v-if="this.form.focus === 'hosNotice'">
-            <router-link to="/Notice">
-              <i class="iconfont icon-yiliaojigou"></i><span> 医院公告</span>
+          <a class="box" v-if="this.form.focus === 'hosList'">
+            <router-link to="/HosList">
+              <i class="iconfont icon-yiliaojigou"></i><span> 医院列表</span>
             </router-link>
             <br />
           </a>
           <a class="box" v-else>
-            <router-link to="/Notice">
+            <router-link to="/HosList">
               <i
                 class="iconfont icon-yiliaojigou"
                 @click="
                   () => {
-                    this.form.focus = 'hosNotice';
+                    this.form.focus = 'hosList';
                   }
                 "
               ></i
-              ><span> 医院公告</span>
+              ><span> 医院列表</span>
             </router-link>
             <br />
           </a>
 
-          <a class="box" v-if="this.form.focus === 'room'">
-            <router-link to="/RoomInfo">
-              <i class="iconfont icon-yiliaofuwu"></i><span> 科室信息</span>
+          <a class="box" v-if="this.form.focus === 'applyList'">
+            <router-link to="/applyList">
+              <i class="iconfont icon-yiliaofuwu"></i><span> 申请列表</span>
             </router-link>
             <br />
           </a>
           <a class="box" v-else>
-            <router-link to="/RoomInfo">
+            <router-link to="/applyList">
               <i
                 class="iconfont icon-yiliaofuwu"
                 @click="
                   () => {
-                    this.form.focus = 'room';
+                    this.form.focus = 'applyList';
                   }
                 "
               ></i
-              ><span> 科室信息</span>
-            </router-link>
-            <br />
-          </a>
-          <!-- <a href="#" class="box"><i class="iconfont icon-cangku"></i><span> 科室信息</span></a> -->
-          <a class="box" v-if="this.form.focus === 'res'">
-            <router-link to="/ReservationStatus">
-              <i class="iconfont icon-dingdan"></i><span> 预约情况</span>
-            </router-link>
-            <br />
-          </a>
-          <a class="box" v-else>
-            <router-link to="/ReservationStatus">
-              <i
-                class="iconfont icon-dingdan"
-                @click="
-                  () => {
-                    this.form.focus = 'res';
-                  }
-                "
-              ></i
-              ><span> 预约情况</span>
-            </router-link>
-            <br />
-          </a>
-          <!-- <a href="#" class="box"><i class="iconfont icon-zhuti_tiaosepan"></i><span>预约信息</span></a> -->
-          <a class="box" v-if="this.form.focus === 'suspend'">
-            <router-link to="/suspendStatus">
-              <i class="iconfont icon-shujujianguan"></i><span> 停诊信息</span>
-            </router-link>
-            <br />
-          </a>
-          <a class="box" v-else>
-            <router-link to="/suspendStatus">
-              <i
-                class="iconfont icon-shujujianguan"
-                @click="
-                  () => {
-                    this.form.focus = 'suspend';
-                  }
-                "
-              ></i
-              ><span> 停诊信息</span>
+              ><span> 申请列表</span>
             </router-link>
             <br />
           </a>
@@ -135,13 +93,7 @@
             </router-link>
             <br />
           </a>
-          <!-- <a href="#" class="box"><i class="iconfont icon-tupian"></i><span>平台流水</span></a> -->
-          <a href="#" class="box"
-            ><i class="iconfont icon-erweima"></i><span>QR code</span></a
-          >
-          <a href="#" class="box"
-            ><i class="iconfont icon-guanli"></i><span>管理</span></a
-          >
+          <!-- <a href="#" class="box"><i class="iconfont icon-tupian"></i><span>平台流水</span></a> -->        
           <a @click="exit" href="#" class="box"
             ><i class="iconfont icon-yuanchengchuantou"></i><span>退出</span></a
           >

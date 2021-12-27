@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken, setID, getID } from '@/utils/auth'
-import { login_ID, login_Code } from '@/api/login'
+import { login } from '@/api/login'
 
 const user = {
   state: {
@@ -34,42 +34,24 @@ const user = {
       const DATA = { 'token': 'admin' }
       const id = userInfo.user_id
       //console.log(userInfo.isCode)
-      if (userInfo.isCode != true)
-        return new Promise((resolve, reject) => {
-          login_ID(id, userInfo.password)
-            .then(response => {
-              const data = response
-              setToken(DATA.token)
-              setID(data.data.id)
-              //console.log(data.data)
-              commit('SET_TOKEN', DATA.token)
-              commit('SET_ID', data.data.id)
-              // this.$store
-              //   .dispatch("setHosID", data.date.id)
-              resolve()
-            }).catch(error => {
-              reject(error)
-              //console.log(error)
-            })
-        })
-      else
-        return new Promise((resolve, reject) => {
-          login_Code(id, userInfo.password)
-            .then(response => {
-              const data = response
-              setToken(DATA.token)
-              setID(data.data.id)
-              //console.log(response,data)
-              commit('SET_TOKEN', DATA.token)
-              commit('SET_ID', data.data.id)
-              // this.$store
-              //   .dispatch("setHosID", data.id)
-              resolve()
-            }).catch(error => {
-              reject(error)
-              //console.log(error)
-            })
-        })
+      return new Promise((resolve, reject) => {
+        login(id, userInfo.password)
+          .then(response => {
+            const data = response
+            setToken(DATA.token)
+            setID(data.data.id)
+            //console.log(data.data)
+            commit('SET_TOKEN', DATA.token)
+            commit('SET_ID', data.data.id)
+            sessionStorage.setItem("ID", data.data.id)
+            // this.$store
+            //   .dispatch("setHosID", data.date.id)
+            resolve()
+          }).catch(error => {
+            reject(error)
+            //console.log(error)
+          })
+      })
     },
 
     // 获取用户信息

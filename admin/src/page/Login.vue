@@ -49,7 +49,6 @@
           <el-form-item class="btns">
             <el-button type="primary" @click="login">登录</el-button>
             <el-button type="info" @click="resetLoginForm">重置</el-button>
-            <el-button type="text" @click="register">加入我们</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -91,8 +90,8 @@ export default {
       //登录框输入规则验证
       loginRules: {
         user_id: [
-          { required: true, trigger: "change", validator: validateNumber },
-          { required: true, trigger: "blur", validator: validateNumber },
+          //{ required: true, trigger: "change", validator: validateNumber },
+          //{ required: true, trigger: "blur", validator: validateNumber },
           {
             required: true,
             trigger: "blur",
@@ -101,8 +100,8 @@ export default {
           },
         ],
         password: [
-          { required: true, trigger: "change", validator: isPassword },
-          { required: true, trigger: "blur", validator: isPassword },
+          //{ required: true, trigger: "change", validator: isPassword },
+          //{ required: true, trigger: "blur", validator: isPassword },
           { required: true, trigger: "blur", min: 1, message: "密码不能为空" },
         ],
         input_code: [
@@ -199,13 +198,6 @@ export default {
       });
       this.refreshCode();
       this.loginForm.input_code = "";
-    },
-
-    //跳转注册
-    register() {
-      this.$router.push({
-        name: "Register",
-      });
     },
 
     //验证码相关
