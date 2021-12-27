@@ -21,6 +21,26 @@
             </div>
             <div class="hospital-content">
               <div class="hospital-name">{{ item.name }}</div>
+              <div class="hospital-level">{{ item.level }}</div>
+            </div>
+            
+          </el-col>
+        </el-row>
+      </el-tab-pane>
+      <div class="block">
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-size="pageSize"
+          :current-page.sync="currentPage"
+          layout="total,prev, pager, next, jumper"
+          :total="hospital.length"
+        >
+        </el-pagination>
+      </div>
+    </el-tabs>
+  </div>
 </template>
 <script>
 import {getHospListInfo} from "../api/main"
@@ -39,42 +59,6 @@ export default {
     // this.currentPage=1;
   },
   methods: {
-    //根据科室ID获取医院详细信息
-    fetchHospitalByDepartment() {
-      for (var i = 0; i < this.department.length; i++) {
-        getHospListInfo({
-          id: this.department[i].id,
-        }).then((response) => {
-          response.data.forEach((element) => {
-            // this.department[i].hosRes.push(element);
-            var tmp={}
-            tmp=element.data
-            console.log(tmp)
-          });
-          // console.log(this.department[i].hosRes);
-          // const {respo nse}=obj;
-          // this.department[i].hosRes={response}.map(el=>el);
-          // console.log(this.department[i].hosRes);
-          // console.log(this.department[0]);
-          // console.log(this.department[i]);
-          // console.log(response.data);
-          // console.log(response.data[0]);
-          // console.log(response.data[0].password);
-          // this.department[i].hosRes.push({
-          //     password:response.data[0].password,
-          //     code:response.data[0].code,
-          //     name:response.data[0].name,
-          //     introduction:response.data[0].introduction,
-          //     image:response.data[0].image,
-          //     level:response.data[0].level,
-          //     location:response.data[0].location,
-          //     notice:response.data[0].notice,
-          //     id:response.data[0].id,
-          // })
-          // console.log(this.department[i].hosRes);
-        });
-      }
-    },
     goToHospitalPage() {},
     initPage(index){
       getHospListInfo({id:this.department[index].id,}).then((response)=>{
@@ -183,5 +167,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../style/css/HospitalChoose.less";
+@import "../style/css/DepartmentChoose.less";
 </style>
