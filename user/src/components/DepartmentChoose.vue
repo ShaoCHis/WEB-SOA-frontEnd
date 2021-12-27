@@ -1,11 +1,10 @@
 <template>
   <div class="hospital-choose">
-    <el-tabs type="border-card">
+    <el-tabs type="border-card" @tab-click="handleClick">
       <el-tab-pane
         v-for="(item, index) in department"
         :key="index"
         :label="item.name"
-        @click="initPage(index)"
       >
         <el-row :gutter="20">
           <el-col
@@ -15,15 +14,13 @@
             class="department-choose-hospital"
             @click="goToHospitalPage"
           >
-
-              <div class="hospital-image">
+            <div class="hospital-image">
               <img :src="item.image" style="width: 100%; height: 100%" />
             </div>
             <div class="hospital-content">
               <div class="hospital-name">{{ item.name }}</div>
               <div class="hospital-level">{{ item.level }}</div>
             </div>
-            
           </el-col>
         </el-row>
       </el-tab-pane>
@@ -43,34 +40,38 @@
   </div>
 </template>
 <script>
-import {getHospListInfo} from "../api/main"
-import {getMap} from "../utils/map"
+import { getHospListInfo } from "../api/main";
+import { getMap } from "../utils/map";
 
 export default {
   name: "DepartmentChoose",
   mounted() {
-        this.initPage(0);
+    this.initPage(0);
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
       if (this.hospital[this.pageSize * (this.currentPage - 1) + i] != null)
         this.currentHospital[i] =
           this.hospital[this.pageSize * (this.currentPage - 1) + i];
-    };
+    }
     // this.currentPage=1;
   },
   methods: {
+    handleClick(tab) {
+      this.initPage(tab.index);
+    },
     goToHospitalPage() {},
-    initPage(index){
-      getHospListInfo({id:this.department[index].id,}).then((response)=>{
-        // this.hospital=[],
-        this.hospital=response.data;
-        this.hospital.forEach((element,index) => {
-          element.level=getMap(element.level);
+    initPage(index) {
+      getHospListInfo({ id: this.department[index].id })
+        .then((response) => {
+          // this.hospital=[],
+          this.hospital = response.data;
+          this.hospital.forEach((element, index) => {
+            element.level = getMap(element.level);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -92,8 +93,8 @@ export default {
       currentHospital: [],
       pageSize: 3,
       currentPage: 2,
-      allHospital:[],
-      hospital:[],
+      allHospital: [],
+      hospital: [],
       //  [
       //   {
       //     name: "北京协和医院",
@@ -135,19 +136,19 @@ export default {
         // 筛选方法
         {
           name: "消化科",
-          id:10,
+          id: 10,
         },
         {
           name: "眼科",
-          id:11,
+          id: 11,
         },
         {
           name: "测试科室",
-          id:10000,
+          id: 10000,
         },
         {
           name: "测试科室1",
-          id:10001,
+          id: 10001,
         },
         // {
         //   name: "内科",
