@@ -2,7 +2,7 @@
   <div class="hospital-choose">
     <el-tabs type="border-card" @tab-click="handleClick">
       <el-tab-pane
-        v-for="(item, index) in department"
+        v-for="(item, index) in departmentClass"
         :key="index"
         :label="item.name"
       >
@@ -10,17 +10,17 @@
           <el-row :gutter="20">
             <el-col
                 :span="8"
-                v-for="(item, index) in hospital"
+                v-for="(item, index) in department"
                 :key="index"
                 class="department-choose-hospital"
-                @click.native="goToHospitalPage(scope.$index,scope.$row)"
+                @click.native="goToDepartmentPage(scope.$index,scope.$row)"
             >
                 <div class="hospital-image">
-                <img :src="item.image" style="width: 100%; height: 100%" />
+                <img src="../../assets/department_default.png" style="width: 100%; height: 100%" />
                 </div>
                 <div class="hospital-content">
                 <div class="hospital-name">{{ item.name }}</div>
-                <div class="hospital-level">{{ item.level }}</div>
+                <div class="hospital-level">{{ item.introduction }}</div>
                 </div>
             </el-col>
           </el-row>
@@ -35,7 +35,7 @@
           :page-size="pageSize"
           :current-page.sync="currentPage"
           layout="total,prev, pager, next, jumper"
-          :total="hospital.length"
+          :total="department.length"
         >
         </el-pagination>
       </div>
@@ -43,8 +43,8 @@
   </div>
 </template>
 <script>
-import { getHospListInfo } from "../api/main";
-import { getMap } from "../utils/map";
+import { getDepartListById } from "../../api/department";
+import { getMap } from "../../utils/map";
 
 export default {
   name: "DepartmentChoose",
@@ -52,9 +52,9 @@ export default {
     this.initPage(0);
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
-      if (this.hospital[this.pageSize * (this.currentPage - 1) + i] != null)
+      if (this.department[this.pageSize * (this.currentPage - 1) + i] != null)
         this.currentHospital[i] =
-          this.hospital[this.pageSize * (this.currentPage - 1) + i];
+          this.department[this.pageSize * (this.currentPage - 1) + i];
     }
     // this.currentPage=1;
   },
@@ -62,18 +62,18 @@ export default {
     handleClick(tab) {
       this.initPage(tab.index);
     },
-    goToHospitalPage(index,row) {
+    goToDepartmentPage(index,row) {
         console.log(index);
         console.log(row);
-        this.$router.push({path: '/hospital',query:{ hosID:'1'}});
+        // this.$router.push({path: '/hospital',query:{ hosID:'1'}});
         // localStorage.setItem("selectedHosID",10);
     },
     initPage(index) {
-      getHospListInfo({ id: this.department[index].id })
+      getDepartListById({ id: 1 })
         .then((response) => {
           // this.hospital=[],
-          this.hospital = response.data;
-          this.hospital.forEach((element, index) => {
+          this.department = response.data;
+          this.department.forEach((element, index) => {
             element.level = getMap(element.level);
           });
         })
@@ -90,9 +90,9 @@ export default {
       console.log(`当前页: ${val}`);
       this.currentHospital = [];
       for (var i = 0; i < this.pageSize; i++) {
-        if (this.hospital[this.pageSize * (this.currentPage - 1) + i] != null)
+        if (this.department[this.pageSize * (this.currentPage - 1) + i] != null)
           this.currentHospital[i] =
-            this.hospital[this.pageSize * (this.currentPage - 1) + i];
+            this.department[this.pageSize * (this.currentPage - 1) + i];
       }
     },
   },
@@ -102,7 +102,7 @@ export default {
       pageSize: 3,
       currentPage: 2,
       allHospital: [],
-      hospital: [],
+      department: [],
       //  [
       //   {
       //     name: "北京协和医院",
@@ -140,23 +140,13 @@ export default {
       //     attribute5: "",
       //   },
       // ],
-      department: [
+      departmentClass: [
         // 筛选方法
         {
-          name: "消化科",
-          id: 10,
+          name: "挂号科室",
         },
         {
-          name: "眼科",
-          id: 11,
-        },
-        {
-          name: "测试科室",
-          id: 10000,
-        },
-        {
-          name: "测试科室1",
-          id: 10001,
+          name: "特色科室",
         },
         // {
         //   name: "内科",
@@ -176,5 +166,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../style/css/DepartmentChoose.less";
+@import "../../style/css/DepartmentChoose.less";
 </style>
