@@ -49,20 +49,23 @@ export function hospModifyNotice(id, notice) {
 }
 
 //根据医院ID修改密码
-export function hospModifyPassword(params) {
+export function hospModifyPassword(id, password) {
     return request({
         url: '/hospital/hospitals/updatePassById',
         method: 'post',
-        params
+        data: {
+            id,
+            password
+        }
     })
 }
 
 //根据医院ID修改logo(需求id和oss服务返回的图片url)
-export function hospModifyLogo(id,image) {
+export function hospModifyLogo(id, image) {
     return request({
         url: '/hospital/hospitals/updateLogoById',
         method: 'post',
-        data:{
+        data: {
             id,
             image
         }
