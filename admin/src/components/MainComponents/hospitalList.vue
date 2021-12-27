@@ -8,25 +8,31 @@
             ><b>医院列表</b></span
           >
         </div>
-        
-        
       </el-card>
     </el-row>
   </div>
 </template>
 
 <script>
+import { getAllHospital } from "../../api/hospital";
 
 export default {
   name: "HosList",
   data() {
     return {
-      
+      hospital: [],
     };
   },
   mounted() {
     //console.log(this.$store.state.user);
-    this.getHospitalInfo();
+    getAllHospital()
+      .then((response) => {
+        this.hospital=response.data
+        console.log(this.hospital)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   created() {
     //   console.log(123)
@@ -41,9 +47,7 @@ export default {
     //获取医院信息
     getHospitalInfo() {
       var hospital;
-     
     },
-
   },
 };
 </script>

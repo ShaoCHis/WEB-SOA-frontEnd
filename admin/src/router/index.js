@@ -12,7 +12,7 @@ Vue.use(Router)
 export const ConstantRouterMap = [
   { path: '/login', name: "Login", component: Login, hidden: true },
   {
-    path: '/', name: "Main", component: Main, hidden: true, redirect: '/Notice',
+    path: '/', name: "Main", component: Main, hidden: true, redirect: '/HosList',
     children: [
       { path: 'HosList', name: 'HosList', component: HosList, hidden: true },
       { path: 'applyList', name: 'applyList', component: applyList, hidden: true },

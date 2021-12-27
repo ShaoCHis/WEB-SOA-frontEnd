@@ -68,3 +68,11 @@ export function hospModifyLogo(id,image) {
         }
     })
 }
+
+//返回所有医院列表
+export function getAllHospital() {
+    return request({
+        url: '/hospital/hospitals/getHospList',
+        method: 'get',
+    })
+}

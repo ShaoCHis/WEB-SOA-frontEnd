@@ -4,10 +4,11 @@ import Login from '@/page/Login'
 import Main from '@/page/Main'
 import Register from '@/page/Register'
 import Notice from '@/components/MainComponents/releaseNotice'
-import ReservationStatus from '@/components/MainComponents/reservationStatus'
+import Reservation from '@/components/MainComponents/reservation'
 import RoomInfo from '@/components/MainComponents/roomInfo'
 import MoneyFlow from '@/components/MainComponents/showMoneyFlow'
 import SuspendStatus from '@/components/MainComponents/suspendStatus'
+import ChangePwd from '@/components/MainComponents/changePwd'
 
 Vue.use(Router)
 
@@ -19,10 +20,11 @@ export const ConstantRouterMap = [
     path: '/', name: "Main", component: Main, hidden: true,redirect:'/Notice',
     children: [
       { path: 'Notice', name: 'Notice', component: Notice, hidden: true },
-      { path: 'ReservationStatus', name: 'ReservationStatus', component: ReservationStatus, hidden: true },
+      { path: 'Reservation', name: 'Reservation', component: Reservation, hidden: true },
       { path: 'RoomInfo', name: 'RoomInfo', component: RoomInfo, hidden: true },
       { path: 'MoneyFlow', name: 'MoneyFlow', component: MoneyFlow, hidden: true },
       { path: 'SuspendStatus', name: 'SuspendStatus', component: SuspendStatus, hidden: true },
+      { path: 'ChangePwd', name: 'ChangePwd', component: ChangePwd, hidden: true },
     ]
   },
 ]

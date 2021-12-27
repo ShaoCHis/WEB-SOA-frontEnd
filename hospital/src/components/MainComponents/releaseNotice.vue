@@ -112,7 +112,7 @@ export default {
           sessionStorage.setItem("hospital", hospital);
         })
         .catch((error) => {
-          console.log(-1);
+          console.log(error);
         });
     },
 

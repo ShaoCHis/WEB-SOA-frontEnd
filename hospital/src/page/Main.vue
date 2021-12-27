@@ -74,13 +74,13 @@
           </a>
           <!-- <a href="#" class="box"><i class="iconfont icon-cangku"></i><span> 科室信息</span></a> -->
           <a class="box" v-if="this.form.focus === 'res'">
-            <router-link to="/ReservationStatus">
+            <router-link to="/Reservation">
               <i class="iconfont icon-dingdan"></i><span> 预约情况</span>
             </router-link>
             <br />
           </a>
           <a class="box" v-else>
-            <router-link to="/ReservationStatus">
+            <router-link to="/Reservation">
               <i
                 class="iconfont icon-dingdan"
                 @click="
@@ -97,20 +97,6 @@
           <a class="box" v-if="this.form.focus === 'suspend'">
             <router-link to="/suspendStatus">
               <i class="iconfont icon-shujujianguan"></i><span> 停诊信息</span>
-            </router-link>
-            <br />
-          </a>
-          <a class="box" v-else>
-            <router-link to="/suspendStatus">
-              <i
-                class="iconfont icon-shujujianguan"
-                @click="
-                  () => {
-                    this.form.focus = 'suspend';
-                  }
-                "
-              ></i
-              ><span> 停诊信息</span>
             </router-link>
             <br />
           </a>
@@ -137,10 +123,17 @@
           </a>
           <!-- <a href="#" class="box"><i class="iconfont icon-tupian"></i><span>平台流水</span></a> -->
           <a href="#" class="box"
-            ><i class="iconfont icon-erweima"></i><span>QR code</span></a
-          >
-          <a href="#" class="box"
-            ><i class="iconfont icon-guanli"></i><span>管理</span></a
+            ><router-link to="/ChangePwd"
+              ><i
+                @click="
+                  () => {
+                    this.form.focus = 'Pwd';
+                  }
+                "
+                class="iconfont icon-guanli"
+              ></i
+              ><span>修改密码</span></router-link
+            ></a
           >
           <a @click="exit" href="#" class="box"
             ><i class="iconfont icon-yuanchengchuantou"></i><span>退出</span></a
@@ -261,8 +254,8 @@
                   style="margin-bottom: 15px"
                 >
                 </el-input>
-                <!-- <el-button type="warning" @click="modifyInfo">修改</el-button>
-                <el-button type="primary">确认</el-button> -->
+                <!-- <el-button type="warning" @click="modifyInfo">修改</el-button> -->
+                <!-- <el-button type="primary">确认</el-button> -->
               </div>
             </div>
           </div>
