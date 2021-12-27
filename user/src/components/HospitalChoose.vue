@@ -1,24 +1,30 @@
 <template>
   <div class="hospital-choose">
     <el-tabs type="border-card">
-      <el-tab-pane v-for="(item, index) in sortType" :key="index" :label="item.name">
-        <div class="department-choose-hospital" v-for="(item, index) in currentHospital" :key="index">
-          <div class="inner-choose">
-            <el-divider></el-divider>
-            <div class="hospital-image">
+      <el-tab-pane
+        v-for="(item, index) in sortType"
+        :key="index"
+        :label="item.name"
+      >
+        <el-row :gutter="20">
+          <el-col
+            :span="8"
+            v-for="(item, index) in currentHospital"
+            :key="index"
+            class="department-choose-hospital"
+            @click="goToHospitalPage"
+          >
+
+              <div class="hospital-image">
               <img :src="item.image" style="width: 100%; height: 100%" />
             </div>
             <div class="hospital-content">
               <div class="hospital-name">{{ item.name }}</div>
               <div class="hospital-level">{{ item.level }}</div>
             </div>
-            <div class="enter-hospital">
-              <div class="inner-enter" @click="goToHospitalPage()">
-                <a style="text-decoration: none" href="https://ak.hypergryph.com/index" target="_blank">选择医院</a>
-              </div>
-            </div>
-          </div>
-        </div>
+            
+          </el-col>
+        </el-row>
       </el-tab-pane>
       <div class="block">
         <el-pagination background
@@ -34,20 +40,35 @@
   </div>
 </template>
 <script>
-import {getHospListInfo} from "@/api/hospital.js"
+import {getHospList} from "../api/main"
+import {getMap} from "../utils/map"
+
 export default {
-  components:{getHospListInfo},
-  name: "DepartmentChoose",
+  name: "HospitalChoose",
   mounted() {
+        this.initPage();
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
       if (this.hospital[this.pageSize * (this.currentPage - 1) + i] != null)
         this.currentHospital[i] =
           this.hospital[this.pageSize * (this.currentPage - 1) + i];
-    }
+    };
+    // this.currentPage=1;
   },
   methods: {
     goToHospitalPage() {},
+    initPage(){
+      getHospList().then((response)=>{
+        // this.hospital=[],
+        this.hospital=response.data;
+        this.hospital.forEach((element,index) => {
+          element.level=getMap(element.level);
+        });
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    },
     handleSizeChange(val) {
       this.pageSize = val;
       console.log(`每页 ${val} 条`);
@@ -66,46 +87,48 @@ export default {
   data() {
     return {
       currentHospital: [],
-      pageSize: 2,
-      currentPage: 1,
-      hospital: [
-        {
-          name: "北京协和医院",
-          level: "三甲",
-          image: require("../assets/back.jpeg"),
-          attribute4: "",
-          attribute5: "",
-        },
-        {
-          name: "柳州人民医院",
-          level: "三甲",
-          image: require("../assets/back.jpeg"),
-          attribute4: "",
-          attribute5: "",
-        },
-        {
-          name: "重庆人民医院",
-          level: "三甲",
-          image: require("../assets/back.jpeg"),
-          attribute4: "",
-          attribute5: "",
-        },
-        {
-          name: "金华人民医院",
-          level: "三甲",
-          image: require("../assets/back.jpeg"),
-          attribute4: "",
-          attribute5: "",
-        },
-        {
-          name: "南宁人民医院",
-          level: "三甲",
-          image: require("../assets/back.jpeg"),
-          attribute4: "",
-          attribute5: "",
-        },
-      ],
-       sortType: [
+      pageSize: 3,
+      currentPage: 2,
+      allHospital:[],
+      hospital:[],
+      //  [
+      //   {
+      //     name: "北京协和医院",
+      //     level: "三甲",
+      //     image: require("../assets/back.jpeg"),
+      //     attribute4: "",
+      //     attribute5: "",
+      //   },
+      //   {
+      //     name: "柳州人民医院",
+      //     level: "三甲",
+      //     image: require("../assets/back.jpeg"),
+      //     attribute4: "",
+      //     attribute5: "",
+      //   },
+      //   {
+      //     name: "重庆人民医院",
+      //     level: "三甲",
+      //     image: require("../assets/back.jpeg"),
+      //     attribute4: "",
+      //     attribute5: "",
+      //   },
+      //   {
+      //     name: "金华人民医院",
+      //     level: "三甲",
+      //     image: require("../assets/back.jpeg"),
+      //     attribute4: "",
+      //     attribute5: "",
+      //   },
+      //   {
+      //     name: "南宁人民医院",
+      //     level: "三甲",
+      //     image: require("../assets/back.jpeg"),
+      //     attribute4: "",
+      //     attribute5: "",
+      //   },
+      // ],
+      sortType: [
         // 筛选方法
         {
           id: "1",

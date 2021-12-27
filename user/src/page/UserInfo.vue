@@ -26,7 +26,7 @@ import myheader from "../layout/myheader.vue";
 
 export default {
   components: { myheader, Myfooter },
-  name: "Reservation",
+  name: "UserInfo",
   data() {
     return {};
   },
@@ -34,5 +34,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../style/css/reservation.less";
+@import "../style/css/UserInfo.less";
 </style>

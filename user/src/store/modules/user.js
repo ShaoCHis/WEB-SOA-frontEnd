@@ -4,6 +4,7 @@ import { login_ID,login_Code } from '@/api/login'
 const user = {
   state: {
     token: getToken(),
+    id:sessionStorage.getItem('userId'),
     name: '',
     avatar: '',
     roles: []
@@ -21,7 +22,10 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
-    }
+    },
+    SET_ID: (state, id) => {
+      state.id = id
+    },
   },
 
   actions: {
@@ -35,8 +39,10 @@ const user = {
           login_ID(id, userInfo.password)
             .then(response => {
               const data = response
-              setToken(data.token)
+              setToken(DATA.token)
               commit('SET_TOKEN', DATA.token)
+              commit('SET_ID',response.id)
+              sessionStorage.setItem('userId',response.id)
               resolve()
             }).catch(error => {
               reject(error)
@@ -48,8 +54,10 @@ const user = {
           login_Code(id, userInfo.password)
             .then(response => {
               const data = response
-              setToken(data.token)
+              setToken(DATA.token)
               commit('SET_TOKEN', DATA.token)
+              commit('SET_ID',response.id)
+              sessionStorage.setItem('userId',response.id)
               resolve()
             }).catch(error => {
               reject(error)
@@ -112,7 +120,7 @@ const user = {
       removeToken()
       resolve()
       //})
-    }
+    },
   }
 }
 

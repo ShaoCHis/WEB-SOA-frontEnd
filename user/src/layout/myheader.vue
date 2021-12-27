@@ -2,14 +2,14 @@
   <div class="header-container">
     <div class="wrapper">
       <!-- logo -->
-      <div class="left-wrapper v-link">
+      <div class="left-wrapper v-link" @click="goToMainPage">
         <img
           style="width: 50px"
           width="50"
           height="50"
           src="../../static/images/logo.png"
         />
-        <span class="text">医济达预约挂号平台</span>
+        <span class="text" >医济达预约挂号平台</span>
       </div>
 
       <!-- 导航栏 -->
@@ -96,13 +96,16 @@ export default {
   methods: {
       login(){
         this.$router.push({ name: "Login" });
-      }
+      },
+      goToMainPage(){
+        this.$router.push({ name: "Main" });
+      },
   },
 };
 </script>
 
 
-<style scoped>
+<style lang="less" scoped>
 .thequit {
   cursor: pointer;
 }
@@ -115,5 +118,10 @@ export default {
 .loginBtn{
     display: flex;
     position: relative;
+}
+.left-wrapper{
+  &:hover{
+    cursor:pointer;
+  }
 }
 </style>

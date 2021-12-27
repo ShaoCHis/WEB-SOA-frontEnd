@@ -121,16 +121,16 @@ export default {
       },
 
       options: [
-        { label: "一级甲等", level: 1 },
-        { label: "一级乙等", level: 2 },
-        { label: "一级丙等", level: 3 },
-        { label: "二级甲等", level: 4 },
-        { label: "二级乙等", level: 5 },
-        { label: "二级丙等", level: 6 },
-        { label: "三级特等", level: 7 },
-        { label: "三级甲等", level: 8 },
-        { label: "三级乙等", level: 9 },
-        { label: "三级丙等", level: 10 },
+        { label: "一甲", level: 1 },
+        { label: "一乙", level: 2 },
+        { label: "一丙", level: 3 },
+        { label: "二甲", level: 4 },
+        { label: "二乙", level: 5 },
+        { label: "二丙", level: 6 },
+        { label: "三特", level: 7 },
+        { label: "三甲", level: 8 },
+        { label: "三乙", level: 9 },
+        { label: "三丙", level: 10 },
       ],
 
       registerFormRules: {
