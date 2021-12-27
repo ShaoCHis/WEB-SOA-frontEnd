@@ -113,114 +113,10 @@
       </el-container>
 
       <!-- 页面底部 -->
-      <footer class="footer">
+      <!-- <footer class="footer">
         请拨打 +021 6895 1732 或 +021 6843 9284 联系我们
-      </footer>
+      </footer> -->
     </div>
-
-    <el-drawer
-      title="医院基本信息"
-      class="ivu-drawer-body"
-      :visible.sync="hosDataVisible"
-      width="100%"
-    >
-      <!-- 医院头像 -->
-      <div>
-        <div>
-          <img
-            class="hosPic"
-            :src="hosData.image"
-            style="margin-left: 20%; width: 50%; height: 50%"
-          />
-        </div>
-        <el-upload
-          class="upload"
-          action="http://localhost:8084/oss/fileoss/upload"
-          :limit="1"
-          :show-file-list="false"
-          :on-success="upload"
-          ><el-button size="small" type="primary">上传医院图片</el-button>
-        </el-upload>
-      </div>
-
-      <div
-        class="ivu-row"
-        style="margin-top: 15px; margin-left: 10px; margin-right: -16px"
-      >
-        <!-- 医院名称 -->
-        <div
-          class="ivu-col ivu-col-span-12"
-          style="padding-left: 16px; padding-right: 16px"
-        >
-          <div class="ivu-form-item">
-            <label>医院名称:</label>
-            <div class="ivu-form-item-content">
-              <div class="ivu-input-wrapper">
-                <el-input
-                  autocomplete="off"
-                  spellcheck="false"
-                  type="text"
-                  placeholder="请输入医院名称..."
-                  v-model="hosData.name"
-                  disabled="disabled"
-                  class="el-input"
-                >
-                </el-input>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 医院编号 -->
-        <div
-          class="ivu-col ivu-col-span-12"
-          style="padding-left: 16px; padding-right: 16px"
-        >
-          <div class="ivu-form-item">
-            <label>医院编号:</label>
-            <div class="ivu-form-item-content">
-              <div class="ivu-input-wrapper">
-                <el-input
-                  autocomplete="off"
-                  spellcheck="false"
-                  type="text"
-                  placeholder="请输入医院编号..."
-                  v-model="hosData.code"
-                  disabled="disabled"
-                  maxlength="11"
-                  class="el-input"
-                ></el-input>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 医院简介 -->
-        <div
-          class="ivu-col ivu-col-span-12"
-          style="padding-left: 16px; padding-right: 16px"
-        >
-          <div class="ivu-form-item">
-            <label>医院简介:</label>
-            <div class="ivu-form-item-content">
-              <div class="ivu-input-wrapper">
-                <el-input
-                  autocomplete="false"
-                  type="textarea"
-                  placeholder="请输入医院简介..."
-                  v-model="hosData.introduction"
-                  maxlength="30"
-                  disabled="disabled"
-                  show-word-limit
-                  style="margin-bottom: 15px"
-                >
-                </el-input>
-                <!-- <el-button type="warning" @click="modifyInfo">修改</el-button>
-                <el-button type="primary">确认</el-button> -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </el-drawer>
   </div>
 </template>
 
@@ -257,7 +153,7 @@ export default {
         right: "12%",
       },
       //医院信息
-      hosDataVisible: false, //控制el-card是否显示
+      //hosDataVisible: false, //控制el-card是否显示
       hosData: {
         id: 1,
       },

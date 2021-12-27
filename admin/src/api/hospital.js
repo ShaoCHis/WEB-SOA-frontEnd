@@ -19,9 +19,9 @@ export function getHospListInfo(params) {
 }
 
 //医院加入系统
-export function hospJoinSys(params) {
+export function hospJoin(params) {
     return request({
-        url: '/hospital/hospitals/join',
+        url: `/hospital/hospitals/join/${params}`,
         method: 'post',
         params
     })
