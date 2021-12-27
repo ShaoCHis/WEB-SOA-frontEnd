@@ -1,16 +1,8 @@
 <template>
   <div class="hospital-choose">
     <el-tabs type="border-card">
-      <el-tab-pane
-        v-for="(item, index) in sortType"
-        :key="index"
-        :label="item.name"
-      >
-        <div
-          class="department-choose-hospital"
-          v-for="(item, index) in currentHospital"
-          :key="index"
-        >
+      <el-tab-pane v-for="(item, index) in sortType" :key="index" :label="item.name">
+        <div class="department-choose-hospital" v-for="(item, index) in currentHospital" :key="index">
           <div class="inner-choose">
             <el-divider></el-divider>
             <div class="hospital-image">
@@ -22,34 +14,29 @@
             </div>
             <div class="enter-hospital">
               <div class="inner-enter" @click="goToHospitalPage()">
-                <a
-                  style="text-decoration: none"
-                  href="https://ak.hypergryph.com/index"
-                  target="_blank"
-                  >选择医院</a
-                >
+                <a style="text-decoration: none" href="https://ak.hypergryph.com/index" target="_blank">选择医院</a>
               </div>
             </div>
           </div>
         </div>
       </el-tab-pane>
       <div class="block">
-        <el-pagination
-          background
+        <el-pagination background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :page-size="pageSize"
           :current-page.sync="currentPage"
           layout="total,prev, pager, next, jumper"
-          :total="hospital.length"
-        >
+          :total="hospital.length">
         </el-pagination>
       </div>
     </el-tabs>
   </div>
 </template>
 <script>
+import {getHospListInfo} from "@/api/hospital.js"
 export default {
+  components:{getHospListInfo},
   name: "DepartmentChoose",
   mounted() {
     this.currentHospital = [];
