@@ -4,7 +4,7 @@
     <el-row :gutter="20">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span style="font-size: 30px"><b>公告</b></span>
+          <span style="font-size: 30px; text-align: center"><b>公告</b></span>
           <el-button
             id="change"
             ref="change"
@@ -78,6 +78,7 @@ export default {
   mounted() {
     //console.log(this.$store.state.user);
     this.getHospitalInfo();
+    this.notices = JSON.parse(sessionStorage.getItem("hospital")).notice;
     this.newNotice = this.notices;
   },
   created() {
@@ -161,10 +162,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.text {
-  font-size: 18px;
-}
-
 .item {
   margin-bottom: 18px;
   font-size: 16px;
@@ -186,6 +183,7 @@ export default {
   text-align: center;
 }
 .text {
+  font-size: 18px;
   text-align: center;
 }
 .changeNotice {
