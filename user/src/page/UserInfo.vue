@@ -121,12 +121,20 @@
         >
           <template slot="extra">
             <el-button
-              v-if="isUpdating == false"
-              style="margin-right:10px;"
+              v-if="isUpdating == false && dialogFormVisible2 == false"
+              style="margin-right: 10px"
               type="success"
               size="small"
               @click="addPatient"
               >添加患者</el-button
+            >
+            <el-button
+              v-if="dialogFormVisible2 == true"
+              style="margin-right: 10px"
+              type="danger"
+              size="small"
+              @click="confirmDelete"
+              >确认删除</el-button
             >
             <el-dialog
               title="添加患者"
@@ -203,13 +211,20 @@
               </div>
             </el-dialog>
             <el-button
-              v-if="isUpdating == false"
+              v-if="isUpdating == false && dialogFormVisible2 == false"
               type="danger"
               size="small"
-              @click="deletePatient"
+              @click="dialogFormVisible2 = true"
               >删除患者</el-button
             >
-            <el-dialog
+            <el-button
+              v-if="dialogFormVisible2 == true"
+              type="info"
+              size="small"
+              @click="cancelDelete"
+              >取消删除</el-button
+            >
+            <!-- <el-dialog
               title="删除患者"
               :visible.sync="dialogFormVisible2"
               append-to-body="false"
@@ -231,7 +246,7 @@
                   >取消</el-button
                 >
               </div>
-            </el-dialog>
+            </el-dialog> -->
           </template>
         </el-descriptions>
 
@@ -246,15 +261,20 @@
         >
           <template slot="extra">
             <el-button
-              v-show="item.isUpdating == '0'"
+              v-show="item.isUpdating == '0' && dialogFormVisible2 == false"
               type="primary"
               size="small"
               @click="updatePatientsInfo(item)"
               >修改信息</el-button
             >
-          
+            <el-checkbox
+              v-show="dialogFormVisible2 == true"
+              v-model="isDeleteChosen[index]"
+              >删除该患者</el-checkbox
+            >
+            <!-- 修改信息 -->
             <el-dialog
-              title="添加患者"
+              title="修改信息"
               :visible.sync="dialogFormVisible1"
               append-to-body="false"
               width="35%"
@@ -327,7 +347,6 @@
                 >
               </div>
             </el-dialog>
-
           </template>
           <el-descriptions-item v-show="item.isUpdating == '0'">
             <template slot="label">
@@ -420,13 +439,16 @@
 import Myfooter from "../layout/myfooter.vue";
 import myheader from "../layout/myheader.vue";
 import { getUserInfo, setUserInfo } from "../api/user";
+import { deletePatient } from "../api/user";
 
 export default {
   components: { myheader, Myfooter },
   name: "UserInfo",
   data() {
     return {
-      alterForm:{
+      isDeleteChosen: [],
+      patientIdChosen: "", //被选择要删除的患者
+      alterForm: {
         patientId: "",
         name: "",
         sex: "",
@@ -473,13 +495,14 @@ export default {
           this.userInfo = response.data;
           this.userPatients = this.userInfo.patients;
           this.userPatients.forEach((element, index) => {
-            // element.level = getMap(element.level);
-            // element+=element.index;
             element.index = "患者" + (index + 1);
             element.isUpdating = "0";
+            element.isDeleteChosen = false;
+            this.isDeleteChosen[index] = element.isDeleteChosen;
           });
           // console.log(this.userInfo);
-          console.log(this.userPatients[0]);
+          console.log(this.isDeleteChosen);
+          console.log(this.userPatients);
         })
         .catch((error) => {
           console.log(error);
@@ -543,7 +566,8 @@ export default {
         element.isUpdating = "0";
       });
       item.isUpdating = "1";
-      console.log(this.userPatients);
+      //  console.log(this.userPatients);
+      // console.log(this.userPatients.length);
     },
     addPatient() {
       console.log(this.addForm);
@@ -576,8 +600,15 @@ export default {
       //       }
       //     });
     },
-    deletePatient() {
-      this.dialogFormVisible2 = true;
+    deletePatientById(patientid) {
+      deletePatient(patientid)
+      // deletePatient({id:patientid})
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     updateChange() {
       const h = this.$createElement;
@@ -615,6 +646,45 @@ export default {
       this.userPatients.forEach((element, index) => {
         element.isUpdating = "0";
       });
+    },
+    confirmDelete() {
+      this.userPatients.forEach((element, index) => {
+        element.isDeleteChosen = this.isDeleteChosen[index];
+      });
+      console.log(this.userPatients);
+
+      this.$confirm("该操作将删除患者, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          // 对每一个患者,调用删除患者接口
+          this.userPatients.forEach((element, index) => {
+            if (element.isDeleteChosen == true) {
+              console.log(element.patientId);
+              deletePatientById(element.patientId);
+            }
+          });
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    cancelDelete() {
+      this.dialogFormVisible2 = false;
+    },
+    choosePatient(val, index) {
+      console.log(index);
+      this.userPatients[index].isDeleteChosen = val;
+      console.log(this.userPatients);
     },
   },
 };

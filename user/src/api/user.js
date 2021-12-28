@@ -22,3 +22,36 @@ export function setUserInfo(userId,name,phoneNumber,email) {
         }
     })
 }
+
+//根据病人id删除病人
+// export function deletePatient(params) {
+//     return request({
+//         url: `/user/patients/deletePatient/${params.id}`,
+//         method: 'get',
+//         params
+//     })
+// }
+
+export function deletePatient(id) {
+    return request({
+        url: "/user/patients/deletePatient",
+        method: 'delete',
+        data:{
+            id
+        }
+    })
+}
+
+// 根据用户id为用户添加病人
+export function addPatient(userId,name,phoneNumber,email) {
+    return request({
+        url:`/user/patients/addPatient/${userId}`,
+        method: 'post',
+        data: {
+            userId,
+            name,
+            phoneNumber,
+            email,
+        }
+    })
+}
