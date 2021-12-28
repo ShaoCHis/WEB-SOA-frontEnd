@@ -1,14 +1,14 @@
 <template>
   <div class="hospitalInfoCard">
     <el-card style="height: 250px; margin-bottom: 40px; margin-top: 10px">
-      <!-- <div class="hospital-image">
+      <div class="hospital-image">
         <img :src="hospital.image" style="height: 200px" />
-      </div> -->
+      </div>
       <div class="hospital-content">
-        <!-- <div class="hospital-name">{{ hospital.name }}</div>
+        <div class="hospital-name">{{ hospital.name }}</div>
         <div class="hospital-level">
           {{ hospital.level }}
-        </div> -->
+        </div>
         <div class="hospital-location">地址:{{ hospital.location }}</div>
         <div class="hospital-description">简介:{{ hospital.introduction }}</div>
       </div>
@@ -52,6 +52,7 @@ export default {
           // this.hospital=[],
           this.hospital = response.data;
           this.hospital.level = getMap(this.hospital.level);
+          console.log(this.hospital);
         })
         .catch((error) => {
           console.log(error);
