@@ -12,9 +12,8 @@
             v-for="(item, index) in currentHospital"
             :key="index"
             class="department-choose-hospital"
-            @click="goToHospitalPage"
           >
-
+          <div @click="goToHospitalPage(item.id)">
               <div class="hospital-image">
               <img :src="item.image" style="width: 100%; height: 100%" />
             </div>
@@ -22,7 +21,7 @@
               <div class="hospital-name">{{ item.name }}</div>
               <div class="hospital-level">{{ item.level }}</div>
             </div>
-            
+            </div>
           </el-col>
         </el-row>
       </el-tab-pane>
@@ -56,7 +55,11 @@ export default {
     // this.currentPage=1;
   },
   methods: {
-    goToHospitalPage() {},
+    goToHospitalPage(id) {
+      // console.log(id);
+      sessionStorage.setItem("currentHospitalId",id);
+      // this.$router.push();
+    },
     initPage(){
       getHospList().then((response)=>{
         // this.hospital=[],
