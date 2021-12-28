@@ -1,8 +1,12 @@
 <template>
   <div class="background">
-    <div id="container" class="container right-panel-active">
+    <div
+      v-if="!loginForm.isCode"
+      id="container"
+      class="container right-panel-active"
+    >
       <div id="left" class="container_form container--signup">
-        <!-- 注册信息表 -->
+        <!-- 登录信息 -->
         <form action="#" class="form" id="form1">
           <h2 class="form_title">Sign Up</h2>
           <input
@@ -38,8 +42,55 @@
             :identifyCode="identifyCode"
             @click.native="refreshCode()"
           ></s-Identify>
-          <!-- 注册 -->
+          <!-- 登录 -->
           <button class="btn" id="realRegister" @click="fun3">Sign Up</button>
+        </form>
+      </div>
+    </div>
+    <div
+      v-if="loginForm.isCode"
+      id="container"
+      class="container left-panel-active"
+    >
+      <div id="right" class="container_form container--signin">
+        <!-- 注册信息表 -->
+        <form action="#" class="form" id="form1">
+          <h2 class="form_title">Sign in</h2>
+          <input
+            id="rUser"
+            type="text"
+            placeholder="User"
+            class="input"
+            value=""
+          />
+          <input
+            id="rEmail"
+            type="email"
+            placeholder="Email"
+            class="input"
+            value=""
+          />
+          <input
+            id="rPwd"
+            type="text"
+            placeholder="Password"
+            class="input"
+            value=""
+          />
+          <input
+            id="input_code"
+            type="text"
+            placeholder="VerifyCode"
+            class="input"
+            style="width: 40%; margin-left: -60%"
+            value=""
+          />
+          <s-Identify
+            :identifyCode="identifyCode"
+            @click.native="refreshCode()"
+          ></s-Identify>
+          <!-- 注册 -->
+          <button class="btn" id="realRegister" @click="fun3">Sign in</button>
         </form>
       </div>
     </div>
@@ -51,6 +102,7 @@ import "@/style/css/login.css";
 //导入验证规则和验证码组件
 import { validateNumber, isPassword } from "@/utils/validator";
 import SIdentify from "@/components/identify";
+
 export default {
   name: "Login",
   data() {
@@ -126,7 +178,8 @@ export default {
       console.log(this.right);
     },
     fun3() {
-      confirm("是否要注册?");
+      this.loginForm.isCode = !this.loginForm.isCode;
+      //confirm("是否要注册?");
       //   this.$router.push({name: "Main",});
     },
     fun4() {
