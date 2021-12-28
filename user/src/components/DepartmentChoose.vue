@@ -13,7 +13,7 @@
                 v-for="(item, index) in hospital"
                 :key="index"
                 class="department-choose-hospital"
-                @click.native="goToHospitalPage(scope.$index,scope.$row)"
+                @click.native="goToHospitalPage(item)"
             >
                 <div class="hospital-image">
                 <img :src="item.image" style="width: 100%; height: 100%" />
@@ -62,10 +62,11 @@ export default {
     handleClick(tab) {
       this.initPage(tab.index);
     },
-    goToHospitalPage(index,row) {
-        console.log(index);
-        console.log(row);
-        this.$router.push({path: '/hospital',query:{ hosID:'1'}});
+    goToHospitalPage(item) {
+        console.log(item);
+        // console.log(row);
+        sessionStorage.setItem("selectedHosID",item.id);
+        this.$router.push({path: '/hospital',query:{ hosID:item.id}});
         // localStorage.setItem("selectedHosID",10);
     },
     initPage(index) {

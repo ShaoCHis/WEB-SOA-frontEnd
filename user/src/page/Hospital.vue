@@ -144,6 +144,12 @@ export default {
     HomeCarousel,
     HospitalInfoCard,
   },
+    data(){
+        return{
+            id:sessionStorage.getItem("selectedHosID"),
+            rate:5,
+        };
+  },
   data() {
     return {
       id: this.$route.query.hosID,

@@ -33,11 +33,11 @@
 import { getHospInfo } from "../../api/hospital";
 import { getMap } from "../../utils/map";
 export default {
-  name: "HospitalInfoCard",
-  data() {
-    return {
-      hosID: this.$route.query.hosID,
-      hospital: [],
+    name:"HospitalInfoCard",
+    data(){
+        return{
+            hosID:sessionStorage.getItem("selectedHosID"),
+            hospital:[],
     };
   },
   mounted() {
