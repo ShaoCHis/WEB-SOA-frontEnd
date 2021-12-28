@@ -12,14 +12,14 @@
         <div class="hospital-location">地址:{{ hospital.location }}</div>
         <div class="hospital-description">简介:{{ hospital.introduction }}</div>
       </div>
-      <div class="outer-reserve">
-          <i class="el-icon-thumb" style="color:#4990f1;"> </i>
-      <el-button
+      <div class="outer-reserve" onmouseover="changeColor">
+        <el-button
         type="text"
         class="reserve-button"
         @click="goToReservation('destination')"
-        >预约挂号</el-button
-      ></div>
+        > <i class="el-icon-thumb"> </i> 预约挂号</el-button
+      >
+      </div>
     </el-card>
     <!-- 挂号科室&特色科室 -->
     <div class="label" ref="destination">
