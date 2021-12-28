@@ -125,7 +125,7 @@
               style="margin-right: 10px"
               type="success"
               size="small"
-              @click="addPatient"
+              @click="dialogFormVisible1 = true"
               >添加患者</el-button
             >
             <el-button
@@ -200,9 +200,34 @@
                   >
                   </el-date-picker>
                 </el-form-item>
+                <el-form-item label="手机号" prop="phoneNumber">
+                  <el-input
+                    style="width: 90%"
+                    v-model="addForm.phoneNumber"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item label="保险" prop="isInsure">
+                  <el-select
+                    v-model="addForm.isInsure"
+                    placeholder="请选择是否购买保险"
+                    prefix
+                  >
+                    <el-option
+                      :label="options2[0].label"
+                      :value="options2[0].role"
+                    >
+                    </el-option>
+                    <el-option
+                      :label="options2[1].label"
+                      :value="options2[1].role"
+                      style="margin-bottom: 15px"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-form-item>
               </el-form>
               <div slot="footer" style="margin-right: 35%">
-                <el-button type="success" @click="addPatient('addForm')"
+                <el-button type="success" @click="addPatientById('addForm')"
                   >保存</el-button
                 >
                 <el-button type="danger" @click="dialogFormVisible1 = false"
@@ -260,20 +285,20 @@
           border
         >
           <template slot="extra">
-            <el-button
+            <!-- <el-button
               v-show="item.isUpdating == '0' && dialogFormVisible2 == false"
               type="primary"
               size="small"
               @click="updatePatientsInfo(item)"
               >修改信息</el-button
-            >
+            > -->
             <el-checkbox
               v-show="dialogFormVisible2 == true"
               v-model="isDeleteChosen[index]"
               >删除该患者</el-checkbox
             >
             <!-- 修改信息 -->
-            <el-dialog
+            <!-- <el-dialog
               title="修改信息"
               :visible.sync="dialogFormVisible1"
               append-to-body="false"
@@ -299,21 +324,12 @@
                   ></el-input>
                 </el-form-item>
                 <el-form-item label="性别" prop="patientSex">
-                  <!-- @change="searchSelect1(addForm.sex)" -->
                   <el-select
                     v-model="addForm.sex"
                     placeholder="请选择性别"
                     prefix
                   >
-                    <!-- style="width: 90%" -->
-                    <!-- <el-option
-                      v-for="item in options1"
-                      :key="item.role"
-                      :label="item.label"
-                      :value="item.role"
-                       style="margin-bottom:15px;"
-                    >
-                    </el-option> -->
+                   
                     <el-option
                       :label="options1[0].label"
                       :value="options1[0].role"
@@ -346,7 +362,7 @@
                   >取消</el-button
                 >
               </div>
-            </el-dialog>
+            </el-dialog> -->
           </template>
           <el-descriptions-item v-show="item.isUpdating == '0'">
             <template slot="label">
@@ -440,12 +456,14 @@ import Myfooter from "../layout/myfooter.vue";
 import myheader from "../layout/myheader.vue";
 import { getUserInfo, setUserInfo } from "../api/user";
 import { deletePatient } from "../api/user";
+import { addPatient } from "../api/user";
 
 export default {
   components: { myheader, Myfooter },
   name: "UserInfo",
   data() {
     return {
+      patientsLength: 0,
       isDeleteChosen: [],
       patientIdChosen: "", //被选择要删除的患者
       alterForm: {
@@ -459,11 +477,17 @@ export default {
         { label: "男", role: "男" },
         { label: "女", role: "女" },
       ],
+      options2: [
+        { label: "是", role: "1" },
+        { label: "否", role: "0" },
+      ],
       addForm: {
         patientId: "",
         name: "",
         sex: "",
         birthday: "",
+        phoneNumber: "",
+        isInsure: "", //int
       },
       deleteForm: {},
       dialogFormVisible1: false,
@@ -494,13 +518,14 @@ export default {
         .then((response) => {
           this.userInfo = response.data;
           this.userPatients = this.userInfo.patients;
+          this.patientsLength = this.userPatients.length;
+          // console.log(this.patientsLength);
           this.userPatients.forEach((element, index) => {
             element.index = "患者" + (index + 1);
             element.isUpdating = "0";
             element.isDeleteChosen = false;
             this.isDeleteChosen[index] = element.isDeleteChosen;
           });
-          // console.log(this.userInfo);
           console.log(this.isDeleteChosen);
           console.log(this.userPatients);
         })
@@ -566,43 +591,65 @@ export default {
         element.isUpdating = "0";
       });
       item.isUpdating = "1";
-      //  console.log(this.userPatients);
+      console.log(this.userPatients);
       // console.log(this.userPatients.length);
     },
-    addPatient() {
+    addPatientById(addForm) {
       console.log(this.addForm);
-      this.dialogFormVisible1 = true;
-      //      this.$refs[formName].validate(async (valid) => {
-      //       if (valid) {
-      //   let url = "/api/teacher/course";
-      //         let data = {
-      //           coursename: this.form.coursename,
-      //           introduction: this.form.introduction
-      //         };
-      //       this.$axios
-      //           .post(url, data)
-      //           .then((res) => {
-      //             console.log("请求成功");
-      //             console.log(res);
-      //             if (res.data.data.msg == true) {
-      //               this.$alert("新建课程成功！", "提示", {confirmButtonText: "确定",});
-      //               this.dialogFormVisible=false;
-      //             }
-      //           })
-      //           .catch((err) => {
-      //             console.log("请求失败");
-      //             console.log(err);
-      //           })
-      //  }
-      //   else {
-      //         console.log("error submit!!");
-      //         return false;
-      //       }
-      //     });
+      this.$refs[addForm].validate(async (valid) => {
+        if (valid) {
+          addPatient(
+            this.addForm.patientId,
+            this.addForm.name,
+            this.addForm.sex,
+            this.addForm.birthday,
+            this.addForm.phoneNumber,
+            parseInt(this.addForm.isInsure),
+            { userId: this.userId }
+          )
+            .then((response) => {
+              console.log(response);
+              this.$message({
+                message: "添加患者成功！",
+                type: "success",
+              });
+              // this.getUserInfoById(this.userId);
+              console.log(this.userPatients);
+              console.log(this.addForm);
+              // 实时更新
+              // var temp=this.userPatients[0];
+              // this.userPatients[this.patientsLength]=this.userPatients[0];
+              // this.userPatients[this.patientsLength].birthday=this.addForm.birthday;
+              // this.userPatients[this.patientsLength].name=this.addForm.name;
+              // this.userPatients[this.patientsLength].patientId=this.addForm.patientId;
+              // this.userPatients[this.patientsLength].phoneNumber=this.addForm.phoneNumber;
+              // this.userPatients[this.patientsLength].sex=this.addForm.sex;
+              // this.userPatients[this.patientsLength].isInsure=parseInt(this.addForm.isInsure);
+              // this.userPatients[this.patientsLength].isUpdating=0;
+              // this.userPatients[this.patientsLength].index="患者" + (this.patientsLength + 1);
+              // this.patientsLength=this.patientsLength+1;
+              // this.userPatients[0]=temp;
+              (this.addForm = []), (this.dialogFormVisible1 = false);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
     deletePatientById(patientid) {
-      deletePatient(patientid)
-      // deletePatient({id:patientid})
+      // deletePatient(patientid)
+      deletePatient({patientId:patientid})
+      // var param = { patientId: patientid };
+      // this.$axios
+      //   .delete(`/user/patients/deletePatient/${params.patientId}`, { params: param })
+        // var url = `/user/patients/deletePatient/${patientId}`;
+        // var id = patientid;
+        // this.$axios
+        // .delete(url, id)
         .then((response) => {
           console.log(response);
         })
@@ -652,7 +699,6 @@ export default {
         element.isDeleteChosen = this.isDeleteChosen[index];
       });
       console.log(this.userPatients);
-
       this.$confirm("该操作将删除患者, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -663,7 +709,7 @@ export default {
           this.userPatients.forEach((element, index) => {
             if (element.isDeleteChosen == true) {
               console.log(element.patientId);
-              deletePatientById(element.patientId);
+              this.deletePatientById(element.patientId);
             }
           });
           this.$message({
