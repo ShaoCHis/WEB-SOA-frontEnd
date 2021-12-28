@@ -9,7 +9,7 @@
           <div class="hospital-content">
             <div class="hospital-name">{{ hospital.name }}</div>
             <div class="hospital-level">
-              医院等级:{{ hospital.level }}级甲等
+              {{ hospital.level }}
             </div>
             <div class="hospital-location">地址:{{ hospital.location }}</div>
             <div class="hospital-description">
@@ -37,7 +37,7 @@
 
 <script>
 import { getHospInfo } from "../../api/hospital";
-// import { getMap } from "../utils/map";
+import { getMap } from "../../utils/map";
 export default {
   name: "HospitalInfoCard",
   data() {
@@ -52,15 +52,17 @@ export default {
   methods: {
     //   实现页面内点击跳转到指定位置
     goToReservation(val) {
-        this.$refs[val].scrollIntoView(true);
+      this.$refs[val].scrollIntoView(true);
     },
     initPage() {
-      getHospInfo({ id: this.hosID }).then((response) => {
-        this.hospital = response.data;
-      });
-      this.hospital
-        .forEach((element, index) => {
-          element.level = getMap(element.level);
+      getHospInfo({ id: this.hosID })
+        .then((response) => {
+          this.hospital = response.data;
+          this.hospital.forEach((element, index) => {
+              console.log(element);
+            element.level = getMap(element.level);
+          });
+          console.log(this.hospital.level);
         })
         .catch((error) => {
           console.log(error);
