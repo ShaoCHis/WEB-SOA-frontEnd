@@ -147,11 +147,11 @@ export default {
     DepartmentChoose,
     HospitalChoose,
     HomeCarousel,
-        HospitalInfoCard,
+    HospitalInfoCard,
   },
     data(){
         return{
-            id:this.$route.query.hosID,
+            id:sessionStorage.getItem("selectedHosID"),
             rate:5,
         };
     },

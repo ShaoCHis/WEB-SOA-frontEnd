@@ -28,7 +28,7 @@ export default {
     name:"HospitalInfoCard",
     data(){
         return{
-            hosID:this.$route.query.hosID,
+            hosID:sessionStorage.getItem("selectedHosID"),
             hospital:[],
         };
     },

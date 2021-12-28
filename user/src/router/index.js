@@ -9,7 +9,7 @@ import Register from '@/page/Register'
 import error from '@/page/404/error'
 
 import Hospital from '@/page/Hospital'
-
+// import Department from '@/page/Department'
 import Reservation from '@/page/Reservation'
 
 import UserInfo from '@/page/UserInfo'
@@ -25,6 +25,7 @@ export const ConstantRouterMap = [
   },
   { path: '/error', name: "error", component: error, hidden: true },
   { path: '/hospital', name: "Hospital", component: Hospital, hidden: true },
+//   { path: '/department', name: "Department", component: Department, hidden: true },
   { path: '/reservation', name: "Reservation", component: Reservation, hidden: true },
   { path: '/userinfo', name: "UserInfo", component:UserInfo, hidden: true },
 ]
