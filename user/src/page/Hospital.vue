@@ -76,10 +76,10 @@
         <!-- <hospital-choose></hospital-choose> -->
 
         <!-- 挂号科室&特色科室 -->
-        <div class="label">
+        <!-- <div class="label">
             <div class="label-left"></div>
             <div class="label-name">医院科室</div>
-        </div>
+        </div> -->
 
         <department-choose></department-choose>
         
