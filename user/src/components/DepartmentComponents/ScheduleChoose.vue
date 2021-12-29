@@ -26,7 +26,7 @@
                     <div class="hospital-title">{{ item.title }}</div>
                     <div class="hospital-cost">费用: {{ item.cost }}元</div>
                   </div>
-                  <div class="hospital-level">{{ item.introduction }}</div>
+                  <div class="hospital-intro">{{ item.introduction }}</div>
                 </div>
               </div>
               <el-divider></el-divider>
