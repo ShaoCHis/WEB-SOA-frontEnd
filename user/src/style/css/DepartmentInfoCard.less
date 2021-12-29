@@ -1,0 +1,132 @@
+//可复用小标题
+.label {
+  // border: salmon solid 1px; 
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.label-name {
+  width: auto;
+  height: 48px;
+  color: #000;
+  // color: rgba(255, 255, 255, 1);
+  // background-color: rgba(3, 92, 193, 1);
+  font-size: 24px;
+  margin-left: 10px;
+  text-align: left;
+  // font-weight: bold;
+  line-height: 48px;
+}
+.label-left {
+  width: 7px;
+  height: 36px;
+  margin-top: 6px;
+  color: #000;
+  // color: rgba(255, 255, 255, 1);
+  background-color: #4990f1;
+  font-size: 24px;
+  text-align: center;
+  // font-weight: bold;
+  line-height: 48px;
+}
+//选择医院
+.hospital-choose{
+  margin-top:20px;
+  margin-bottom:40px;
+}
+.el-tabs{
+  
+}
+//选择筛选排序方式
+.sort{
+  width: 100%;
+  background-color:lightgray;
+  height:40px;
+}
+.department-choose-hospital{
+  // width: 100%;
+  height: 250px;
+  padding-top: 15px;
+  &:hover{
+    background-color:#f2f2f3;
+    cursor:pointer;
+  }
+}
+.inner-choose{
+  height: 200px;
+  width: 100%;
+}
+.inner-choose /deep/ .el-divider{
+  margin:0;
+}
+
+.hospital-image{
+  margin-top: 10px;
+  width: 250px;
+  height: 150px;
+  margin-left: 20px;
+  margin-right: 20px;
+  // padding:-20px;
+  // margin-top:25px;
+  float: left;
+}
+.hospital-name{
+margin-top:15px;
+margin-bottom: 10px;
+// margin-left:90px;
+font-weight: bold;
+font-size:24px;
+letter-spacing: 2px;
+display: inline-block;
+}
+.hospital-level{
+  margin-left:10px;
+  font-size:16px;
+  letter-spacing: 1px;
+  background-color:rgb(245,166,35);
+  padding:3px;
+  width:41px;
+  color:white;
+  border-radius: 5px;
+  display: inline-block;  
+}
+.hospital-location{
+    margin-top:15px;
+    font-size:16px;
+    letter-spacing: 2px;
+}
+.hospital-description{
+    margin-top:15px;
+    font-size:16px;
+    letter-spacing: 2px;
+}   
+ 
+.inner-level{
+  text-align: center;
+}
+
+.hospital-content{
+  float: left;
+  margin-top:20px;
+}
+.outer-reserve{
+  float:right;
+  margin-right: 10%; 
+  margin-top: 75px;
+}
+.reserve-button{
+  font-size:20px;
+  letter-spacing:1px;
+  &:hover{
+    color: white;
+  }
+}
+.outer-reserve /deep/ .el-button{
+  background-color:aliceblue;
+  padding-left:30px;
+  padding-right:30px;
+  &:hover{
+    color:white;
+    background-color: #4990f1;
+  }
+}

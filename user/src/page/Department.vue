@@ -67,14 +67,14 @@
         <div class="label-left"></div>
         <div class="label-name">科室信息</div>
       </div>
-      <hospital-info-card></hospital-info-card>
-      <!-- <hospital-choose></hospital-choose> -->
+
+     <department-info-card></department-info-card>
 
       <!-- 挂号科室&特色科室 -->
-      <div class="label">
+      <!-- <div class="label">
             <div class="label-left"></div>
             <div class="label-name">科室医生</div>
-      </div>
+      </div> -->
 
       <department-choose></department-choose>
 
@@ -134,7 +134,7 @@ import "@/style/chunk.css";
 import DepartmentChoose from "../components/DepartmentComponents/DepartmentChoose.vue";
 import HospitalChoose from "../components/DepartmentChoose.vue";
 import HomeCarousel from "../components/HomeCarousel.vue";
-import HospitalInfoCard from "../components/DepartmentComponents/DepartmentInfoCard.vue";
+import DepartmentInfoCard from "../components/DepartmentComponents/DepartmentInfoCard.vue";
 export default {
   name: "Department",
   components: {
@@ -142,7 +142,7 @@ export default {
     DepartmentChoose,
     HospitalChoose,
     HomeCarousel,
-    HospitalInfoCard,
+    DepartmentInfoCard,
   },
     data(){
         return{

@@ -1,20 +1,16 @@
 <template>
   <div class="mainContainer">
     <myheader></myheader>
+
     <div class="contentContainer">
-
-
-      <!-- 根据科室选择医院 -->
-        <!-- <div class="label">
-          <div class="label-left"></div>
-          <div class="label-name">根据科室选择医院</div>
-        </div> -->
 
       <!-- 科室列表 -->
       <div class="label">
         <div class="label-left"></div>
         <div class="label-name">科室列表</div>
       </div>
+
+
     </div>
     <myfooter></myfooter>
   </div>
@@ -28,7 +24,17 @@ export default {
   components: { myheader, Myfooter },
   name: "Reservation",
   data() {
-    return {};
+    return {
+      registerForm:{
+        // 先前步骤已经确定的信息
+        hospital:"",
+        department:"",
+        doctor:"",
+        time:"",
+        userId:"",
+        // 预约步骤需要填写的信息
+      },
+    };
   },
 };
 </script>
