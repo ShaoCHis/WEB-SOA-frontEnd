@@ -20,7 +20,7 @@
                 </div>
                 <div class="hospital-content">
                 <div class="hospital-name">{{ item.name }}</div>
-                <div class="hospital-level">{{ item.introduction }}</div>
+                <div class="hospital-level">简介: {{ item.introduction }}</div>
                 </div>
             </el-col>
           </el-row>
@@ -74,6 +74,7 @@ export default {
         .then((response) => {
           // this.hospital=[],
           this.department = response.data;
+          console.log(response.data);
           this.department.forEach((element, index) => {
             element.level = getMap(element.level);
           });
