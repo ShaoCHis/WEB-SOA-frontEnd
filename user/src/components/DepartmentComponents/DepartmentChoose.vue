@@ -6,24 +6,24 @@
         :key="index"
         :label="item.name"
       >
-      <template slot-scope="scope">
-          <el-row :gutter="20">
-            <el-col
-                :span="8"
-                v-for="(item, index) in department"
-                :key="index"
-                class="department-choose-hospital"
-                @click.native="goToDepartmentPage(item)"
-            >
-                <div class="hospital-image">
-                <img src="../../assets/department_default.png" style="width: 100%; height: 100%" />
-                </div>
-                <div class="hospital-content">
-                <div class="hospital-name">{{ item.name }}</div>
-                <div class="hospital-level">{{ item.introduction }}</div>
-                </div>
-            </el-col>
-          </el-row>
+          <template slot-scope="scope">
+            <el-row :gutter="20">
+                <el-col
+                    :span="8"
+                    v-for="(item, index) in doctor"
+                    :key="index"
+                    class="department-choose-hospital"
+                    @click.native="goToDepartmentPage(item)"
+                >
+                    <div class="hospital-image">
+                    <img src="../../assets/department_default.png" style="width: 100%; height: 100%" />
+                    </div>
+                    <div class="hospital-content">
+                    <div class="hospital-name">{{ item.name }}</div>
+                    <div class="hospital-level">{{ item.introduction }}</div>
+                    </div>
+                </el-col>
+            </el-row>
         </template>
         
       </el-tab-pane>
@@ -43,18 +43,19 @@
   </div>
 </template>
 <script>
-import { getDepartListById } from "../../api/department";
-import { getMap } from "../../utils/map";
+// import { getDepartListById } from "../../api/department";
+// import { getMap } from "../../utils/map";
+import { getDocListByHosRoom } from "../../api/doctor"
 
 export default {
   name: "DepartmentChoose",
   mounted() {
-    this.initPage(0);
+    this.initPage();
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
-      if (this.department[this.pageSize * (this.currentPage - 1) + i] != null)
+      if (this.doctor[this.pageSize * (this.currentPage - 1) + i] != null)
         this.currentHospital[i] =
-          this.department[this.pageSize * (this.currentPage - 1) + i];
+          this.doctor[this.pageSize * (this.currentPage - 1) + i];
     }
     // this.currentPage=1;
   },
@@ -69,14 +70,15 @@ export default {
         this.$router.push({path: '/department'});
         // localStorage.setItem("selectedHosID",10);
     },
-    initPage(index) {
-      getDepartListById({ id: sessionStorage.getItem("selectedHosID") })
-        .then((response) => {
-          // this.hospital=[],
-          this.department = response.data;
-          this.department.forEach((element, index) => {
-            element.level = getMap(element.level);
-          });
+    initPage() {
+      console.log(this.hid);
+      console.log(this.did);
+      getDocListByHosRoom({ 
+          hid:this.hid,
+          did:this.did,
+      }).then((response) => {
+          console.log(response.data);
+          this.doctor=response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -99,11 +101,14 @@ export default {
   },
   data() {
     return {
+      hid:sessionStorage.getItem("selectedHosID"),
+      did:sessionStorage.getItem("selectedDepartmentID"),
       currentHospital: [],
       pageSize: 3,
       currentPage: 2,
       allHospital: [],
       department: [],
+      doctor:[],
       //  [
       //   {
       //     name: "北京协和医院",
@@ -144,10 +149,10 @@ export default {
       departmentClass: [
         // 筛选方法
         {
-          name: "挂号科室",
+          name: "三十年老中医",
         },
         {
-          name: "特色科室",
+          name: "科室主任",
         },
         // {
         //   name: "内科",
