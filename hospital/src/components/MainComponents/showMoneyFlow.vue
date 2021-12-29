@@ -1,30 +1,45 @@
 <template>
   <div>
-    <span class="demonstration">请选择时间段:&nbsp;</span>
-    <el-date-picker
-      v-model="Time[0]"
-      type="date"
-      placeholder="选择开始时间"
-      :picker-options="pickerOptionsStart"
-      value-format="yyyy-MM-dd"
-      style="width: 150px; margin-right: 10px"
-    ></el-date-picker>
-    - &nbsp;
-    <el-date-picker
-      v-model="Time[1]"
-      type="date"
-      placeholder="选择结束时间"
-      :picker-options="pickerOptionsEnd"
-      value-format="yyyy-MM-dd"
-      style="width: 150px"
-    ></el-date-picker>
-    <el-button class="select" type="primary" @click="test">筛选</el-button>
-    <el-card :span="8" class="char1">
-      <div id="main" style="width: 500px; height: 400px"></div>
-    </el-card>
-    <el-card :span="8" class="chart2">
-      <div id="main" style="width: 500px; height: 400px"></div>
-    </el-card>
+    <el-row :gutter="12">
+      <el-col class="chart2" :span="12">
+        <span class="demonstration">请选择时间段:&nbsp;</span>
+        <el-date-picker
+          v-model="Time[0]"
+          type="date"
+          placeholder="选择开始时间"
+          :picker-options="pickerOptionsStart"
+          value-format="yyyy-MM-dd"
+          style="width: 150px; margin-right: 10px"
+        ></el-date-picker>
+        - &nbsp;
+        <el-date-picker
+          v-model="Time[1]"
+          type="date"
+          placeholder="选择结束时间"
+          :picker-options="pickerOptionsEnd"
+          value-format="yyyy-MM-dd"
+          style="width: 150px"
+        ></el-date-picker>
+        <el-button class="select" type="primary" @click="test">筛选</el-button>
+        <el-card>
+          <div id="main" style="width: 500px; height: 400px"></div>
+        </el-card>
+      </el-col>
+      <el-col class="chart2" :span="12">
+        <span class="demonstration">请选择时间段:&nbsp;</span>
+        <el-date-picker
+          v-model="Day"
+          type="date"
+          placeholder="选择开始时间"
+          :picker-options="pickerOptionsStart"
+          value-format="yyyy-MM-dd"
+          style="width: 150px; margin-right: 10px"
+        ></el-date-picker>
+        <el-card>
+          <div id="main2" style="width: 500px; height: 400px"></div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -47,6 +62,7 @@ export default {
         date: [],
         money: [],
       },
+      Day: "",
       opinionData: ["3", "2", "4", "4", "5"],
       charts: "",
       //时间验证器
@@ -194,11 +210,5 @@ export default {
 <style>
 .select {
   margin-left: 20px;
-}
-.chart1 {
-  display: inline-block;
-}
-.chart2 {
-  float: right;
 }
 </style>
