@@ -32,16 +32,6 @@ export function deletePatient(params) {
     })
 }
 
-// export function deletePatient(id) {
-//     return request({
-//         url: "/user/patients/deletePatient",
-//         method: 'delete',
-//         data: {
-//             id
-//         }
-//     })
-// }
-
 // 根据用户id为用户添加病人
 export function addPatient(patientId, name, sex, birthday, phoneNumber, isInsure, params) {
     return request({
