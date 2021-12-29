@@ -110,6 +110,102 @@
         >
       </el-card>
 
+      <!-- 卡信息 -->
+       <el-card class="card-info">
+        <el-descriptions
+          class="margin-top"
+          title="卡信息"
+          :column="2"
+          :size="size"
+          border
+        >
+          <template slot="extra">
+            <el-button
+              v-if="isUpdating == false"
+              type="primary"
+              size="small"
+              @click="updateUserInfo"
+              >修改信息</el-button
+            >
+          </template>
+          <el-descriptions-item v-if="isUpdating == false">
+            <template slot="label">
+              <i class="el-icon-user"></i>
+              用户编号
+            </template>
+            {{ this.userInfo.userId }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="isUpdating == false">
+            <template slot="label">
+              <i class="el-icon-user"></i>
+              用户名
+            </template>
+            {{ this.userInfo.name }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="isUpdating == false">
+            <template slot="label">
+              <i class="el-icon-mobile-phone"></i>
+              手机号
+            </template>
+            {{ this.userInfo.phoneNumber }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="isUpdating == false">
+            <template slot="label">
+              <i class="el-icon-message"></i>
+              邮箱
+            </template>
+            {{ this.userInfo.email }}
+          </el-descriptions-item>
+        </el-descriptions>
+
+        <el-form
+          v-if="isUpdating == true"
+          ref="form"
+          :model="form"
+          label-width="80px"
+          style="margin-left: -5%"
+        >
+          <el-form-item label="">
+            <i class="el-icon-user" style="color: grey"> 用户名</i>
+            <el-input v-model="form.name" style="width: 85%; margin-left: 5%">{{
+              this.form.name
+            }}</el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <i class="el-icon-mobile-phone" style="color: grey"> 手机号</i>
+            <el-input
+              v-model="form.phone"
+              style="width: 85%; margin-left: 5%"
+              >{{ this.form.phone }}</el-input
+            >
+          </el-form-item>
+          <el-form-item label="">
+            <i class="el-icon-message" style="color: grey"> 邮箱</i>
+            <el-input
+              v-model="form.email"
+              style="width: 85%; margin-left: 6.2%"
+              >{{ this.form.email }}</el-input
+            >
+          </el-form-item>
+        </el-form>
+
+        <el-button
+          v-if="isUpdating == true"
+          style="margin-left: 45%; margin-top: 5px"
+          type="success"
+          size="small"
+          @click="confirmUpdate"
+          >确认</el-button
+        >
+        <el-button
+          v-if="isUpdating == true"
+          type="danger"
+          size="small"
+          @click="cancelUpdate"
+          >取消</el-button
+        >
+      </el-card>
+
       <!-- 患者信息 -->
       <el-card class="patients-info">
         <el-descriptions
