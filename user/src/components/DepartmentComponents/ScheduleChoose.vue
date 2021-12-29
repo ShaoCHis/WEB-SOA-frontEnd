@@ -6,26 +6,28 @@
         :key="index"
         :label="item.name"
       >
-      <template slot-scope="scope">
+        <template slot-scope="scope">
           <el-row :gutter="20">
             <el-col
-                :span="8"
-                v-for="(item, index) in department"
-                :key="index"
-                class="department-choose-hospital"
-                @click.native="goToDepartmentPage(item)"
+              :span="8"
+              v-for="(item, index) in department"
+              :key="index"
+              class="department-choose-hospital"
+              @click.native="goToDepartmentPage(item)"
             >
-                <div class="hospital-image">
-                <img src="../../assets/department_default.png" style="width: 100%; height: 100%" />
-                </div>
-                <div class="hospital-content">
+              <div class="hospital-image">
+                <img
+                  src="../../assets/department_default.png"
+                  style="width: 100%; height: 100%"
+                />
+              </div>
+              <div class="hospital-content">
                 <div class="hospital-name">{{ item.name }}</div>
                 <div class="hospital-level">{{ item.introduction }}</div>
-                </div>
+              </div>
             </el-col>
           </el-row>
         </template>
-        
       </el-tab-pane>
       <div class="block">
         <el-pagination
@@ -49,7 +51,8 @@ import { getMap } from "../../utils/map";
 export default {
   name: "ScheduleChoose",
   mounted() {
-    this.initPage(0);
+    // this.initPage(0);
+    this.initPage();
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
       if (this.department[this.pageSize * (this.currentPage - 1) + i] != null)
@@ -63,20 +66,25 @@ export default {
       this.initPage(tab.index);
     },
     goToDepartmentPage(item) {
-        console.log(item);
-        sessionStorage.setItem("selectedDepartmentID",item.id);
-        // console.log(row);
-        this.$router.push({path: '/department'});
-        // localStorage.setItem("selectedHosID",10);
+      console.log(item);
+      sessionStorage.setItem("selectedDepartmentID", item.id);
+      // console.log(row);
+      this.$router.push({ path: "/department" });
+      // localStorage.setItem("selectedHosID",10);
     },
-    initPage(index) {
-      getDepartListById({ id: sessionStorage.getItem("selectedHosID") })
+    // initPage(index) {
+      initPage() {
+      getDoctorListById({
+        hid: sessionStorage.getItem("selectedHosID"),
+        did: sessionStorage.getItem("selectedDepartmentID"),
+      })
         .then((response) => {
           // this.hospital=[],
-          this.department = response.data;
-          this.department.forEach((element, index) => {
-            element.level = getMap(element.level);
-          });
+          this.schedule = response.data;
+          console.log(this.schedule);
+          // this.department.forEach((element, index) => {
+          //   element.level = getMap(element.level);
+          // });
         })
         .catch((error) => {
           console.log(error);
@@ -99,48 +107,12 @@ export default {
   },
   data() {
     return {
+      schedule:[],
       currentHospital: [],
       pageSize: 3,
       currentPage: 2,
       allHospital: [],
       department: [],
-      //  [
-      //   {
-      //     name: "北京协和医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "柳州人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "重庆人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "金华人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "南宁人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      // ],
       departmentClass: [
         // 筛选方法
         {
