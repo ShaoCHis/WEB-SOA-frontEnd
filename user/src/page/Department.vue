@@ -67,16 +67,16 @@
         <div class="label-left"></div>
         <div class="label-name">科室信息</div>
       </div>
-      <hospital-info-card></hospital-info-card>
-      <!-- <hospital-choose></hospital-choose> -->
+
+     <department-info-card></department-info-card>
 
       <!-- 挂号科室&特色科室 -->
-      <div class="label">
+      <!-- <div class="label">
             <div class="label-left"></div>
             <div class="label-name">科室医生</div>
-      </div>
-
-      <department-choose></department-choose>
+      </div> -->
+      
+      <schedule-choose></schedule-choose>
 
       <!-- 用户评价 -->
       <div class="label">
@@ -131,21 +131,21 @@ import "@/style/iconfont.css";
 import "@/style/app.css";
 import "@/style/main.css";
 import "@/style/chunk.css";
-import DepartmentChoose from "../components/DepartmentComponents/DepartmentChoose.vue";
 import HospitalChoose from "../components/DepartmentChoose.vue";
 import HomeCarousel from "../components/HomeCarousel.vue";
-import HospitalInfoCard from "../components/DepartmentComponents/DepartmentInfoCard.vue";
+import DepartmentInfoCard from "../components/DepartmentComponents/DepartmentInfoCard.vue";
+import ScheduleChoose from '../components/DepartmentComponents/ScheduleChoose.vue';
 export default {
   name: "Department",
   components: {
     myfooter,
-    DepartmentChoose,
     HospitalChoose,
     HomeCarousel,
-    HospitalInfoCard,
+    DepartmentInfoCard,
+     ScheduleChoose,
   },
     data(){
-        return{
+     return{
             id:sessionStorage.getItem("selectedHosID"),
             rate:5,
         };

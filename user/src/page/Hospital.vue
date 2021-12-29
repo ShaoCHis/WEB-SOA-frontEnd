@@ -67,8 +67,8 @@
         <div class="label-left"></div>
         <div class="label-name">医院信息</div>
       </div>
+
       <hospital-info-card></hospital-info-card>
-      <!-- <hospital-choose></hospital-choose> -->
 
       <!-- 挂号科室&特色科室 -->
       <!-- <div class="label">

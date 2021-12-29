@@ -110,6 +110,102 @@
         >
       </el-card>
 
+      <!-- 卡信息 -->
+       <el-card class="card-info">
+        <el-descriptions
+          class="margin-top"
+          title="卡信息"
+          :column="2"
+          :size="size"
+          border
+        >
+          <template slot="extra">
+            <el-button
+              v-if="isUpdating == false"
+              type="primary"
+              size="small"
+              @click="updateUserInfo"
+              >修改信息</el-button
+            >
+          </template>
+          <el-descriptions-item v-if="isUpdating == false">
+            <template slot="label">
+              <i class="el-icon-user"></i>
+              用户编号
+            </template>
+            {{ this.userInfo.userId }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="isUpdating == false">
+            <template slot="label">
+              <i class="el-icon-user"></i>
+              用户名
+            </template>
+            {{ this.userInfo.name }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="isUpdating == false">
+            <template slot="label">
+              <i class="el-icon-mobile-phone"></i>
+              手机号
+            </template>
+            {{ this.userInfo.phoneNumber }}
+          </el-descriptions-item>
+          <el-descriptions-item v-if="isUpdating == false">
+            <template slot="label">
+              <i class="el-icon-message"></i>
+              邮箱
+            </template>
+            {{ this.userInfo.email }}
+          </el-descriptions-item>
+        </el-descriptions>
+
+        <el-form
+          v-if="isUpdating == true"
+          ref="form"
+          :model="form"
+          label-width="80px"
+          style="margin-left: -5%"
+        >
+          <el-form-item label="">
+            <i class="el-icon-user" style="color: grey"> 用户名</i>
+            <el-input v-model="form.name" style="width: 85%; margin-left: 5%">{{
+              this.form.name
+            }}</el-input>
+          </el-form-item>
+          <el-form-item label="">
+            <i class="el-icon-mobile-phone" style="color: grey"> 手机号</i>
+            <el-input
+              v-model="form.phone"
+              style="width: 85%; margin-left: 5%"
+              >{{ this.form.phone }}</el-input
+            >
+          </el-form-item>
+          <el-form-item label="">
+            <i class="el-icon-message" style="color: grey"> 邮箱</i>
+            <el-input
+              v-model="form.email"
+              style="width: 85%; margin-left: 6.2%"
+              >{{ this.form.email }}</el-input
+            >
+          </el-form-item>
+        </el-form>
+
+        <el-button
+          v-if="isUpdating == true"
+          style="margin-left: 45%; margin-top: 5px"
+          type="success"
+          size="small"
+          @click="confirmUpdate"
+          >确认</el-button
+        >
+        <el-button
+          v-if="isUpdating == true"
+          type="danger"
+          size="small"
+          @click="cancelUpdate"
+          >取消</el-button
+        >
+      </el-card>
+
       <!-- 患者信息 -->
       <el-card class="patients-info">
         <el-descriptions
@@ -275,30 +371,35 @@
           </template>
         </el-descriptions>
 
-        <el-descriptions
+        <el-collapse
+          v-model="activeNames"
           v-for="(item, index) in userPatients"
           :key="index"
-          class="margin-top1"
-          :title="item.index"
-          :column="2"
-          :size="size"
-          border
+          accordion
         >
-          <template slot="extra">
-            <!-- <el-button
+          <el-collapse-item :title="item.index" :name="index">
+            <el-descriptions
+              class="margin-top1"
+              :title="item.index"
+              :column="2"
+              :size="size"
+              border
+            >
+              <template slot="extra">
+                <!-- <el-button
               v-show="item.isUpdating == '0' && dialogFormVisible2 == false"
               type="primary"
               size="small"
               @click="updatePatientsInfo(item)"
               >修改信息</el-button
             > -->
-            <el-checkbox
-              v-show="dialogFormVisible2 == true"
-              v-model="isDeleteChosen[index]"
-              >删除该患者</el-checkbox
-            >
-            <!-- 修改信息 -->
-            <!-- <el-dialog
+                <el-checkbox
+                  v-show="dialogFormVisible2 == true"
+                  v-model="isDeleteChosen[index]"
+                  >删除该患者</el-checkbox
+                >
+                <!-- 修改信息 -->
+                <!-- <el-dialog
               title="修改信息"
               :visible.sync="dialogFormVisible1"
               append-to-body="false"
@@ -363,88 +464,260 @@
                 >
               </div>
             </el-dialog> -->
-          </template>
-          <el-descriptions-item v-show="item.isUpdating == '0'">
-            <template slot="label">
-              <i class="el-icon-user"></i>
-              身份证号
-            </template>
-            {{ item.patientId }}
-          </el-descriptions-item>
-          <el-descriptions-item v-show="item.isUpdating == '0'">
-            <template slot="label">
-              <i class="el-icon-user"></i>
-              姓名
-            </template>
-            {{ item.name }}
-          </el-descriptions-item>
-          <el-descriptions-item v-show="item.isUpdating == '0'">
-            <template slot="label">
-              <i class="el-icon-male"></i> /
-              <i class="el-icon-female"></i>
-              性别
-            </template>
-            {{ item.sex }}
-          </el-descriptions-item>
-          <el-descriptions-item v-show="item.isUpdating == '0'">
-            <template slot="label">
-              <i class="el-icon-date"></i>
-              生日
-            </template>
-            {{ item.birthday }}
-          </el-descriptions-item>
-          <el-descriptions-item v-show="item.isUpdating == '0'">
-            <template slot="label">
-              <i class="el-icon-mobile-phone"></i>
-              手机号
-            </template>
-            {{ item.phoneNumber }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">
-              <i class="el-icon-tickets"></i>
-              是否有保险
-            </template>
-            <el-tag v-if="item.isInsure == 1" size="small" type="success"
-              >有</el-tag
-            >
-            <el-tag v-if="item.isInsure == 0" size="small" type="danger"
-              >无</el-tag
-            >
-          </el-descriptions-item>
-          <el-descriptions-item v-show="item.isUpdating == '0'">
-            <template slot="label">
-              <i class="el-icon-bank-card"></i>
-              就诊卡卡号
-            </template>
-            <!-- {{ item.phoneNumber }} -->
-          </el-descriptions-item>
-          <el-descriptions-item v-show="item.isUpdating == '0'">
-            <template slot="label">
-              <i class="el-icon-bank-card"></i>
-              就诊卡类型
-            </template>
-            <el-tag v-if="item.isInsure == 1" size="small" type="primary"
-              >医保卡</el-tag
-            >
-          </el-descriptions-item>
+              </template>
+              <el-descriptions-item v-show="item.isUpdating == '0'">
+                <template slot="label">
+                  <i class="el-icon-user"></i>
+                  身份证号
+                </template>
+                {{ item.patientId }}
+              </el-descriptions-item>
+              <el-descriptions-item v-show="item.isUpdating == '0'">
+                <template slot="label">
+                  <i class="el-icon-user"></i>
+                  姓名
+                </template>
+                {{ item.name }}
+              </el-descriptions-item>
+              <el-descriptions-item v-show="item.isUpdating == '0'">
+                <template slot="label">
+                  <i class="el-icon-male"></i> /
+                  <i class="el-icon-female"></i>
+                  性别
+                </template>
+                {{ item.sex }}
+              </el-descriptions-item>
+              <el-descriptions-item v-show="item.isUpdating == '0'">
+                <template slot="label">
+                  <i class="el-icon-date"></i>
+                  生日
+                </template>
+                {{ item.birthday }}
+              </el-descriptions-item>
+              <el-descriptions-item v-show="item.isUpdating == '0'">
+                <template slot="label">
+                  <i class="el-icon-mobile-phone"></i>
+                  手机号
+                </template>
+                {{ item.phoneNumber }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-tickets"></i>
+                  是否有保险
+                </template>
+                <el-tag v-if="item.isInsure == 1" size="small" type="success"
+                  >有</el-tag
+                >
+                <el-tag v-if="item.isInsure == 0" size="small" type="danger"
+                  >无</el-tag
+                >
+              </el-descriptions-item>
+              <el-descriptions-item v-show="item.isUpdating == '0'">
+                <template slot="label">
+                  <i class="el-icon-bank-card"></i>
+                  就诊卡卡号
+                </template>
+                <!-- {{ item.phoneNumber }} -->
+              </el-descriptions-item>
+              <el-descriptions-item v-show="item.isUpdating == '0'">
+                <template slot="label">
+                  <i class="el-icon-bank-card"></i>
+                  就诊卡类型
+                </template>
+                <el-tag v-if="item.isInsure == 1" size="small" type="primary"
+                  >医保卡</el-tag
+                >
+              </el-descriptions-item>
 
-          <el-button
-            v-if="item.isUpdating == '1'"
-            style="margin-left: 45%; margin-top: 5px"
-            type="success"
-            size="small"
-            @click="confirmUpdate"
-            >确认</el-button
-          >
-          <el-button
-            v-if="item.isUpdating == '1'"
-            type="danger"
-            size="small"
-            @click="cancelUpdate"
-            >取消</el-button
-          >
+              <el-button
+                v-if="item.isUpdating == '1'"
+                style="margin-left: 45%; margin-top: 5px"
+                type="success"
+                size="small"
+                @click="confirmUpdate"
+                >确认</el-button
+              >
+              <el-button
+                v-if="item.isUpdating == '1'"
+                type="danger"
+                size="small"
+                @click="cancelUpdate"
+                >取消</el-button
+              >
+            </el-descriptions>
+          </el-collapse-item>
+        </el-collapse>
+      </el-card>
+
+      <!-- 预约信息 -->
+      <el-card class="reservation-info">
+        <el-descriptions
+          class="margin-top1"
+          title="预约信息"
+          :column="2"
+          :size="size"
+          border
+        >
+          <template slot="extra"> </template>
         </el-descriptions>
+        <el-collapse
+          v-model="activeNames1"
+          v-for="(item, index) in userReservations"
+          :key="index"
+          accordion
+        >
+          <el-collapse-item :title="item.index" :name="index">
+            <el-descriptions
+              class="margin-top1"
+              :title="item.index"
+              :column="2"
+              :size="size"
+              border
+            >
+              <template slot="extra">
+                <el-button
+                  v-if="item.state == '0'"
+                  style="margin-right: 10px"
+                  type="danger"
+                  size="small"
+                  @click="cancelReservationById1(item.id)"
+                  >取消预约</el-button
+                >
+                <el-button
+                  v-else-if="item.state == '1'"
+                  style="margin-right: 10px"
+                  type="danger"
+                  size="small"
+                  @click="cancelReservationById2(item.id)"
+                  >取消预约</el-button
+                >
+              </template>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-document"></i>
+                  预约编号
+                </template>
+                {{ item.id }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-document"></i>
+                  预约状态
+                </template>
+                <el-tag v-if="item.state == 0" size="small" type="success"
+                  >已预约</el-tag
+                >
+                <el-tag v-if="item.state == 1" size="small" type="success"
+                  >已支付</el-tag
+                ><el-tag v-if="item.state == 2" size="small" type="primary"
+                  >退款中</el-tag
+                >
+                <el-tag v-if="item.state == 3" size="small" type="info"
+                  >已取消</el-tag
+                >
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-date"></i>
+                  预约时间
+                </template>
+                {{ item.reserveDate }}
+                {{ item.reserveTime }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-bank-card"></i>
+                  身份证号
+                </template>
+                {{ item.patientID }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-user"></i>
+                  姓名
+                </template>
+                {{ item.patientName }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-office-building"></i>
+                  医院
+                </template>
+                {{ item.hospitalName }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-house"></i>
+                  科室
+                </template>
+                {{ item.departmentName }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-user"></i>
+                  医生
+                </template>
+                {{ item.doctorName }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-user"></i>
+                  职务
+                </template>
+                {{ item.doctorTitle }}
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-money"></i>
+                  支付费用
+                </template>
+                {{ item.cost }}元
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-bank-card"></i>
+                  支付类型
+                </template>
+                <el-tag v-if="item.cardType == 0" size="small" type="primary"
+                  >微信支付</el-tag
+                >
+                <el-tag v-if="item.cardType == 1" size="small" type="primary"
+                  >就诊卡</el-tag
+                >
+                <el-tag v-if="item.cardType == 2" size="small" type="primary"
+                  >社保卡</el-tag
+                >
+                <el-tag v-if="item.cardType == 3" size="small" type="primary"
+                  >医保卡</el-tag
+                >
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-bank-card"></i>
+                  支付卡号
+                </template>
+                {{ item.cardNum }}
+              </el-descriptions-item>
+
+              <el-button
+                v-if="item.isUpdating == '1'"
+                style="margin-left: 45%; margin-top: 5px"
+                type="success"
+                size="small"
+                @click="confirmUpdate"
+                >确认</el-button
+              >
+              <el-button
+                v-if="item.isUpdating == '1'"
+                type="danger"
+                size="small"
+                @click="cancelUpdate"
+                >取消</el-button
+              >
+            </el-descriptions>
+          </el-collapse-item>
+        </el-collapse>
       </el-card>
     </div>
     <myfooter></myfooter>
@@ -457,12 +730,17 @@ import myheader from "../layout/myheader.vue";
 import { getUserInfo, setUserInfo } from "../api/user";
 import { deletePatient } from "../api/user";
 import { addPatient } from "../api/user";
+import { getReservationList } from "../api/order";
+import { cancelReservation } from "../api/order";
 
 export default {
   components: { myheader, Myfooter },
   name: "UserInfo",
   data() {
     return {
+      activeNames1: [],
+      userReservations: [],
+      activeNames: [], //['1'],
       patientsLength: 0,
       isDeleteChosen: [],
       patientIdChosen: "", //被选择要删除的患者
@@ -511,6 +789,7 @@ export default {
   },
   mounted() {
     this.getUserInfoById(this.userId);
+    this.getUserReservations();
   },
   methods: {
     getUserInfoById(userid) {
@@ -519,7 +798,6 @@ export default {
           this.userInfo = response.data;
           this.userPatients = this.userInfo.patients;
           this.patientsLength = this.userPatients.length;
-          // console.log(this.patientsLength);
           this.userPatients.forEach((element, index) => {
             element.index = "患者" + (index + 1);
             element.isUpdating = "0";
@@ -624,7 +902,6 @@ export default {
             .catch((error) => {
               console.log(error);
             });
-            
         } else {
           console.log("error submit!!");
           return false;
@@ -643,6 +920,7 @@ export default {
         // .delete(url, id)
         .then((response) => {
           console.log(response);
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
@@ -723,6 +1001,51 @@ export default {
       this.userPatients[index].isDeleteChosen = val;
       console.log(this.userPatients);
     },
+    getUserReservations() {
+      getReservationList({ userId: this.userId })
+        .then((response) => {
+          this.userReservations = response.data;
+          this.userReservations.forEach((element, index) => {
+            element.index = "预约" + (index + 1);
+            // element.isDeleteChosen = false;
+            // this.isDeleteChosen[index] = element.isDeleteChosen;
+          });
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    //取消未付款的预约
+    cancelReservationById1(reservationid) {
+      this.$confirm("该操作将取消预约, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          cancelReservation({ reservationId: reservationid })
+            .then((response) => {
+              console.log(response);
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          this.$message({
+            type: "success",
+            message: "取消预约成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
+        });
+    },
+    //取消已付款的预约，并退款
+    cancelReservationById2(reservationid) {},
   },
 };
 </script>

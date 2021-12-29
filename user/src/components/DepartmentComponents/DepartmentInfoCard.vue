@@ -10,21 +10,21 @@
           {{ hospital.level }}
         </div> -->
         <!-- <div class="hospital-location">地址:{{ hospital.location }}</div> -->
-        <div class="hospital-description">简介:{{ department.introduction }}</div>
+        <div class="hospital-description">简介: {{ department.introduction }}</div>
       </div>
       <div class="outer-reserve" onmouseover="changeColor">
         <el-button
         type="text"
         class="reserve-button"
         @click="goToReservation('destination')"
-        > <i class="el-icon-thumb"> </i> 预约挂号</el-button
+        > <i class="el-icon-thumb"> </i> 前往挂号</el-button
       >
       </div>
     </el-card>
     <!-- 挂号科室&特色科室 -->
     <div class="label" ref="destination">
       <div class="label-left"></div>
-      <div class="label-name">医院科室</div>
+      <div class="label-name">专家门诊</div>
     </div>
   </div>
 </template>
@@ -75,5 +75,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../style/css/HospitalInfoCard.less";
+@import "../../style/css/DepartmentInfoCard.less";
 </style>

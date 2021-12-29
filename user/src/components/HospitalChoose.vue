@@ -57,7 +57,8 @@ export default {
   methods: {
     goToHospitalPage(id) {
       // console.log(id);
-      sessionStorage.setItem("currentHospitalId",id);
+      sessionStorage.setItem("selectedHosID",id);
+      // sessionStorage.getItem("selectedHosID")
       this.$router.push({name:'Hospital'});
     },
     initPage(){

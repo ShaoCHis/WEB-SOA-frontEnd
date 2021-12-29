@@ -6,26 +6,32 @@
         :key="index"
         :label="item.name"
       >
-      <template slot-scope="scope">
-          <el-row :gutter="20">
-            <el-col
-                :span="8"
-                v-for="(item, index) in currentHospital"
-                :key="index"
-                class="department-choose-hospital"
-                @click.native="goToDepartmentPage(item)"
+        <template slot-scope="scope">
+          <div
+              v-for="(item, index) in currentHospital"
+              :key="index"
+              class="department-choose-hospital"
+              @click.native="goToDepartmentPage(item)"
             >
+              <div class="doctor-info">
                 <div class="hospital-image">
-                <img src="../../assets/department_default.png" style="width: 100%; height: 100%" />
+                  <img
+                    src="../../assets/unknown_user.png"
+                    style="width: 100px; height: 100px"
+                  />
                 </div>
                 <div class="hospital-content">
-                <div class="hospital-name">{{ item.name }}</div>
-                <div class="hospital-level">简介: {{ item.introduction }}</div>
+                  <div class="hospital-name">{{ item.name }}</div>
+                  <div class="hospital-title-cost">
+                    <div class="hospital-title">{{ item.title }}</div>
+                    <div class="hospital-cost">费用: {{ item.cost }}元</div>
+                  </div>
+                  <div class="hospital-intro">{{ item.introduction }}</div>
                 </div>
-            </el-col>
-          </el-row>
+              </div>
+              <el-divider></el-divider>
+            </div>
         </template>
-        
       </el-tab-pane>
       <div class="block">
         <el-pagination
@@ -35,7 +41,7 @@
           :page-size="pageSize"
           :current-page.sync="currentPage"
           layout="total,prev, pager, next, jumper"
-          :total="department.length"
+          :total="schedule.length"
         >
         </el-pagination>
       </div>
@@ -43,41 +49,48 @@
   </div>
 </template>
 <script>
-import { getDepartListById } from "../../api/department";
+import { getDoctorList } from "../../api/doctor";
 import { getMap } from "../../utils/map";
 
 export default {
-  name: "DepartmentChoose",
+  name: "ScheduleChoose",
   mounted() {
-    this.initPage(0);
+    // this.initPage(0);
+    this.initPage();
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
-      if (this.department[this.pageSize * (this.currentPage - 1) + i] != null)
+      if (this.schedule[this.pageSize * (this.currentPage - 1) + i] != null)
         this.currentHospital[i] =
-          this.department[this.pageSize * (this.currentPage - 1) + i];
+          this.schedule[this.pageSize * (this.currentPage - 1) + i];
     }
     // this.currentPage=1;
   },
   methods: {
     handleClick(tab) {
-      this.initPage(tab.index);
+      // this.initPage(tab.index);
+      this.initPage();
     },
     goToDepartmentPage(item) {
-        console.log(item);
-        sessionStorage.setItem("selectedDepartmentID",item.id);
-        // console.log(row);
-        this.$router.push({path: '/department'});
-        // localStorage.setItem("selectedHosID",10);
+      console.log(item);
+      sessionStorage.setItem("selectedDepartmentID", item.id);
+      // console.log(row);
+      this.$router.push({ path: "/department" });
+      // localStorage.setItem("selectedHosID",10);
     },
-    initPage(index) {
-      getDepartListById({ id: sessionStorage.getItem("selectedHosID") })
+    // initPage(index) {
+    initPage() {
+      getDoctorList({
+        hid: sessionStorage.getItem("selectedHosID"),
+        did: sessionStorage.getItem("selectedDepartmentID"),
+      })
         .then((response) => {
-          // this.hospital=[],
-          this.department = response.data;
           console.log(response.data);
-          this.department.forEach((element, index) => {
-            element.level = getMap(element.level);
-          });
+          // this.hospital=[],
+          this.schedule = response.data;
+          console.log(this.schedule);
+          // this.department.forEach((element, index) => {
+          //   element.level = getMap(element.level);
+          // });
         })
         .catch((error) => {
           console.log(error);
@@ -92,14 +105,15 @@ export default {
       console.log(`当前页: ${val}`);
       this.currentHospital = [];
       for (var i = 0; i < this.pageSize; i++) {
-        if (this.department[this.pageSize * (this.currentPage - 1) + i] != null)
+        if (this.schedule[this.pageSize * (this.currentPage - 1) + i] != null)
           this.currentHospital[i] =
-            this.department[this.pageSize * (this.currentPage - 1) + i];
+            this.schedule[this.pageSize * (this.currentPage - 1) + i];
       }
     },
   },
   data() {
     return {
+      schedule: [],
       currentHospital: [],
       pageSize: 3,
       currentPage: 2,
@@ -131,5 +145,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../style/css/DepartmentChoose.less";
+@import "../../style/css/ScheduleChoose.less";
 </style>
