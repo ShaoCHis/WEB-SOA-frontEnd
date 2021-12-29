@@ -7,30 +7,30 @@
         :label="item.name"
       >
         <template slot-scope="scope">
-          <el-row :gutter="20">
-            <el-col
-              :span="24"
+          <div
               v-for="(item, index) in currentHospital"
               :key="index"
               class="department-choose-hospital"
               @click.native="goToDepartmentPage(item)"
             >
-              <div class="hospital-image">
-                <img
-                  src="../../assets/unknown_user.png"
-                  style="width: 100px; height: 100px"
-                />
-              </div>
-              <div class="hospital-content">
-                <div class="hospital-name">{{ item.name }}</div>
-                <div class="hospital-title-cost">
-                <div class="hospital-title">{{ item.title }}</div>
-                <div class="hospital-cost">费用: {{ item.cost }}元</div>
+              <div class="doctor-info">
+                <div class="hospital-image">
+                  <img
+                    src="../../assets/unknown_user.png"
+                    style="width: 100px; height: 100px"
+                  />
                 </div>
-                <div class="hospital-level">{{ item.introduction }}</div>
+                <div class="hospital-content">
+                  <div class="hospital-name">{{ item.name }}</div>
+                  <div class="hospital-title-cost">
+                    <div class="hospital-title">{{ item.title }}</div>
+                    <div class="hospital-cost">费用: {{ item.cost }}元</div>
+                  </div>
+                  <div class="hospital-level">{{ item.introduction }}</div>
+                </div>
               </div>
-            </el-col>
-          </el-row>
+              <el-divider></el-divider>
+            </div>
         </template>
       </el-tab-pane>
       <div class="block">
