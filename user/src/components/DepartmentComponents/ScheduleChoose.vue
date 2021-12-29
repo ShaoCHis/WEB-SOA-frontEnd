@@ -9,17 +9,17 @@
         <template slot-scope="scope">
           <el-row :gutter="20">
             <el-col
-              :span="8"
-              v-for="(item, index) in department"
+              :span="24"
+              v-for="(item, index) in schedule"
               :key="index"
               class="department-choose-hospital"
               @click.native="goToDepartmentPage(item)"
             >
               <div class="hospital-image">
-                <img
-                  src="../../assets/department_default.png"
-                  style="width: 100%; height: 100%"
-                />
+                 <img
+                src="../../assets/unknown_user.png"
+                style="width: 100px; height: 100px"
+              />
               </div>
               <div class="hospital-content">
                 <div class="hospital-name">{{ item.name }}</div>
