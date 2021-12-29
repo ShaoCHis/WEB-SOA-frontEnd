@@ -16,13 +16,14 @@
               @click.native="goToDepartmentPage(item)"
             >
               <div class="hospital-image">
-                 <img
-                src="../../assets/unknown_user.png"
-                style="width: 100px; height: 100px"
-              />
+                <img
+                  src="../../assets/unknown_user.png"
+                  style="width: 100px; height: 100px"
+                />
               </div>
               <div class="hospital-content">
                 <div class="hospital-name">{{ item.name }}</div>
+                <div class="hospital-level">{{ item.title }}</div>
                 <div class="hospital-level">{{ item.introduction }}</div>
               </div>
             </el-col>
@@ -74,7 +75,7 @@ export default {
       // localStorage.setItem("selectedHosID",10);
     },
     // initPage(index) {
-      initPage() {
+    initPage() {
       getDoctorList({
         hid: sessionStorage.getItem("selectedHosID"),
         did: sessionStorage.getItem("selectedDepartmentID"),
@@ -109,7 +110,7 @@ export default {
   },
   data() {
     return {
-      schedule:[],
+      schedule: [],
       currentHospital: [],
       pageSize: 3,
       currentPage: 2,
