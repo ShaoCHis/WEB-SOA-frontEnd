@@ -45,7 +45,7 @@
   </div>
 </template>
 <script>
-import { getDepartListById } from "../../api/department";
+import { getDoctorList } from "../../api/doctor";
 import { getMap } from "../../utils/map";
 
 export default {
@@ -63,7 +63,8 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      this.initPage(tab.index);
+      // this.initPage(tab.index);
+      this.initPage();
     },
     goToDepartmentPage(item) {
       console.log(item);
@@ -74,11 +75,12 @@ export default {
     },
     // initPage(index) {
       initPage() {
-      getDoctorListById({
+      getDoctorList({
         hid: sessionStorage.getItem("selectedHosID"),
         did: sessionStorage.getItem("selectedDepartmentID"),
       })
         .then((response) => {
+          console.log(response.data);
           // this.hospital=[],
           this.schedule = response.data;
           console.log(this.schedule);
