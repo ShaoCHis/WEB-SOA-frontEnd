@@ -10,7 +10,7 @@
           <el-row :gutter="20">
             <el-col
               :span="24"
-              v-for="(item, index) in schedule"
+              v-for="(item, index) in currentHospital"
               :key="index"
               class="department-choose-hospital"
               @click.native="goToDepartmentPage(item)"
@@ -41,7 +41,7 @@
           :page-size="pageSize"
           :current-page.sync="currentPage"
           layout="total,prev, pager, next, jumper"
-          :total="department.length"
+          :total="schedule.length"
         >
         </el-pagination>
       </div>
@@ -59,9 +59,9 @@ export default {
     this.initPage();
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
-      if (this.department[this.pageSize * (this.currentPage - 1) + i] != null)
+      if (this.schedule[this.pageSize * (this.currentPage - 1) + i] != null)
         this.currentHospital[i] =
-          this.department[this.pageSize * (this.currentPage - 1) + i];
+          this.schedule[this.pageSize * (this.currentPage - 1) + i];
     }
     // this.currentPage=1;
   },
@@ -105,9 +105,9 @@ export default {
       console.log(`当前页: ${val}`);
       this.currentHospital = [];
       for (var i = 0; i < this.pageSize; i++) {
-        if (this.department[this.pageSize * (this.currentPage - 1) + i] != null)
+        if (this.schedule[this.pageSize * (this.currentPage - 1) + i] != null)
           this.currentHospital[i] =
-            this.department[this.pageSize * (this.currentPage - 1) + i];
+            this.schedule[this.pageSize * (this.currentPage - 1) + i];
       }
     },
   },
