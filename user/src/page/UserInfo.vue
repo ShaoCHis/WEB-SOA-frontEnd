@@ -617,23 +617,14 @@ export default {
               console.log(this.userPatients);
               console.log(this.addForm);
               // 实时更新
-              // var temp=this.userPatients[0];
-              // this.userPatients[this.patientsLength]=this.userPatients[0];
-              // this.userPatients[this.patientsLength].birthday=this.addForm.birthday;
-              // this.userPatients[this.patientsLength].name=this.addForm.name;
-              // this.userPatients[this.patientsLength].patientId=this.addForm.patientId;
-              // this.userPatients[this.patientsLength].phoneNumber=this.addForm.phoneNumber;
-              // this.userPatients[this.patientsLength].sex=this.addForm.sex;
-              // this.userPatients[this.patientsLength].isInsure=parseInt(this.addForm.isInsure);
-              // this.userPatients[this.patientsLength].isUpdating=0;
-              // this.userPatients[this.patientsLength].index="患者" + (this.patientsLength + 1);
-              // this.patientsLength=this.patientsLength+1;
-              // this.userPatients[0]=temp;
-              (this.addForm = []), (this.dialogFormVisible1 = false);
+              window.location.reload();
+              this.addForm = [];
+              this.dialogFormVisible1 = false;
             })
             .catch((error) => {
               console.log(error);
             });
+            
         } else {
           console.log("error submit!!");
           return false;
@@ -642,10 +633,10 @@ export default {
     },
     deletePatientById(patientid) {
       // deletePatient(patientid)
-      deletePatient({patientId:patientid})
-      // var param = { patientId: patientid };
-      // this.$axios
-      //   .delete(`/user/patients/deletePatient/${params.patientId}`, { params: param })
+      deletePatient({ patientId: patientid })
+        // var param = { patientId: patientid };
+        // this.$axios
+        //   .delete(`/user/patients/deletePatient/${params.patientId}`, { params: param })
         // var url = `/user/patients/deletePatient/${patientId}`;
         // var id = patientid;
         // this.$axios
