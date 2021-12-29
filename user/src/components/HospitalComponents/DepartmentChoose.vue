@@ -10,7 +10,7 @@
           <el-row :gutter="20">
             <el-col
                 :span="8"
-                v-for="(item, index) in department"
+                v-for="(item, index) in currentHospital"
                 :key="index"
                 class="department-choose-hospital"
                 @click.native="goToDepartmentPage(item)"
@@ -105,43 +105,6 @@ export default {
       currentPage: 2,
       allHospital: [],
       department: [],
-      //  [
-      //   {
-      //     name: "北京协和医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "柳州人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "重庆人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "金华人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "南宁人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      // ],
       departmentClass: [
         // 筛选方法
         {
