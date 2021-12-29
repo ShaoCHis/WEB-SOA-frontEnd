@@ -177,5 +177,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../style/css/DepartmentChoose.less";
+@import "../style/css/DepartmentChoose1.less";
 </style>
