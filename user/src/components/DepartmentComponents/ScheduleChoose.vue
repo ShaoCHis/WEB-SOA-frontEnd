@@ -47,7 +47,7 @@ import { getDepartListById } from "../../api/department";
 import { getMap } from "../../utils/map";
 
 export default {
-  name: "DepartmentChoose",
+  name: "ScheduleChoose",
   mounted() {
     this.initPage(0);
     this.currentHospital = [];
@@ -167,5 +167,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../style/css/DepartmentChoose.less";
+@import "../../style/css/ScheduleChoose.less";
 </style>
