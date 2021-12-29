@@ -127,7 +127,7 @@ export default {
   },
 
   methods: {
-    handleClick(tab, event) {
+    async handleClick(tab, event) {
       var index = tab.index;
       var roomId = this.depData[index].id;
       // console.log(roomId);
@@ -138,9 +138,10 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          
         });
     },
-    updateDoctor(depid) {
+    async updateDoctor(depid) {
       var hosID = sessionStorage.getItem("HospitalID");
       getDocListByHosRoom(hosID, depid)
         .then((response) => {
@@ -152,7 +153,7 @@ export default {
           console.log(error);
         });
     },
-    checkRes(index, row) {
+    async checkRes(index, row) {
       getResByDocID(row.id)
         .then((response) => {
           this.resData = response.data;

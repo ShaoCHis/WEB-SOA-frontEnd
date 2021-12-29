@@ -1,29 +1,30 @@
 <template>
   <div>
-    <div class="block">
-      <span class="demonstration">请选择时间段</span>
-      <el-date-picker
-        v-model="Time[0]"
-        type="date"
-        placeholder="选择开始时间"
-        :picker-options="pickerOptionsStart"
-        value-format="yyyy-MM-dd"
-        style="width: 150px; margin-right: 10px"
-      ></el-date-picker>
-      - &nbsp;
-      <el-date-picker
-        v-model="Time[1]"
-        type="date"
-        placeholder="选择结束时间"
-        :picker-options="pickerOptionsEnd"
-        value-format="yyyy-MM-dd"
-        style="width: 150px"
-      ></el-date-picker>
-      <el-button @click="test"></el-button>
-      <el-card>
-        <div id="main" style="width: 600px; height: 400px"></div>
-      </el-card>
-    </div>
+    <span class="demonstration">请选择时间段:&nbsp;</span>
+    <el-date-picker
+      v-model="Time[0]"
+      type="date"
+      placeholder="选择开始时间"
+      :picker-options="pickerOptionsStart"
+      value-format="yyyy-MM-dd"
+      style="width: 150px; margin-right: 10px"
+    ></el-date-picker>
+    - &nbsp;
+    <el-date-picker
+      v-model="Time[1]"
+      type="date"
+      placeholder="选择结束时间"
+      :picker-options="pickerOptionsEnd"
+      value-format="yyyy-MM-dd"
+      style="width: 150px"
+    ></el-date-picker>
+    <el-button class="select" type="primary" @click="test">筛选</el-button>
+    <el-card :span="8" class="char1">
+      <div id="main" style="width: 500px; height: 400px"></div>
+    </el-card>
+    <el-card :span="8" class="chart2">
+      <div id="main" style="width: 500px; height: 400px"></div>
+    </el-card>
   </div>
 </template>
 
@@ -55,7 +56,9 @@ export default {
             return (
               //time.getTime() < Date.now() - 8.64e7 ||
               time.getTime() >
-              new Date(this.Time[1]).getTime() - 1 * 24 * 60 * 60 * 1000
+                new Date(this.Time[1]).getTime() - 1 * 24 * 60 * 60 * 1000 ||
+              time.getTime() <
+                new Date(this.Time[1]).getTime() - 30 * 24 * 60 * 60 * 1000
             );
           }
           //return time.getTime() < Date.now() - 8.64e7;
@@ -66,7 +69,9 @@ export default {
           return (
             //time.getTime() < Date.now() - 8.64e7 ||
             time.getTime() <
-            new Date(this.Time[0]).getTime() + 1 * 24 * 60 * 60 * 1000
+              new Date(this.Time[0]).getTime() + 1 * 24 * 60 * 60 * 1000 &&
+            time.getTime() >
+              new Date(this.Time[0]).getTime() + 30 * 24 * 60 * 60 * 1000
           );
         },
       },
@@ -87,7 +92,52 @@ export default {
           console.log(error);
         });
     },
+    //按时间段
     drawLine(id) {
+      // 基于准备好的dom，初始化echarts实例
+      this.charts = echarts.init(document.getElementById(id));
+      this.charts.setOption({
+        tooltip: {
+          // 设置tip提示
+          trigger: "axis",
+          backgroundColor: "#0dcba3",
+        },
+        legend: {
+          data: ["某段时间流水"],
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true,
+        },
+
+        toolbox: {
+          feature: {
+            saveAsImage: {},
+          },
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: ["1", "2", "3", "4", "5"],
+        },
+        yAxis: {
+          type: "value",
+        },
+
+        series: [
+          {
+            name: "某段时间流水",
+            type: "line",
+            stack: "总量",
+            data: this.opinionData,
+          },
+        ],
+      });
+    },
+    //按月份或年份
+    drawLine2(id) {
       // 基于准备好的dom，初始化echarts实例
       this.charts = echarts.init(document.getElementById(id));
       this.charts.setOption({
@@ -135,10 +185,20 @@ export default {
   mounted() {
     this.$nextTick(function () {
       this.drawLine("main");
+      this.drawLine2("main2");
     });
   },
 };
 </script>
 
 <style>
+.select {
+  margin-left: 20px;
+}
+.chart1 {
+  display: inline-block;
+}
+.chart2 {
+  float: right;
+}
 </style>
