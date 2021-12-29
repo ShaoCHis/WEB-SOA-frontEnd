@@ -23,9 +23,10 @@
               </div>
               <div class="hospital-content">
                 <div class="hospital-name">{{ item.name }}</div>
-                <div class="hospital-level">{{ item.title }}</div>
-                <!-- <div class="hospital-level">年龄: {{ item.age }}</div>
-                <div class="hospital-level">费用: {{ item.cost }}</div> -->
+                <div class="hospital-title-cost">
+                <div class="hospital-title">{{ item.title }}</div>
+                <div class="hospital-cost">费用: {{ item.cost }}元</div>
+                </div>
                 <div class="hospital-level">{{ item.introduction }}</div>
               </div>
             </el-col>
