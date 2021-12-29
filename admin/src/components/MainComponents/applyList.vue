@@ -4,7 +4,7 @@
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span style="font-size: 30px; text-align: center"
-            ><b>医院列表</b></span
+            ><b>医院申请列表</b></span
           >
           <el-table
             class="HosList"
@@ -13,16 +13,10 @@
             style="width: 100%"
             stripe
           >
-            <el-table-column prop="id" label="医院ID"></el-table-column>
-            <el-table-column label="医院ID">
-              <template slot-scope="scope">
-                <el-avatar shape="circle" :src="scope.row.image"></el-avatar>
-              </template>
-            </el-table-column>
-            <el-table-column prop="name" label="医院名称"></el-table-column>
-            <el-table-column prop="loaction" label="所在地"></el-table-column>
-            <el-table-column prop="level" label="医院等级"></el-table-column>
             <el-table-column prop="code" label="医院编码"></el-table-column>
+            <el-table-column prop="name" label="医院名称"></el-table-column>
+            <el-table-column prop="location" label="所在地"></el-table-column>
+            <el-table-column prop="level" label="医院等级"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button
@@ -46,7 +40,7 @@
 </template>
 
 <script>
-import { getAllHospital, hospJoin } from "../../api/hospital";
+import { getAllHospitalApply, hospJoin } from "../../api/hospital";
 import { getMap } from "../../utils/map";
 
 export default {
@@ -59,7 +53,7 @@ export default {
   methods: {
     commit(row) {
       console.log(row);
-      hospJoin(row.id).then((response) => {
+      hospJoin(row.code).then((response) => {
         if (response.success == true)
           this.$message({
             message: "成功",
@@ -78,13 +72,10 @@ export default {
   },
   mounted() {
     //console.log(this.$store.state.user);
-    getAllHospital()
+    getAllHospitalApply()
       .then((response) => {
-        response.data.forEach((element) => {
-          element.level = getMap(element.level);
-          // console.log(element.status)
-          if (element.status != 1) this.hospital.push(element);
-        });
+        console.log(response.data[0]);
+        this.hospital=response.data
       })
       .catch((error) => {
         console.log(error);

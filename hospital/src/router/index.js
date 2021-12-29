@@ -7,7 +7,6 @@ import Notice from '@/components/MainComponents/releaseNotice'
 import Reservation from '@/components/MainComponents/reservation'
 import RoomInfo from '@/components/MainComponents/roomInfo'
 import MoneyFlow from '@/components/MainComponents/showMoneyFlow'
-import SuspendStatus from '@/components/MainComponents/suspendStatus'
 import ChangePwd from '@/components/MainComponents/changePwd'
 
 Vue.use(Router)
@@ -23,7 +22,6 @@ export const ConstantRouterMap = [
       { path: 'Reservation', name: 'Reservation', component: Reservation, hidden: true },
       { path: 'RoomInfo', name: 'RoomInfo', component: RoomInfo, hidden: true },
       { path: 'MoneyFlow', name: 'MoneyFlow', component: MoneyFlow, hidden: true },
-      { path: 'SuspendStatus', name: 'SuspendStatus', component: SuspendStatus, hidden: true },
       { path: 'ChangePwd', name: 'ChangePwd', component: ChangePwd, hidden: true },
     ]
   },

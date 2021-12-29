@@ -21,9 +21,11 @@ export function getHospListInfo(params) {
 //医院加入系统
 export function hospJoin(params) {
     return request({
-        url: `/hospital/hospitals/join/${params}`,
+        url: `/hospital/hospitals/join`,
         method: 'post',
-        params
+        data:{
+            code:params
+        }
     })
 }
 
@@ -58,11 +60,11 @@ export function hospModifyPassword(params) {
 }
 
 //根据医院ID修改logo(需求id和oss服务返回的图片url)
-export function hospModifyLogo(id,image) {
+export function hospModifyLogo(id, image) {
     return request({
         url: '/hospital/hospitals/updateLogoById',
         method: 'post',
-        data:{
+        data: {
             id,
             image
         }
@@ -73,6 +75,14 @@ export function hospModifyLogo(id,image) {
 export function getAllHospital() {
     return request({
         url: '/hospital/hospitals/getHospList',
+        method: 'get',
+    })
+}
+
+//返回所有医院申请列表
+export function getAllHospitalApply() {
+    return request({
+        url: '/hospital/applies/getApplyList',
         method: 'get',
     })
 }

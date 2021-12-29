@@ -59,11 +59,7 @@ export default {
     //console.log(this.$store.state.user);
     getAllHospital()
       .then((response) => {
-        response.data.forEach((element) => {
-          element.level = getMap(element.level);
-          // console.log(element.status)
-          if (element.status == 1) this.hospital.push(element);
-        });
+        this.hospital = response.data;
         // console.log(this.hospital);
       })
       .catch((error) => {

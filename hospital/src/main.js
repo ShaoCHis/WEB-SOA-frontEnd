@@ -13,11 +13,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-
 Vue.use(ElementUI)
-Vue.prototype.$axios=axios
+Vue.prototype.$axios = axios
 Vue.prototype.$cookie = Cookies;
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
