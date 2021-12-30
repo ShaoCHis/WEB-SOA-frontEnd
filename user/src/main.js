@@ -12,8 +12,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import less from 'less'
+import VueQriously from 'vue-qriously'
 
 
+Vue.use(VueQriously)
 Vue.use(ElementUI)
 Vue.prototype.$axios=axios
 Vue.prototype.$cookie = Cookies;

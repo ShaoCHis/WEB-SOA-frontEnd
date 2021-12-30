@@ -591,6 +591,21 @@
                   @click="payByCard(item.id)"
                   >支付费用</el-button
                 >
+                <el-dialog :visible.sync="dialogPayVisible" style="text-align: left" :append-to-body="true" width="500px" @close="closeDialog">
+      <div class="container">
+        <div class="operate-view" style="height: 350px;">
+          <div class="wrapper wechat">
+            <div>
+              <qriously :value="payObj.codeUrl" :size="220"/>
+              <div style="text-align: center;line-height: 25px;margin-bottom: 40px;">
+                请使用微信扫一扫<br/>
+                扫描二维码支付
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
                 <el-button
                   v-if="item.state == '0'"
                   style="margin-right: 10px"
@@ -747,12 +762,16 @@ import { deletePatient } from "../api/user";
 import { addPatient } from "../api/user";
 import { getReservationList } from "../api/order";
 import { cancelReservation } from "../api/order";
+import { createNative, queryPayStatus } from "../api/pay";
 
 export default {
   components: { myheader, Myfooter },
   name: "UserInfo",
   data() {
     return {
+      dialogPayVisible: false,
+      payObj: {},
+      timer: null,  // 定时器名称
       activeNames1: [],
       userReservations: [],
       activeNames: [], //['1'],
@@ -1060,17 +1079,46 @@ export default {
         });
     },
     //取消已付款的预约，并退款
-    cancelReservationById2(reservationid) {
-      
-    },
+    cancelReservationById2(reservationid) {},
     // 微信支付
-    payByWeiXin(reservationid){
-
+    payByWeiXin(reservationid) {
+      this.dialogPayVisible = true
+      createNative({reservationId:reservationid})
+      .then(response => {
+        this.payObj = response.data;
+        if(this.payObj.codeUrl == '') {
+          this.dialogPayVisible = false
+          this.$message.error("支付错误")
+        } else {
+          this.timer = setInterval(() => {
+            this.queryPayStatusById(reservationid);
+          }, 3000);
+        }
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    },
+      queryPayStatusById(reservationid) {
+      queryPayStatus({reservationId:reservationid})
+      .then(response => {
+        if (response.message == '支付中') {
+          return;
+        }
+        clearInterval(this.timer);
+        // window.location.reload();
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    },
+    closeDialog() {
+      if(this.timer) {
+        clearInterval(this.timer);
+      }
     },
     // 卡支付
-    payByCard(reservationid){
-
-    },
+    payByCard(reservationid) {},
   },
 };
 </script>
