@@ -144,8 +144,8 @@ export default {
               // console.log(change(element.date));
               if (this.statement.date[i] != change(element.date)) {
                 this.statement.money[i] = 0;
-              } else this.statement[i].money = element.money;
-              if (change(this.todyay) == change(element.date))
+              } else this.statement.money[i] = element.money;
+              if (this.todyay == element.date)
                 this.todayMondy = element.money;
             }
           });
