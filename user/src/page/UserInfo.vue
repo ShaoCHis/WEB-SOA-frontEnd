@@ -559,7 +559,15 @@
           :size="size"
           border
         >
-          <template slot="extra"> </template>
+          <template slot="extra">
+            <el-button
+              style="margin-right: 10px"
+              type="success"
+              size="small"
+              @click="addReservationById()"
+              >添加预约</el-button
+            >
+          </template>
         </el-descriptions>
         <el-collapse
           v-model="activeNames1"
@@ -583,7 +591,8 @@
                   size="small"
                   @click="payByWeiXin(item.id)"
                   >支付费用</el-button
-                ><el-button
+                >
+                <el-button
                   v-if="item.state == '0' && item.cardType != '0'"
                   style="margin-right: 10px"
                   type="success"
@@ -591,21 +600,33 @@
                   @click="payByCard(item.id)"
                   >支付费用</el-button
                 >
-                <el-dialog :visible.sync="dialogPayVisible" style="text-align: left" :append-to-body="true" width="500px" @close="closeDialog">
-      <div class="container">
-        <div class="operate-view" style="height: 350px;">
-          <div class="wrapper wechat">
-            <div>
-              <qriously :value="payObj.codeUrl" :size="220"/>
-              <div style="text-align: center;line-height: 25px;margin-bottom: 40px;">
-                请使用微信扫一扫<br/>
-                扫描二维码支付
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </el-dialog>
+                <el-dialog
+                  :visible.sync="dialogPayVisible"
+                  style="text-align: left"
+                  :append-to-body="true"
+                  width="500px"
+                  @close="closeDialog"
+                >
+                  <div class="container">
+                    <div class="operate-view" style="height: 350px">
+                      <div class="wrapper wechat">
+                        <div>
+                          <qriously :value="payObj.codeUrl" :size="220" />
+                          <div
+                            style="
+                              text-align: center;
+                              line-height: 25px;
+                              margin-bottom: 40px;
+                            "
+                          >
+                            请使用微信扫一扫<br />
+                            扫描二维码支付
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </el-dialog>
                 <el-button
                   v-if="item.state == '0'"
                   style="margin-right: 10px"
@@ -763,15 +784,18 @@ import { addPatient } from "../api/user";
 import { getReservationList } from "../api/order";
 import { cancelReservation } from "../api/order";
 import { createNative, queryPayStatus } from "../api/pay";
+import { submitReservation } from "../api/reservation";
 
 export default {
   components: { myheader, Myfooter },
   name: "UserInfo",
   data() {
     return {
+      sid:"13",
+      pid:"411422202111207890",
       dialogPayVisible: false,
       payObj: {},
-      timer: null,  // 定时器名称
+      timer: null, // 定时器名称
       activeNames1: [],
       userReservations: [],
       activeNames: [], //['1'],
@@ -1082,43 +1106,53 @@ export default {
     cancelReservationById2(reservationid) {},
     // 微信支付
     payByWeiXin(reservationid) {
-      this.dialogPayVisible = true
-      createNative({reservationId:reservationid})
-      .then(response => {
-        this.payObj = response.data;
-        if(this.payObj.codeUrl == '') {
-          this.dialogPayVisible = false
-          this.$message.error("支付错误")
-        } else {
-          this.timer = setInterval(() => {
-            this.queryPayStatusById(reservationid);
-          }, 3000);
-        }
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
+      this.dialogPayVisible = true;
+      createNative({ reservationId: reservationid })
+        .then((response) => {
+          this.payObj = response.data;
+          if (this.payObj.codeUrl == "") {
+            this.dialogPayVisible = false;
+            this.$message.error("支付错误");
+          } else {
+            this.timer = setInterval(() => {
+              this.queryPayStatusById(reservationid);
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-      queryPayStatusById(reservationid) {
-      queryPayStatus({reservationId:reservationid})
-      .then(response => {
-        if (response.message == '支付中') {
-          return;
-        }
-        clearInterval(this.timer);
-        // window.location.reload();
-      })
-      .catch((error)=>{
-        console.log(error);
-      })
+    queryPayStatusById(reservationid) {
+      queryPayStatus({ reservationId: reservationid })
+        .then((response) => {
+          if (response.message == "支付中") {
+            return;
+          }
+          clearInterval(this.timer);
+          // window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     closeDialog() {
-      if(this.timer) {
+      if (this.timer) {
         clearInterval(this.timer);
       }
     },
     // 卡支付
     payByCard(reservationid) {},
+    // 添加预约，暂时放在这里
+    addReservationById() {
+      submitReservation({scheduleId:this.sid,patientId:this.pid})
+       .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
