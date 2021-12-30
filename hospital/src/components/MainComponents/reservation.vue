@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card class="reservation">
-      <el-table :data="reservation" style="width: 100%" stripe>
+      <el-table :data="reservation" style="width: 100%;height:360px;overflow-y:auto;" stripe>
         <el-table-column width="200" prop="patientID" label="病人编号">
         </el-table-column>
         <el-table-column width="100" prop="patientName" label="病人姓名">

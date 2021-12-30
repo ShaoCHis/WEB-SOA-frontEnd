@@ -24,14 +24,15 @@
                   icon="el-icon-check"
                   circle
                   @click="commit(scope.row)"
-                ></el-button>
-                <el-button
+                ></el-button>通过申请
+                <!-- <el-button
                   type="danger"
                   icon="el-icon-close"
                   circle
                   @click="refuse(scope.row)"
-                ></el-button> </template
-            ></el-table-column>
+                ></el-button-->
+              </template>
+            </el-table-column>
           </el-table>
         </div>
       </el-card>
@@ -75,7 +76,7 @@ export default {
     getAllHospitalApply()
       .then((response) => {
         console.log(response.data[0]);
-        this.hospital=response.data
+        this.hospital = response.data;
       })
       .catch((error) => {
         console.log(error);
