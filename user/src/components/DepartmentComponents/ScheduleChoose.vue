@@ -12,7 +12,7 @@
             :key="index"
             class="department-choose-hospital"
             @click.native="goToReservationPage(item)"
-          >
+          > <div v-for="(item2,index2) in DoctorSchedule" :key="index2" >
             <div class="doctor-info">
               <div class="hospital-image">
                 <img
@@ -32,7 +32,7 @@
             </div>
             <el-divider></el-divider>
             <div class="schedule">
-              <div v-for="(item2,index2) in DoctorSchedule" :key="index2" >
+             
                 <div v-for="(item3,index3) in item2" :key="index3" >
                 {{item3.id}}
               </div>
