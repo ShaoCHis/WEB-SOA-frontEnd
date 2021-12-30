@@ -29,38 +29,33 @@
         <el-input class="search" placeholder="请输入医院名称" />
         <el-button circle icon="el-icon-search" type="primary"></el-button>
         <div class="right" v-show="this.ifLogin == '0'">
-          <el-button
-            class="loginBtn"
-            type="primary"
-            @click="login()"
+          <el-button class="loginBtn" type="primary" @click="login()"
             >登录/注册</el-button
           >
         </div>
         <div class="right" v-show="this.ifLogin == '1'">
-          <el-avatar
-            class="avatar"
-            size="large"
-            fit="fit"
-            :src="avatar"
+          <el-avatar class="avatar" size="large" fit="fit" :src="avatar">
+          </el-avatar>
+          <el-dropdown
+            placement="bottom"
+            style="float: right; margin-top: -5px; margin-left: -44px"
+            v-show="this.ifLogin == '1'"
           >
-          </el-avatar
-          >
-            <el-dropdown placement="bottom" style="float:right;margin-top:-5px;margin-left:-44px;" v-show="this.ifLogin == '1'" >
             <span class="el-dropdown-link">
               <span>⚪</span>
             </span>
-            <el-dropdown-menu slot="dropdown" >
+            <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="el-icon-s-tools" @click="goToInfoPage">
-                          <!-- <div class="right" @click="goToInfoPage"> -->
-                <span style="width:100px;" @click="goToInfoPage">我的</span>
+                <!-- <div class="right" @click="goToInfoPage"> -->
+                <span style="width: 100px" @click="goToInfoPage">我的</span>
               </el-dropdown-item>
               <el-dropdown-item icon="el-icon-switch-button">
                 <span>退出当前用户</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-        </div > 
-     
+        </div>
+
         <!-- 右侧 -->
         <div class="right-wrapper"></div>
       </div>
@@ -78,14 +73,13 @@
 
       <hospital-choose></hospital-choose>
 
-       <!-- 根据科室选择医院 -->
+      <!-- 根据科室选择医院 -->
       <div class="label">
         <div class="label-left"></div>
         <div class="label-name">根据科室选择医院</div>
       </div>
 
       <department-choose></department-choose>
-      
     </div>
 
     <router-view></router-view>
@@ -115,7 +109,8 @@ export default {
   },
   name: "Main",
   mounted() {
-    this.ifLogin = "0";
+    if (sessionStorage.getItem("userId") != null) this.goToMainPage();
+    else this.ifLogin = "0";
   },
   methods: {
     login() {
@@ -161,7 +156,7 @@ export default {
 }
 .right {
   margin-right: -150px;
-  float:left;
+  float: left;
 }
 .avatar {
   border: 2px solid #d3d9d9;
@@ -173,8 +168,8 @@ export default {
   display: flex;
   position: relative;
 }
-.el-dropdown-link{
-  font-size:35px;
+.el-dropdown-link {
+  font-size: 35px;
   &:hover {
     cursor: pointer;
   }

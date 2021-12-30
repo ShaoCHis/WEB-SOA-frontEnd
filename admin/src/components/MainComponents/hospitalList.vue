@@ -106,6 +106,7 @@ export default {
   width: 1100px;
   margin-left: 50px;
   text-align: center;
+  overflow: auto;
 }
 .text {
   font-size: 18px;

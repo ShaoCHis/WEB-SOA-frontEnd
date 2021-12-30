@@ -98,7 +98,7 @@
             v-model="registerForm.phoneNumber"
           />
           <!-- 注册 -->
-          <button class="btn" v-show="!this.loginForm.isLogin" id="realRegister" @click="Register">
+          <button class="btn" id="realRegister" @click="Register">
             Sign in
           </button>
           <button type="text" @click="fun3" class="gotoReg">
@@ -300,8 +300,9 @@ export default {
       login(this.loginForm.email,this.loginForm.password)
       .then(response=>{
         this.LoginSuccess();
-        this.loginForm.isLogin=true
+        this.isLogin=true
         this.$router.push({ name: "Main" });
+        sessionStorage.setItem("userId","1234765400")
       })
       .catch(error=>{
         this.LoginFail();
