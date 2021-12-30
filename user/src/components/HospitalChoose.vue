@@ -98,7 +98,7 @@ export default {
     return {
       currentHospital: [],
       pageSize: 3,
-      currentPage: 2,
+      currentPage: 1,
       allHospital:[],
       hospital:[],
       //  [

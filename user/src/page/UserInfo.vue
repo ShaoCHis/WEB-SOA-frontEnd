@@ -96,7 +96,7 @@
       </el-card>
 
       <!-- 卡信息 -->
-      <el-card class="card-info">
+      <!-- <el-card class="card-info">
         <el-descriptions class="margin-top"
                          title="卡信息"
                          :column="2"
@@ -174,7 +174,7 @@
                    type="danger"
                    size="small"
                    @click="cancelUpdate">取消</el-button>
-      </el-card>
+      </el-card> -->
 
       <!-- 患者信息 -->
       <el-card class="patients-info">
@@ -483,10 +483,10 @@
                          :size="size"
                          border>
           <template slot="extra">
-            <el-button style="margin-right: 10px"
+            <!-- <el-button style="margin-right: 10px"
                        type="success"
                        size="small"
-                       @click="addReservationById()">添加预约</el-button>
+                       @click="addReservationById()">添加预约</el-button> -->
           </template>
         </el-descriptions>
         <el-collapse v-model="activeNames1"
@@ -689,7 +689,7 @@ export default {
   name: 'UserInfo',
   data() {
     return {
-      sid: '13',
+      sid: '20',
       pid: '411422202111207890',
       dialogPayVisible: false,
       payObj: {},
