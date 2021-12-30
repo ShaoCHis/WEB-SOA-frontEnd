@@ -1,10 +1,10 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login_ID,login_Code } from '@/api/login'
+import { login_ID, login_Code } from '@/api/login'
 
 const user = {
   state: {
     token: getToken(),
-    id:sessionStorage.getItem('userId'),
+    id: sessionStorage.getItem('userId'),
     name: '',
     avatar: '',
     roles: []
@@ -34,36 +34,20 @@ const user = {
       const DATA = { 'token': 'admin' }
       const id = userInfo.user_id
       //console.log(userInfo.isCode)
-      if (userInfo.isCode != true)
-        return new Promise((resolve, reject) => {
-          login_ID(id, userInfo.password)
-            .then(response => {
-              const data = response
-              setToken(DATA.token)
-              commit('SET_TOKEN', DATA.token)
-              commit('SET_ID',response.id)
-              sessionStorage.setItem('userId',response.id)
-              resolve()
-            }).catch(error => {
-              reject(error)
-              //console.log(error)
-            })
-        })
-      else
-        return new Promise((resolve, reject) => {
-          login_Code(id, userInfo.password)
-            .then(response => {
-              const data = response
-              setToken(DATA.token)
-              commit('SET_TOKEN', DATA.token)
-              commit('SET_ID',response.id)
-              sessionStorage.setItem('userId',response.id)
-              resolve()
-            }).catch(error => {
-              reject(error)
-              //console.log(error)
-            })
-        })
+      return new Promise((resolve, reject) => {
+        login(id, userInfo.password)
+          .then(response => {
+            const data = response
+            setToken(DATA.token)
+            commit('SET_TOKEN', DATA.token)
+            commit('SET_ID', response.id)
+            sessionStorage.setItem('userId', response.id)
+            resolve()
+          }).catch(error => {
+            reject(error)
+            //console.log(error)
+          })
+      })
     },
 
     // 获取用户信息

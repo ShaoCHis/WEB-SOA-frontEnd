@@ -1,23 +1,12 @@
 import request from '@/utils/request'
 
 //用ID登录
-export function login_ID(id, password) {
+export function login(id, password) {
     return request({
-        url: '/loginRegister/hospitals/session',
+        url: '/loginRegister/users/session',
         method: 'post',
         data: {
             id,
-            password
-        }
-    })
-}
-//用Code登录
-export function login_Code(code, password) {
-    return request({
-        url: '/loginRegister/hospitals/session',
-        method: 'post',
-        data: {
-            code,
             password
         }
     })
@@ -26,8 +15,13 @@ export function login_Code(code, password) {
 //注册
 export function register(Info) {
     return request({
-        url: '/hospital/applies/info',
+        url: '/loginRegister/users',
         method: 'post',
-        data: Info
+        data: {
+            name: Info.name,
+            password: Info.password,
+            email: Info.email,
+            phoneNumber: Info.phoneNumber
+        }
     })
 }

@@ -1,34 +1,36 @@
 <template>
   <div class="background">
+    <!--登录-->
     <div
-      v-if="!loginForm.isCode"
+      v-if="!loginForm.isLogin"
       id="container"
       class="container right-panel-active"
     >
       <div id="left" class="container_form container--signup">
         <!-- 登录信息 -->
-        <form action="#" class="form" id="form1">
-          <h2 class="form_title">Sign Up</h2>
+        <form
+          :model="loginForm"
+          :rules="loginFormRules"
+          action="#"
+          class="form"
+          id="form1"
+        >
+          <h2 class="form_title">登录</h2>
           <input
             id="rUser"
             type="text"
             placeholder="User"
             class="input"
-            value=""
-          />
-          <input
-            id="rEmail"
-            type="email"
-            placeholder="Email"
-            class="input"
-            value=""
+            v-model="loginForm.user_id"
+            porp="user_id"
           />
           <input
             id="rPwd"
-            type="text"
+            type="password"
             placeholder="Password"
             class="input"
-            value=""
+            v-model="loginForm.password"
+            prop="password"
           />
           <input
             id="input_code"
@@ -36,61 +38,68 @@
             placeholder="VerifyCode"
             class="input"
             style="width: 40%; margin-left: -60%"
-            value=""
+            porp="input_code"
+            v-model="loginForm.input_code"
           />
           <s-Identify
             :identifyCode="identifyCode"
             @click.native="refreshCode()"
           ></s-Identify>
           <!-- 登录 -->
-          <button class="btn" id="realRegister" @click="fun3">Sign Up</button>
+          <button class="btn" id="realRegister" @click="login">Sign Up</button>
+          <button type="text" @click="fun3" class="gotoReg">
+            没有账号请先注册
+          </button>
         </form>
       </div>
     </div>
+    <!--注册-->
     <div
-      v-if="loginForm.isCode"
+      v-if="loginForm.isLogin"
       id="container"
       class="container left-panel-active"
     >
       <div id="right" class="container_form container--signin">
         <!-- 注册信息表 -->
-        <form action="#" class="form" id="form1">
-          <h2 class="form_title">Sign in</h2>
+        <form
+          :model="registerForm"
+          :rules="registerFormRules"
+          action="#"
+          class="form"
+          id="form1"
+        >
+          <h2 class="form_title">注册</h2>
           <input
             id="rUser"
             type="text"
             placeholder="User"
             class="input"
-            value=""
+            v-model="registerForm.name"
           />
           <input
             id="rEmail"
             type="email"
             placeholder="Email"
             class="input"
-            value=""
+            v-model="registerForm.email"
           />
           <input
             id="rPwd"
-            type="text"
+            type="password"
             placeholder="Password"
             class="input"
-            value=""
+            v-model="registerForm.code"
           />
           <input
             id="input_code"
             type="text"
-            placeholder="VerifyCode"
+            placeholder="Phone"
             class="input"
-            style="width: 40%; margin-left: -60%"
-            value=""
+            v-model="registerForm.phone"
           />
-          <s-Identify
-            :identifyCode="identifyCode"
-            @click.native="refreshCode()"
-          ></s-Identify>
           <!-- 注册 -->
-          <button class="btn" id="realRegister" @click="fun3">Sign in</button>
+          <button class="btn" id="realRegister" @click="register">Sign in</button>
+          <button type="text" @click="fun3" class="gotoReg">已有账号进行登录</button>
         </form>
       </div>
     </div>
@@ -100,7 +109,11 @@
 <script>
 import "@/style/css/login.css";
 //导入验证规则和验证码组件
-import { validateNumber, isPassword } from "@/utils/validator";
+import {
+  validdateContact,
+  validateNumber,
+  isPassword,
+} from "@/utils/validator";
 import SIdentify from "@/components/identify";
 
 export default {
@@ -127,7 +140,7 @@ export default {
         user_id: "",
         password: "",
         input_code: "",
-        isCode: false,
+        isLogin: false,
       },
 
       left: document.getElementById("left"),
@@ -142,7 +155,7 @@ export default {
             required: true,
             trigger: "blur",
             min: 1,
-            message: "机构ID不能为空",
+            message: "ID不能为空",
           },
         ],
         password: [
@@ -157,6 +170,59 @@ export default {
             trigger: "blur",
             min: 1,
             message: "验证码不能为空",
+          },
+        ],
+      },
+
+      registerForm: {
+        name: "", //医院名称
+        code: "", //密码
+        phone: "", //联系方式
+        email: "", //医院等级，int类型
+      },
+      registerFormRules: {
+        name: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+          {
+            min: 3,
+            max: 20,
+            message: "用户名不少于3个字符，不多于20个字符！",
+            trigger: "blur",
+          },
+        ],
+        code: [
+          {
+            required: true,
+            message: "请输入密码",
+            trigger: "blur",
+            min: 1,
+          },
+        ],
+        phone: [
+          {
+            required: true,
+            validator: validdateContact,
+            trigger: "change",
+          },
+          {
+            required: true,
+            message: "请输入联系方式",
+            trigger: "blur",
+            min: 1,
+          },
+        ],
+        email: [
+          {
+            required: true,
+            min: 1,
+            message: "请输入邮箱",
+            trigger: "change",
+          },
+          {
+            required: true,
+            min: 1,
+            message: "请输入邮箱",
+            trigger: "blur",
           },
         ],
       },
@@ -178,7 +244,7 @@ export default {
       console.log(this.right);
     },
     fun3() {
-      this.loginForm.isCode = !this.loginForm.isCode;
+      this.loginForm.isLogin = !this.loginForm.isLogin;
       //confirm("是否要注册?");
       //   this.$router.push({name: "Main",});
     },
@@ -187,11 +253,6 @@ export default {
       this.$router.push({ name: "Main" });
     },
 
-    //重置按钮
-    resetLoginForm() {
-      // console.log(this)
-      this.$refs.loginFormRef.resetFields();
-    },
     //验证验证码是否正确以及账号密码是否为空
     validateInput() {
       if (this.loginForm.user_id === "") {
@@ -257,29 +318,12 @@ export default {
     },
     //登录错误提示
     LoginFail() {
-      if (this.loginForm.isCode == false)
-        this.$message({
-          message: "id或密码错误，请重新输入！",
-          type: "error",
-        });
-      else if (this.loginForm.isCode == true)
-        this.$message({
-          message: "code或密码错误，请重新输入！",
-          type: "error",
-        });
+      this.$message({
+        message: "账号或密码错误，请重新输入！",
+        type: "error",
+      });
       this.refreshCode();
       this.loginForm.input_code = "";
-    },
-
-    //跳转注册
-    register() {
-      this.$router.push({
-        name: "Register",
-      });
-    },
-    //切换登录模式
-    changeWay() {
-      this.loginForm.isCode = !this.loginForm.isCode;
     },
 
     //验证码相关
