@@ -516,9 +516,8 @@
                            :append-to-body="true"
                            width="500px"
                            @close="closeDialog">
-                  <div class="container">
                     <div class="operate-view"
-                         style="height: 350px">
+                         style="height: 350px;margin-left:10px;">
                       <div class="wrapper wechat">
                         <div>
                           <qriously :value="payObj.codeUrl"
@@ -534,7 +533,6 @@
                         </div>
                       </div>
                     </div>
-                  </div>
                 </el-dialog>
                 <el-button v-if="item.state == '0'"
                            style="margin-right: 10px"
@@ -1050,10 +1048,11 @@ export default {
     queryPayStatusById(reservationid) {
       queryPayStatus({ reservationId: reservationid })
         .then((response) => {
+          console.log(response);
           if (response.message == '支付中') {
             return
           }
-          clearInterval(this.timer)
+          clearInterval(this.timer);
           // window.location.reload();
         })
         .catch((error) => {
