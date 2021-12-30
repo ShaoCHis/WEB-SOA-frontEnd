@@ -67,12 +67,20 @@
     </el-tabs>
 
     <el-card class="showRes" v-show="showRes">
-      <el-table :data="resData" style="width: 100%">
-        <el-table-column width="200" prop="patientID" label="病人编号"> </el-table-column>
-        <el-table-column width="100" prop="patientName" label="病人姓名"> </el-table-column>
-        <el-table-column width="100" prop="reserveDate" label="预约时间"> </el-table-column>
-        <el-table-column width="100" prop="reserveTime" label="时间段"> </el-table-column>
-        <el-table-column width="100" prop="number" label="预约号码"></el-table-column>
+      <el-table :data="resData" style="overflow-y:auto;width: 100%">
+        <el-table-column width="200" prop="patientID" label="病人编号">
+        </el-table-column>
+        <el-table-column width="100" prop="patientName" label="病人姓名">
+        </el-table-column>
+        <el-table-column width="100" prop="reserveDate" label="预约时间">
+        </el-table-column>
+        <el-table-column width="100" prop="reserveTime" label="时间段">
+        </el-table-column>
+        <el-table-column
+          width="100"
+          prop="number"
+          label="预约号码"
+        ></el-table-column>
       </el-table>
       <el-button
         @click="closeRes"
@@ -138,7 +146,6 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          
         });
     },
     async updateDoctor(depid) {
@@ -176,6 +183,11 @@ export default {
   display: inline-block;
   height: 400px;
   width: 1100px;
+  // overflow-y: auto;
+  .roomList{
+    height: 400px;
+    overflow-y:auto
+  }
 }
 .showRes {
   position: fixed;
