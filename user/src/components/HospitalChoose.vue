@@ -1,12 +1,13 @@
 <template>
   <div class="hospital-choose">
-    <el-tabs type="border-card">
+    <el-tabs type="border-card"  @tab-click="handleClick">
       <el-tab-pane
         v-for="(item, index) in sortType"
         :key="index"
         :label="item.name"
       >
-        <el-row :gutter="20">
+      <template>
+          <el-row :gutter="20">
           <el-col
             :span="8"
             v-for="(item, index) in currentHospital"
@@ -24,6 +25,8 @@
             </div>
           </el-col>
         </el-row>
+      </template>
+        
       </el-tab-pane>
       <div class="block">
         <el-pagination background
@@ -45,7 +48,7 @@ import {getMap} from "../utils/map"
 export default {
   name: "HospitalChoose",
   mounted() {
-        this.initPage();
+    this.initPage(0);
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
       if (this.hospital[this.pageSize * (this.currentPage - 1) + i] != null)
@@ -55,13 +58,16 @@ export default {
     // this.currentPage=1;
   },
   methods: {
+    handleClick(tab) {
+      this.initPage(tab.index);
+    },
     goToHospitalPage(id) {
       // console.log(id);
       sessionStorage.setItem("selectedHosID",id);
       // sessionStorage.getItem("selectedHosID")
       this.$router.push({name:'Hospital'});
     },
-    initPage(){
+    initPage(index){
       getHospList().then((response)=>{
         // this.hospital=[],
         this.hospital=response.data;

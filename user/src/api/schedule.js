@@ -8,3 +8,11 @@ export function getSchedule(params) {
         params
     })
 }
+//根据病人ID和scheduleID生成预约订单信息
+export function submitReservation(params) {
+    return request({
+        url: `/orders/reservations/submitReservation/`,
+        method: 'POST',
+        params
+    })
+}

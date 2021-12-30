@@ -1,4 +1,9 @@
-.mainContainer{
+.left-wrapper{
+    &:hover{
+      cursor:pointer;
+    }
+  }
+  .mainContainer{
     background-color: #f9fafc;
   }
   .contentContainer{
@@ -6,8 +11,16 @@
     margin:0 auto;
     margin-top: 50px;
     margin-bottom: 70px;
-    min-height:380px;
   }
+  .header-container{
+  }
+  .hospital-location{
+    margin-top:15px;
+    // margin-left:90px;
+    font-size:16px;
+    letter-spacing: 2px;
+}
+  
   //可复用小标题
   .label {
     // border: salmon solid 1px; 
@@ -38,4 +51,31 @@
     text-align: center;
     // font-weight: bold;
     line-height: 48px;
+  }
+  .thequit {
+    cursor: pointer;
+  }
+  .search {
+    width: 500px;
+  }
+  .right {
+    margin-right: -150px;
+    float:left;
+  }
+  .avatar {
+    border: 2px solid #d3d9d9;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .loginBtn {
+    display: flex;
+    position: relative;
+  }
+  .el-dropdown-link{
+    font-size:35px;
+    &:hover {
+      cursor: pointer;
+    }
+    opacity: 0;
   }

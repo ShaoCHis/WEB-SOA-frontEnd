@@ -32,11 +32,17 @@
             </div>
             <el-divider></el-divider>
             <div class="schedule">
-             
                 <div v-for="(item3,index3) in item2" :key="index3" >
-                {{item3.id}}
+                    <el-checkbox v-model="checked[index3]">预约日期：<el-input v-model="item3.date"></el-input></el-checkbox>
+                    
+                    <!-- {{item3.date}} -->
+                    开始时间：<el-input diabled v-model="item3.startTime"></el-input>
+                    截止时间：<el-input diabled v-model="item3.endTime"></el-input>
+                    已被预约容量：<el-input diabled v-model="item3.reservedNumber"></el-input>
+                    剩余容量：<el-input diabled v-model="item3.availableNumber"></el-input>
+                    </div>
               </div>
-              </div>
+              <el-button type="primary" @click="jump()">点击预约</el-button>
             </div>
 
           </div>
@@ -76,6 +82,9 @@ export default {
     // this.currentPage=1;
   },
   methods: {
+    jump(){
+        this.$router.push({ path: "/reservation" });
+    },
     getDoctorSchedule(doctorid,index) {
       getSchedule({
         doctorId: doctorid,
@@ -134,6 +143,7 @@ export default {
   },
   data() {
     return {
+      checked:[false],
       DoctorSchedule:[],
       schedule: [],
       currentHospital: [],
@@ -169,4 +179,7 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../style/css/ScheduleChoose.less";
+.el-input{
+    width:120px;
+}
 </style>
