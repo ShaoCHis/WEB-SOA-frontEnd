@@ -11,7 +11,7 @@
               v-for="(item, index) in currentHospital"
               :key="index"
               class="department-choose-hospital"
-              @click.native="goToDepartmentPage(item)"
+              @click.native="goToReservationPage(item)"
             >
               <div class="doctor-info">
                 <div class="hospital-image">
@@ -26,11 +26,13 @@
                     <div class="hospital-title">{{ item.title }}</div>
                     <div class="hospital-cost">费用: {{ item.cost }}元</div>
                   </div>
-                  <div class="hospital-intro">{{ item.introduction }}</div>
+                  
+                  
                 </div>
               </div>
+              
               <el-divider></el-divider>
-            </div>
+          </div>
         </template>
       </el-tab-pane>
       <div class="block">
@@ -50,6 +52,7 @@
 </template>
 <script>
 import { getDoctorList } from "../../api/doctor";
+import { getSchedule } from "../../api/schedule";
 import { getMap } from "../../utils/map";
 
 export default {
@@ -66,16 +69,25 @@ export default {
     // this.currentPage=1;
   },
   methods: {
+    getDoctorSchedule(item){
+        getSchedule({
+            doctorid:112,
+        }).then(response=>{
+            this.docTemp=response.data;
+            console.log(this.docTemp);
+        })
+    },
     handleClick(tab) {
       // this.initPage(tab.index);
       this.initPage();
     },
-    goToDepartmentPage(item) {
+    goToReservationPage(item) {
       console.log(item);
       sessionStorage.setItem("selectedDepartmentID", item.id);
       // console.log(row);
       this.$router.push({ path: "/department" });
       // localStorage.setItem("selectedHosID",10);
+      this.getDoctorSchedule(item);
     },
     // initPage(index) {
     initPage() {
@@ -119,13 +131,14 @@ export default {
       currentPage: 2,
       allHospital: [],
       department: [],
+      docTemp:[],
       departmentClass: [
         // 筛选方法
         {
-          name: "挂号科室",
+          name: "科室医师",
         },
         {
-          name: "特色科室",
+          name: "特级专家",
         },
         // {
         //   name: "内科",

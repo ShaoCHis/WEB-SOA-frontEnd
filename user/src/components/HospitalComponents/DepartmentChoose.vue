@@ -10,7 +10,7 @@
           <el-row :gutter="20">
             <el-col
                 :span="8"
-                v-for="(item, index) in currentHospital"
+                v-for="(item, index) in department"
                 :key="index"
                 class="department-choose-hospital"
                 @click.native="goToDepartmentPage(item)"

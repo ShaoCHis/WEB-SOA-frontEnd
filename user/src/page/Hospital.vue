@@ -120,7 +120,7 @@
     </div>
 
     <router-view></router-view>
-
+    
     <myfooter></myfooter>
   </div>
 </template>
@@ -146,13 +146,14 @@ export default {
   },
     data(){
         return{
+            dialogVisible: false,
             id:sessionStorage.getItem("selectedHosID"),
             rate:5,
         };
   },
   data() {
     return {
-      id: this.$route.query.hosID,
+      id: sessionStorage.getItem("selectedHosID"),
       rate: 5,
       ifLogin:"0",
     };
@@ -185,4 +186,9 @@ export default {
 
 <style lang="less" scoped>
 @import "../style/css/hospital.less";
+.el-dialog__headerbtn{
+
+      opacity: 0;
+
+    }
 </style>

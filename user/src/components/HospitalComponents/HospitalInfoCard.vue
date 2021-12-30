@@ -55,10 +55,16 @@ export default {
           this.hospital = response.data;
           this.hospital.level = getMap(this.hospital.level);
           console.log(this.hospital);
+          this.$alert(this.hospital.notice, '温馨提示', {
+          confirmButtonText: '我知道了',
+        });
         })
         .catch((error) => {
           console.log(error);
         });
+        console.log(this.hospital.notice);
+   
+        
     },
   },
 };
