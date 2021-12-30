@@ -91,7 +91,7 @@ export function validateNumber(rule, value, callback) {
   }
 }
 /* 是否是固定电话或者手机号码或者是邮箱*/
-export function validdateContact(rule,value,callback){
+export function validdateContact(rule, value, callback) {
   const reg = /^((0\d{2,3}-\d{7,8})|(1[345789]\d{9})|(([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+))$/;;
   if (value == '' || value == undefined || value == null) {
     callback();
