@@ -111,7 +111,7 @@
       </el-card>
 
       <!-- 卡信息 -->
-       <el-card class="card-info">
+      <el-card class="card-info">
         <el-descriptions
           class="margin-top"
           title="卡信息"
@@ -576,6 +576,21 @@
               border
             >
               <template slot="extra">
+                <el-button
+                  v-if="item.state == '0' && item.cardType == '0'"
+                  style="margin-right: 10px"
+                  type="success"
+                  size="small"
+                  @click="payByWeiXin(item.id)"
+                  >支付费用</el-button
+                ><el-button
+                  v-if="item.state == '0' && item.cardType != '0'"
+                  style="margin-right: 10px"
+                  type="success"
+                  size="small"
+                  @click="payByCard(item.id)"
+                  >支付费用</el-button
+                >
                 <el-button
                   v-if="item.state == '0'"
                   style="margin-right: 10px"
@@ -1045,7 +1060,17 @@ export default {
         });
     },
     //取消已付款的预约，并退款
-    cancelReservationById2(reservationid) {},
+    cancelReservationById2(reservationid) {
+      
+    },
+    // 微信支付
+    payByWeiXin(reservationid){
+
+    },
+    // 卡支付
+    payByCard(reservationid){
+
+    },
   },
 };
 </script>
