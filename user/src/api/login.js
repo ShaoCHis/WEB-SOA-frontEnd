@@ -1,27 +1,27 @@
 import request from '@/utils/request'
 
 //用ID登录
-export function login(id, password) {
+export function login(email, password) {
     return request({
         url: '/loginRegister/users/session',
         method: 'post',
         data: {
-            id,
+            email,
             password
         }
     })
 }
 
 //注册
-export function register(Info) {
+export function register(email, name, phoneNumber, password) {
     return request({
-        url: '/loginRegister/users',
+        url: '/loginRegister/users/register',
         method: 'post',
         data: {
-            name: Info.name,
-            password: Info.password,
-            email: Info.email,
-            phoneNumber: Info.phoneNumber
+            email,
+            name,
+            phoneNumber,
+            password
         }
     })
 }

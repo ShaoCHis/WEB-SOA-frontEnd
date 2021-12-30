@@ -10,7 +10,7 @@
         <!-- 登录信息 -->
         <form
           :model="loginForm"
-          :rules="loginFormRules"
+          :rules="loginRules"
           action="#"
           class="form"
           id="form1"
@@ -19,10 +19,10 @@
           <input
             id="rUser"
             type="text"
-            placeholder="User"
+            placeholder="Email"
             class="input"
-            v-model="loginForm.user_id"
-            porp="user_id"
+            v-model="loginForm.email"
+            porp="email"
           />
           <input
             id="rPwd"
@@ -46,7 +46,7 @@
             @click.native="refreshCode()"
           ></s-Identify>
           <!-- 登录 -->
-          <button class="btn" id="realRegister" @click="login">Sign Up</button>
+          <button class="btn" id="realRegister" @click="Login">Sign Up</button>
           <button type="text" @click="fun3" class="gotoReg">
             没有账号请先注册
           </button>
@@ -88,18 +88,22 @@
             type="password"
             placeholder="Password"
             class="input"
-            v-model="registerForm.code"
+            v-model="registerForm.password"
           />
           <input
             id="input_code"
             type="text"
             placeholder="Phone"
             class="input"
-            v-model="registerForm.phone"
+            v-model="registerForm.phoneNumber"
           />
           <!-- 注册 -->
-          <button class="btn" id="realRegister" @click="register">Sign in</button>
-          <button type="text" @click="fun3" class="gotoReg">已有账号进行登录</button>
+          <button class="btn" v-show="!this.loginForm.isLogin" id="realRegister" @click="Register">
+            Sign in
+          </button>
+          <button type="text" @click="fun3" class="gotoReg">
+            已有账号进行登录
+          </button>
         </form>
       </div>
     </div>
@@ -113,8 +117,10 @@ import {
   validdateContact,
   validateNumber,
   isPassword,
+  validateEMail,
 } from "@/utils/validator";
 import SIdentify from "@/components/identify";
+import { register,login } from "../api/login";
 
 export default {
   name: "Login",
@@ -137,7 +143,7 @@ export default {
       identifyCode: "", //图形验证码
       //登录框，用户id，密码，验证码
       loginForm: {
-        user_id: "",
+        email: "",
         password: "",
         input_code: "",
         isLogin: false,
@@ -148,9 +154,9 @@ export default {
 
       //登录框输入规则验证
       loginRules: {
-        user_id: [
-          { required: true, trigger: "change", validator: validateNumber },
-          { required: true, trigger: "blur", validator: validateNumber },
+        email: [
+          { required: true, trigger: "change", validator: validateEMail },
+          { required: true, trigger: "blur", validator: validateEMail },
           {
             required: true,
             trigger: "blur",
@@ -176,8 +182,8 @@ export default {
 
       registerForm: {
         name: "", //医院名称
-        code: "", //密码
-        phone: "", //联系方式
+        password: "", //密码
+        phoneNumber: "", //联系方式
         email: "", //医院等级，int类型
       },
       registerFormRules: {
@@ -190,7 +196,7 @@ export default {
             trigger: "blur",
           },
         ],
-        code: [
+        password: [
           {
             required: true,
             message: "请输入密码",
@@ -198,7 +204,7 @@ export default {
             min: 1,
           },
         ],
-        phone: [
+        phoneNumber: [
           {
             required: true,
             validator: validdateContact,
@@ -224,6 +230,8 @@ export default {
             message: "请输入邮箱",
             trigger: "blur",
           },
+          { required: true, trigger: "blur", validator: validateEMail },
+          { required: true, trigger: "change", validator: validateEMail },
         ],
       },
     };
@@ -255,9 +263,9 @@ export default {
 
     //验证验证码是否正确以及账号密码是否为空
     validateInput() {
-      if (this.loginForm.user_id === "") {
+      if (this.loginForm.email === "") {
         this.$message({
-          message: "机构ID或Code不能为空！",
+          message: "用户不能为空！",
           type: "error",
         });
         this.$router.push({ name: "Login" });
@@ -283,29 +291,40 @@ export default {
       return true;
     },
     //登录
-    login() {
+    Login() {
       //this.$router.push({ name: "Main" });
       //return;
       if (!this.validateInput()) {
         return;
       }
-      //console.log(this.$store.state.user);
-      this.$store
-        .dispatch("Login", this.loginForm)
-        .then(() => {
-          this.LoginSuccess();
-          //console.log(1);
-        })
-        .catch(() => {
-          //console.log(2);
-          //this.LoginFail();
-          this.LoginFail();
-        });
+      login(this.loginForm.email,this.loginForm.password)
+      .then(response=>{
+        this.LoginSuccess();
+        this.loginForm.isLogin=true
+        this.$router.push({ name: "Main" });
+      })
+      .catch(error=>{
+        this.LoginFail();
+        console.log(error)
+      })
+      // //console.log(this.$store.state.user);
+      // this.$store
+      //   .dispatch("Login", this.loginForm)
+      //   .then(() => {
+      //     this.LoginSuccess();
+      //     this.$router.push({ name: "Main" });
+      //     // console.log(1);
+      //   })
+      //   .catch(() => {
+      //     // console.log(2);
+      //     //this.LoginFail();
+      //     this.LoginFail();
+      //   });
     },
     //登录成功提示及跳转
     LoginSuccess() {
       if (
-        this.loginForm.user_id != "" &&
+        this.loginForm.email != "" &&
         this.loginForm.password != "" &&
         this.loginForm.input_code != ""
       ) {
@@ -326,6 +345,48 @@ export default {
       this.loginForm.input_code = "";
     },
 
+    judgeInput() {
+      if (
+        this.registerForm.name == "" ||
+        this.registerForm.password == "" ||
+        this.registerForm.email == "" ||
+        this.registerForm.phoneNumber == ""
+      )
+        return false;
+    },
+    Register() {
+      if (this.judgeInput() == false) {
+        this.$message({
+          message: "请输入完整信息",
+          type: "error",
+        });
+        return;
+      }
+      console.log(this.registerForm);
+      register(
+        this.registerForm.name,
+        this.registerForm.password,
+        this.registerForm.password,
+        this.registerForm.phoneNumber
+      )
+        .then((response) => {
+          console.log(response.data);
+          if (response.success == true) {
+            this.$message({
+              message: "注册成功,您的用户ID是" + response.data.userId,
+              type: "success",
+            });
+          } else {
+            this.$message({
+              message: "注册失败，请重新提交！",
+              type: "error",
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(0);
+        });
+    },
     //验证码相关
     randomNum(min, max) {
       return Math.floor(Math.random() * (max - min) + min);

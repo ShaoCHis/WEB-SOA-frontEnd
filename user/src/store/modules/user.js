@@ -32,16 +32,17 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const DATA = { 'token': 'admin' }
-      const id = userInfo.user_id
-      //console.log(userInfo.isCode)
+      const email = userInfo.email
+      console.log(userInfo.password)
       return new Promise((resolve, reject) => {
-        login(id, userInfo.password)
+        login(email, userInfo.password)
           .then(response => {
             const data = response
+            console.log
             setToken(DATA.token)
             commit('SET_TOKEN', DATA.token)
-            commit('SET_ID', response.id)
-            sessionStorage.setItem('userId', response.id)
+            // commit('SET_ID', response.id)
+            // sessionStorage.setItem('userId', response.id)
             resolve()
           }).catch(error => {
             reject(error)
