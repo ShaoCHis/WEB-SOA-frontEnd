@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-//根据科室ID查找科室
+// 查看某医生的排班信息
 export function getSchedule(params) {
     return request({
         url: `/hospital/schedules/getSchedule/${params.doctorId}`,

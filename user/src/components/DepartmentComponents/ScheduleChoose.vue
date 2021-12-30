@@ -8,30 +8,37 @@
       >
         <template slot-scope="scope">
           <div
-              v-for="(item, index) in currentHospital"
-              :key="index"
-              class="department-choose-hospital"
-              @click.native="goToReservationPage(item)"
-            >
-              <div class="doctor-info">
-                <div class="hospital-image">
-                  <img
-                    src="../../assets/unknown_user.png"
-                    style="width: 100px; height: 100px"
-                  />
-                </div>
-                <div class="hospital-content">
-                  <div class="hospital-name">{{ item.name }}</div>
-                  <div class="hospital-title-cost">
-                    <div class="hospital-title">{{ item.title }}</div>
-                    <div class="hospital-cost">费用: {{ item.cost }}元</div>
-                  </div>
-                  
-                  
-                </div>
+            v-for="(item, index) in currentHospital"
+            :key="index"
+            class="department-choose-hospital"
+            @click.native="goToReservationPage(item)"
+          >
+            <div class="doctor-info">
+              <div class="hospital-image">
+                <img
+                  src="../../assets/unknown_user.png"
+                  style="width: 100px; height: 100px"
+                />
               </div>
-              
-              <el-divider></el-divider>
+              <div class="hospital-content">
+                <div class="hospital-name">{{ item.name }}</div>
+                <div class="hospital-title-cost">
+                  <div class="hospital-title">{{ item.title }}</div>
+                  <div class="hospital-cost">费用: {{ item.cost }}元</div>
+                </div>
+                <div class="hospital-intro"></div>
+                <!-- <div class="hospital-intro">{{ item.introduction }}</div> -->
+              </div>
+            </div>
+            <el-divider></el-divider>
+            <div class="schedule">
+              <div v-for="(item2,index2) in DoctorSchedule" :key="index2" >
+                <div v-for="(item3,index3) in item2" :key="index3" >
+                {{item3.id}}
+              </div>
+              </div>
+            </div>
+
           </div>
         </template>
       </el-tab-pane>
@@ -69,13 +76,14 @@ export default {
     // this.currentPage=1;
   },
   methods: {
-    getDoctorSchedule(item){
-        getSchedule({
-            doctorid:112,
-        }).then(response=>{
-            this.docTemp=response.data;
-            console.log(this.docTemp);
-        })
+    getDoctorSchedule(doctorid,index) {
+      getSchedule({
+        doctorId: doctorid,
+      }).then((response) => {
+        this.DoctorSchedule[index]=response.data;
+        // this.docTemp = response.data;
+        // console.log(this.docTemp);
+      });
     },
     handleClick(tab) {
       // this.initPage(tab.index);
@@ -100,9 +108,10 @@ export default {
           // this.hospital=[],
           this.schedule = response.data;
           console.log(this.schedule);
-          // this.department.forEach((element, index) => {
-          //   element.level = getMap(element.level);
-          // });
+          this.schedule.forEach((element, index) => {
+            this.getDoctorSchedule(element.id,index);
+          });
+          console.log(this.DoctorSchedule);
         })
         .catch((error) => {
           console.log(error);
@@ -125,13 +134,14 @@ export default {
   },
   data() {
     return {
+      DoctorSchedule:[],
       schedule: [],
       currentHospital: [],
       pageSize: 3,
       currentPage: 2,
       allHospital: [],
       department: [],
-      docTemp:[],
+      docTemp: [],
       departmentClass: [
         // 筛选方法
         {

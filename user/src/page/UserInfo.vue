@@ -782,7 +782,7 @@ import { getUserInfo, setUserInfo } from "../api/user";
 import { deletePatient } from "../api/user";
 import { addPatient } from "../api/user";
 import { getReservationList } from "../api/order";
-import { cancelReservation } from "../api/order";
+import { cancelReservation, cancelPaidReservation } from "../api/order";
 import { createNative, queryPayStatus } from "../api/pay";
 import { submitReservation } from "../api/reservation";
 
@@ -791,8 +791,8 @@ export default {
   name: "UserInfo",
   data() {
     return {
-      sid:"13",
-      pid:"411422202111207890",
+      sid: "13",
+      pid: "411422202111207890",
       dialogPayVisible: false,
       payObj: {},
       timer: null, // 定时器名称
@@ -1103,7 +1103,33 @@ export default {
         });
     },
     //取消已付款的预约，并退款
-    cancelReservationById2(reservationid) {},
+    cancelReservationById2(reservationid) {
+      this.$confirm("该操作将执行退款, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          cancelPaidReservation({ reservationId: reservationid })
+            .then((response) => {
+              console.log(response);
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          this.$message({
+            type: "success",
+            message: "退款申请成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消退款",
+          });
+        });
+    },
     // 微信支付
     payByWeiXin(reservationid) {
       this.dialogPayVisible = true;
@@ -1145,8 +1171,8 @@ export default {
     payByCard(reservationid) {},
     // 添加预约，暂时放在这里
     addReservationById() {
-      submitReservation({scheduleId:this.sid,patientId:this.pid})
-       .then((response) => {
+      submitReservation({ scheduleId: this.sid, patientId: this.pid })
+        .then((response) => {
           console.log(response);
         })
         .catch((error) => {

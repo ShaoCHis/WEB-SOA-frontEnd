@@ -17,3 +17,12 @@ export function cancelReservation(params) {
         params
     })
 }
+
+// 根据reservationId取消已经付款的预约，并退款
+export function cancelPaidReservation(params) {
+    return request({
+        url: `/orders/reservations/cancelPaidReservation/${params.reservationId}`,
+        method: 'get',
+        params
+    })
+}
