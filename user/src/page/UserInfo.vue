@@ -1028,7 +1028,7 @@ export default {
     },
     // 微信支付
     payByWeiXin(reservationid) {
-      this.dialogPayVisible = true
+      this.dialogPayVisible = true;
       createNative({ reservationId: reservationid })
         .then((response) => {
           this.payObj = response.data
@@ -1050,7 +1050,14 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.message == '支付中') {
-            return
+            return;
+          }
+          else{
+             this.$message({
+            type: 'success',
+            message: '支付成功!',
+          })
+          this.dialogPayVisible = false;
           }
           clearInterval(this.timer);
           // window.location.reload();
