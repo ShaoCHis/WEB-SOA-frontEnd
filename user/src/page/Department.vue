@@ -49,8 +49,11 @@
                 <!-- <div class="right" @click="goToInfoPage"> -->
                 <span style="width: 100px" @click="goToInfoPage">我的</span>
               </el-dropdown-item>
-              <el-dropdown-item icon="el-icon-switch-button">
-                <span>退出当前用户</span>
+              <el-dropdown-item
+                icon="el-icon-switch-button"
+                @click="goToLoginPage"
+              >
+                <span @click="goToLoginPage">退出当前用户</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -68,14 +71,14 @@
         <div class="label-name">科室信息</div>
       </div>
 
-     <department-info-card></department-info-card>
+      <department-info-card></department-info-card>
 
       <!-- 挂号科室&特色科室 -->
       <!-- <div class="label">
             <div class="label-left"></div>
             <div class="label-name">科室医生</div>
       </div> -->
-      
+
       <schedule-choose></schedule-choose>
 
       <!-- 用户评价 -->
@@ -134,7 +137,7 @@ import "@/style/chunk.css";
 import HospitalChoose from "../components/DepartmentChoose.vue";
 import HomeCarousel from "../components/HomeCarousel.vue";
 import DepartmentInfoCard from "../components/DepartmentComponents/DepartmentInfoCard.vue";
-import ScheduleChoose from '../components/DepartmentComponents/ScheduleChoose.vue';
+import ScheduleChoose from "../components/DepartmentComponents/ScheduleChoose.vue";
 export default {
   name: "Department",
   components: {
@@ -142,42 +145,37 @@ export default {
     HospitalChoose,
     HomeCarousel,
     DepartmentInfoCard,
-     ScheduleChoose,
-  },
-    data(){
-     return{
-            id:sessionStorage.getItem("selectedHosID"),
-            rate:5,
-        };
+    ScheduleChoose,
   },
   data() {
     return {
-      id: this.$route.query.hosID,
+      avatar: "",
+      userName: "",
+      userId: "",
+      ifLogin: "0", //用户是否已经登录
+      id: sessionStorage.getItem("selectedHosID"),
       rate: 5,
-      ifLogin:"0",
     };
   },
   mounted() {
-    console.log(this.id);
+     if (sessionStorage.getItem("userId") != null) {
+      this.avatar = sessionStorage.getItem("avatar");
+      this.ifLogin = "1";
+    } else this.ifLogin = "0";
   },
   methods: {
+    login() {
+      this.$router.push({ name: "Login" });
+    },
     goToMainPage() {
-      // this.$router.push({ name: "Main" });
-      this.ifLogin = "1";
-      sessionStorage.setItem("userId", "1234765400");
-      this.userId = sessionStorage.getItem("userId");
-      sessionStorage.setItem(
-        "avatar",
-        "https://s1.ax1x.com/2021/12/10/oo0y0x.jpg"
-      );
-      this.avatar = sessionStorage.getItem("avatar");
-      sessionStorage.setItem("userName", "用户");
-      this.userName = sessionStorage.getItem("userName");
-      // this.$store
-      // console.log(1);
+      this.$router.push({ name: "Main" });
     },
     goToInfoPage() {
       this.$router.push({ name: "UserInfo" });
+    },
+    goToLoginPage() {
+      sessionStorage.removeItem("userId");
+      this.$router.push({ name: "Login" });
     },
   },
 };

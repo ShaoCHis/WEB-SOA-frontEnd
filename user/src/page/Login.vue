@@ -46,7 +46,7 @@
             @click.native="refreshCode()"
           ></s-Identify>
           <!-- 登录 -->
-          <button class="btn" id="realRegister" @click="Login">Sign Up</button>
+          <button class="btn" id="realRegister" @click="Login">登录</button>
           <button type="text" @click="fun3" class="gotoReg">
             没有账号请先注册
           </button>
@@ -98,10 +98,8 @@
             v-model="registerForm.phoneNumber"
           />
           <!-- 注册 -->
-          <button class="btn" id="realRegister" @click="Register">
-            Sign in
-          </button>
-          <button type="text" @click="fun3" class="gotoReg">
+          <button class="btn" id="realRegister" @click="Register">注册</button>
+          <button type="text" @click="fun3" class="gotoReg1">
             已有账号进行登录
           </button>
         </form>
@@ -120,7 +118,7 @@ import {
   validateEMail,
 } from "@/utils/validator";
 import SIdentify from "@/components/identify";
-import { register,login } from "../api/login";
+import { register, login } from "../api/login";
 
 export default {
   name: "Login",
@@ -242,12 +240,12 @@ export default {
   },
   methods: {
     fun1() {
-      console.log(1);
+      // console.log(1);
       this.left.classList.remove("right-panel-active");
       console.log(right);
     },
     fun2() {
-      console.log(-1);
+      // console.log(-1);
       this.right.classList.add("right-panel-active");
       console.log(this.right);
     },
@@ -297,17 +295,22 @@ export default {
       if (!this.validateInput()) {
         return;
       }
-      login(this.loginForm.email,this.loginForm.password)
-      .then(response=>{
-        this.LoginSuccess();
-        this.isLogin=true
-        this.$router.push({ name: "Main" });
-        sessionStorage.setItem("userId","1234765400")
-      })
-      .catch(error=>{
-        this.LoginFail();
-        console.log(error)
-      })
+      login(this.loginForm.email, this.loginForm.password)
+        .then((response) => {
+          var userInfo = response.data;
+          // console.log(userInfo);
+          this.LoginSuccess();
+          this.isLogin = true;
+          sessionStorage.setItem("userId", userInfo.userId);
+          sessionStorage.setItem("phoneNumber", userInfo.phoneNumber);
+          sessionStorage.setItem("email", userInfo.email);
+          sessionStorage.setItem("userName", userInfo.name);
+          this.$router.push({ name: "Main" });
+        })
+        .catch((error) => {
+          this.LoginFail();
+          console.log(error);
+        });
       // //console.log(this.$store.state.user);
       // this.$store
       //   .dispatch("Login", this.loginForm)
@@ -374,9 +377,11 @@ export default {
           console.log(response.data);
           if (response.success == true) {
             this.$message({
-              message: "注册成功,您的用户ID是" + response.data.userId,
+              message: "注册成功！ ",
               type: "success",
             });
+            this.registerForm=[];
+            this.$router.push({name:"Login"});
           } else {
             this.$message({
               message: "注册失败，请重新提交！",

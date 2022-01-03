@@ -26,6 +26,7 @@
             ></el-menu-item
           >
         </el-menu>
+        
         <el-input class="search" placeholder="请输入医院名称" />
         <el-button circle icon="el-icon-search" type="primary"></el-button>
         <div class="right" v-show="this.ifLogin == '0'">
@@ -49,8 +50,11 @@
                 <!-- <div class="right" @click="goToInfoPage"> -->
                 <span style="width: 100px" @click="goToInfoPage">我的</span>
               </el-dropdown-item>
-              <el-dropdown-item icon="el-icon-switch-button">
-                <span>退出当前用户</span>
+              <el-dropdown-item
+                icon="el-icon-switch-button"
+                @click="goToLoginPage"
+              >
+                <span @click="goToLoginPage">退出当前用户</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -109,30 +113,30 @@ export default {
   },
   name: "Main",
   mounted() {
-    if (sessionStorage.getItem("userId") != null) this.goToMainPage();
-    else this.ifLogin = "0";
-  },
-  methods: {
-    login() {
-      this.$router.push({ name: "Login" });
-    },
-    goToMainPage() {
-      // this.$router.push({ name: "Main" });
-      this.ifLogin = "1";
-      sessionStorage.setItem("userId", "1234765400");
+    if (sessionStorage.getItem("userId") != null) {
       this.userId = sessionStorage.getItem("userId");
       sessionStorage.setItem(
         "avatar",
         "https://s1.ax1x.com/2021/12/10/oo0y0x.jpg"
       );
       this.avatar = sessionStorage.getItem("avatar");
-      sessionStorage.setItem("userName", "用户");
       this.userName = sessionStorage.getItem("userName");
-      // this.$store
-      // console.log(1);
+      this.ifLogin = "1";
+    } else this.ifLogin = "0";
+  },
+  methods: {
+    login() {
+      this.$router.push({ name: "Login" });
+    },
+    goToMainPage() {
+      this.$router.push({ name: "Main" });
     },
     goToInfoPage() {
       this.$router.push({ name: "UserInfo" });
+    },
+    goToLoginPage() {
+      sessionStorage.removeItem("userId");
+      this.$router.push({ name: "Login" });
     },
   },
   data() {
@@ -148,33 +152,4 @@ export default {
 
 <style lang="less" scoped>
 @import "../style/css/main.less";
-.thequit {
-  cursor: pointer;
-}
-.search {
-  width: 500px;
-}
-.right {
-  margin-right: -150px;
-  float: left;
-}
-.avatar {
-  border: 2px solid #d3d9d9;
-  &:hover {
-    cursor: pointer;
-  }
-}
-.loginBtn {
-  display: flex;
-  position: relative;
-}
-.el-dropdown-link {
-  font-size: 35px;
-  &:hover {
-    cursor: pointer;
-  }
-  opacity: 0;
-}
 </style>
-
-
