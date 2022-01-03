@@ -6,7 +6,7 @@
         :key="index"
         :label="item.name"
       >
-        <template slot-scope="scope">
+        <template>
           <el-row :gutter="20">
             <el-col
               :span="8"
