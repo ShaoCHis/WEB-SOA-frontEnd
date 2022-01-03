@@ -80,7 +80,7 @@
         </div>
         <el-divider></el-divider>
         <div class="hospital-location">
-          就诊时间：{{ this.registerForm.date }}&nbsp{{
+          就诊时间：{{ this.registerForm.date }}&nbsp;{{
             this.registerForm.time
           }}
         </div>

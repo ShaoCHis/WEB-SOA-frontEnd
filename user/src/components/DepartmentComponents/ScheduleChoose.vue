@@ -110,11 +110,21 @@ export default {
         if (element == true) idx = index;
       });
       // console.log(idx);
-      data=JSON.stringify({
-        hospital:sessionStorage.getItem("selectedHosID"),
-
-      })
-
+      var data = JSON.stringify({
+        hospital: sessionStorage.getItem("selectedHosID"),
+        hospitalName: sessionStorage.getItem("selectedName"),
+        department: sessionStorage.getItem("selectedDepartmentName"),
+        doctor: this.schedule[t].name,
+        date: this.DoctorSchedule[t][idx].date,
+        money: this.schedule[t].cost,
+        userName: sessionStorage.getItem("userName"),
+        time:
+          this.DoctorSchedule[t][idx].startTime +
+          "-" +
+          this.DoctorSchedule[t][idx].endTime,
+      });
+      sessionStorage.setItem("reservationData", data);
+      // console.log(JSON.parse(sessionStorage.getItem("reservationData")));
       this.$router.push({ path: "/reservation" });
     },
     getDoctorSchedule(doctorid, index) {
@@ -165,6 +175,7 @@ export default {
       }
     },
     handleClick(tab) {
+      console.log(this.DoctorSchedule);
       // console.log(tab.paneName);
       this.currentPage = 1;
       this.INDEX = tab.paneName;

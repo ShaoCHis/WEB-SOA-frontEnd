@@ -71,6 +71,7 @@ export default {
     goToDepartmentPage(item) {
       // console.log(item);
       sessionStorage.setItem("selectedDepartmentID", item.id);
+      sessionStorage.setItem("selectedDepartmentName", item.name);
       // console.log(row);
       this.$router.push({ path: "/department" });
       // localStorage.setItem("selectedHosID",10);

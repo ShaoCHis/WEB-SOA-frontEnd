@@ -72,6 +72,7 @@ export default {
       // console.log(item);
       // console.log(row);
       sessionStorage.setItem("selectedHosID", item.id);
+      sessionStorage.setItem("selectedName",item.name);
       this.$router.push({ path: "/hospital", query: { hosID: item.id } });
       // localStorage.setItem("selectedHosID",10);
     },
