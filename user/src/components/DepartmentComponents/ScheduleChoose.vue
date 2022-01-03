@@ -125,10 +125,11 @@ export default {
           this.DoctorSchedule[t][idx].startTime +
           "-" +
           this.DoctorSchedule[t][idx].endTime,
+        scheduleID: this.DoctorSchedule[t].id,
       });
       sessionStorage.setItem("reservationData", data);
       // console.log(JSON.parse(sessionStorage.getItem("reservationData")));
-      this.$router.push({ path: "/reservation" });
+      // this.$router.push({ path: "/reservation" });
     },
     getDoctorSchedule(doctorid, index) {
       getSchedule({
@@ -178,7 +179,7 @@ export default {
       }
     },
     handleClick(tab) {
-      console.log(this.DoctorSchedule);
+      // console.log(this.DoctorSchedule);
       // console.log(tab.paneName);
       this.currentPage = 1;
       this.INDEX = tab.paneName;

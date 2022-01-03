@@ -49,19 +49,22 @@ export default {
       .then((response) => {
         response.data.forEach((element) => {
           this.department.push({ name: element.name, id: element.id });
+          this.initPage(0);
+          /** */
+          this.currentHospital = [];
+          for (var i = 0; i < this.pageSize; i++) {
+            if (
+              this.hospital[this.pageSize * (this.currentPage - 1) + i] != null
+            )
+              this.currentHospital[i] =
+                this.hospital[this.pageSize * (this.currentPage - 1) + i];
+          }
+          // this.currentPage=1;
         });
       })
       .catch((error) => {
         console.log(error);
       });
-    this.initPage(0);
-    this.currentHospital = [];
-    for (var i = 0; i < this.pageSize; i++) {
-      if (this.hospital[this.pageSize * (this.currentPage - 1) + i] != null)
-        this.currentHospital[i] =
-          this.hospital[this.pageSize * (this.currentPage - 1) + i];
-    }
-    // this.currentPage=1;
   },
   methods: {
     handleClick(tab) {
@@ -72,7 +75,7 @@ export default {
       // console.log(item);
       // console.log(row);
       sessionStorage.setItem("selectedHosID", item.id);
-      sessionStorage.setItem("selectedName",item.name);
+      sessionStorage.setItem("selectedName", item.name);
       this.$router.push({ path: "/hospital", query: { hosID: item.id } });
       // localStorage.setItem("selectedHosID",10);
     },

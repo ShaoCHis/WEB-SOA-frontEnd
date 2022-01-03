@@ -111,25 +111,7 @@ export default {
   name: "Reservation",
   data() {
     return {
-      registerForm: {
-        // 先前步骤已经确定的信息
-        hospital: 1692369831,
-        hospitalName: "上海交通大学医学院附属瑞金医院北院",
-        department: "眼科",
-        doctor: "Lisa",
-        date: "2021-12-29",
-        time: "10:00:00",
-        money: "56",
-        userId: sessionStorage.getItem("userId"), //1234765400
-        userName: "hikazuri",
-        // 预约步骤需要填写的信息
-        date: "2021-12-30",
-        startTime: "13:00:00",
-        endTime: "17:00:00",
-        reservedNumber: 43,
-        availableNumber: 34,
-        scheduleID: 158,
-      },
+      registerForm: JSON.parse(sessionStorage.getItem("reservationData")),
     };
   },
   methods: {
@@ -152,7 +134,11 @@ export default {
       this.$router.push({ name: "UserInfo" });
     },
     createOrder() {
-      submitReservation(this.userId, this.scheduleID)
+      // console.log(this.registerForm);
+      submitReservation(
+        sessionStorage.getItem("userId"),
+        this.registerForm.scheduleID
+      )
         .then((response) => {
           console.log(response.data);
           this.$message({

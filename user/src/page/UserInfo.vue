@@ -1315,15 +1315,15 @@ export default {
     // 卡支付
     payByCard(reservationid) {},
     // 添加预约，暂时放在这里
-    addReservationById() {
-      submitReservation({ scheduleId: this.sid, patientId: this.pid })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    // addReservationById() {
+    //   submitReservation({ scheduleId: this.sid, patientId: this.pid })
+    //     .then((response) => {
+    //       console.log(response);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
   },
 };
 </script>
