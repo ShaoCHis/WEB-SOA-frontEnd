@@ -6,26 +6,25 @@
         :key="index"
         :label="item.name"
       >
-      <template slot-scope="scope">
+        <template slot-scope="scope">
           <el-row :gutter="20">
             <el-col
-                :span="8"
-                v-for="(item, index) in hospital"
-                :key="index"
-                class="department-choose-hospital"
-                @click.native="goToHospitalPage(item)"
+              :span="8"
+              v-for="(item, index) in hospital"
+              :key="index"
+              class="department-choose-hospital"
+              @click.native="goToHospitalPage(item)"
             >
-                <div class="hospital-image">
+              <div class="hospital-image">
                 <img :src="item.image" style="width: 100%; height: 100%" />
-                </div>
-                <div class="hospital-content">
+              </div>
+              <div class="hospital-content">
                 <div class="hospital-name">{{ item.name }}</div>
                 <div class="hospital-level">{{ item.level }}</div>
-                </div>
+              </div>
             </el-col>
           </el-row>
         </template>
-        
       </el-tab-pane>
       <div class="block">
         <el-pagination
@@ -63,20 +62,24 @@ export default {
       this.initPage(tab.index);
     },
     goToHospitalPage(item) {
-        console.log(item);
-        // console.log(row);
-        sessionStorage.setItem("selectedHosID",item.id);
-        this.$router.push({path: '/hospital',query:{ hosID:item.id}});
-        // localStorage.setItem("selectedHosID",10);
+      console.log(item);
+      // console.log(row);
+      sessionStorage.setItem("selectedHosID", item.id);
+      this.$router.push({ path: "/hospital", query: { hosID: item.id } });
+      // localStorage.setItem("selectedHosID",10);
     },
     initPage(index) {
       getHospListInfo({ id: this.department[index].id })
         .then((response) => {
-          // this.hospital=[],
-          this.hospital = response.data;
-          this.hospital.forEach((element, index) => {
-            element.level = getMap(element.level);
-          });
+          (this.hospital = []),
+            // this.hospital = response.data;
+            response.data.forEach((element, index) => {
+              if (element.level == null || element.level == "") console.log(1);
+              else {
+                element.level = getMap(element.level);
+                this.hospital.push(element);
+              }
+            });
         })
         .catch((error) => {
           console.log(error);

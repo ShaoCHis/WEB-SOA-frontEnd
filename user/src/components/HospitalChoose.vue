@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      console.log(tab.get)
+      console.log(tab.get);
       this.initPage(tab.index);
     },
     goToHospitalPage(id) {
@@ -99,10 +99,15 @@ export default {
     initPage(index) {
       getHospList()
         .then((response) => {
-          // this.hospital=[],
-          this.hospital = response.data;
-          this.hospital.forEach((element, index) => {
-            element.level = getMap(element.level);
+          this.hospital=[],
+          // this.hospital = response.data;
+          response.data.forEach((element, index) => {
+            if (element.level == null || element.level == "") console.log(1);
+            else {
+              element.level = getMap(element.level);
+              this.hospital.push(element);
+              
+            }
           });
         })
         .catch((error) => {
