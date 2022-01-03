@@ -26,8 +26,32 @@
             ></el-menu-item
           >
         </el-menu>
-        <el-input class="search" placeholder="请输入医院名称" />
-        <el-button circle icon="el-icon-search" type="primary"></el-button>
+        <el-autocomplete
+          popper-class="my-autocomplete"
+          class="search"
+          v-model="searchInput"
+          :fetch-suggestions="querySearch"
+          placeholder="请输入医院名称"
+          @select="handleSelect"
+        >
+          <i
+            class="el-icon-edit el-input__icon"
+            slot="suffix"
+            @click="handleIconClick"
+          >
+          </i>
+          <template slot-scope="{ item }">
+            <div class="name">{{ item.name }}</div>
+            <!-- <span class="addr">{{ item.address }}</span> -->
+          </template>
+        </el-autocomplete>
+        <el-button
+          circle
+          icon="el-icon-search"
+          type="primary"
+          @click="goToHospitalPage(searchInput)"
+        ></el-button>
+
         <div class="right" v-show="this.ifLogin == '0'">
           <el-button class="loginBtn" type="primary" @click="login()"
             >登录/注册</el-button
@@ -49,8 +73,11 @@
                 <!-- <div class="right" @click="goToInfoPage"> -->
                 <span style="width: 100px" @click="goToInfoPage">我的</span>
               </el-dropdown-item>
-              <el-dropdown-item icon="el-icon-switch-button">
-                <span>退出当前用户</span>
+              <el-dropdown-item
+                icon="el-icon-switch-button"
+                @click="goToLoginPage"
+              >
+                <span @click="goToLoginPage">退出当前用户</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -98,6 +125,9 @@
         >
       </el-card>
     </div>
+
+    <router-view></router-view>
+
     <myfooter></myfooter>
   </div>
 </template>
@@ -106,6 +136,8 @@
 import Myfooter from "../layout/myfooter.vue";
 import myheader from "../layout/myheader.vue";
 import { submitReservation } from "../api/reservation";
+import { getHospitalInfoByName } from "../api/hospital";
+
 export default {
   components: { myheader, Myfooter },
   name: "Reservation",
@@ -115,23 +147,59 @@ export default {
     };
   },
   methods: {
+    login() {
+      this.$router.push({ name: "Login" });
+    },
     goToMainPage() {
-      // this.$router.push({ name: "Main" });
-      this.ifLogin = "1";
-      sessionStorage.setItem("userId", "1234765400");
-      this.userId = sessionStorage.getItem("userId");
-      sessionStorage.setItem(
-        "avatar",
-        "https://s1.ax1x.com/2021/12/10/oo0y0x.jpg"
-      );
-      this.avatar = sessionStorage.getItem("avatar");
-      sessionStorage.setItem("userName", "用户");
-      this.userName = sessionStorage.getItem("userName");
-      // this.$store
-      // console.log(1);
+      this.$router.push({ name: "Main" });
     },
     goToInfoPage() {
       this.$router.push({ name: "UserInfo" });
+    },
+    goToLoginPage() {
+      sessionStorage.removeItem("userId");
+      this.$router.push({ name: "Login" });
+    },
+    // 直接跳转到医院页面
+    goToHospitalPage(hospitalName) {
+      getHospitalInfoByName({ content: hospitalName })
+        .then((response) => {
+          this.selectSuggest = response.data[0];
+          sessionStorage.setItem("selectedHosID", this.selectSuggest.id);
+          sessionStorage.setItem("selectedName", this.selectSuggest.name);
+          this.$router.push({
+            name: "Hospital",
+            query: { hosID: this.selectSuggest.id },
+          });
+          // console.log(this.selectSuggest);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    querySearch(queryString, cb) {
+      var searchSuggests = this.searchSuggests;
+      var results = queryString
+        ? searchSuggests.filter(this.createFilter(queryString))
+        : searchSuggests;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return (searchSuggest) => {
+        return (
+          searchSuggest.name
+            .toLowerCase()
+            .indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+    handleSelect(item) {
+      console.log(item);
+      this.searchInput = item.name;
+    },
+    handleIconClick(ev) {
+      console.log(ev);
     },
     createOrder() {
       // console.log(this.registerForm);
@@ -155,7 +223,20 @@ export default {
       this.$router.push({ name: "UserInfo" });
     },
   },
-  mounted() {},
+  mounted() {
+    this.userId = sessionStorage.getItem("userId");
+    this.avatar = sessionStorage.getItem("avatar");
+    this.userName = sessionStorage.getItem("userName");
+    this.ifLogin = "1";
+    getHospitalInfoByName({ content: "医院" })
+      .then((response) => {
+        this.searchSuggests = response.data;
+        // console.log(this.searchSuggests);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 </script>
 
