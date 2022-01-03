@@ -174,7 +174,7 @@ export default {
   },
   data() {
     return {
-            selectSuggest: [],
+      selectSuggest: [],
       searchSuggests: [],
       searchInput: "",
       avatar: "",
@@ -186,11 +186,11 @@ export default {
     };
   },
   mounted() {
-     if (sessionStorage.getItem("userId") != null) {
+    if (sessionStorage.getItem("userId") != null) {
       this.avatar = sessionStorage.getItem("avatar");
       this.ifLogin = "1";
     } else this.ifLogin = "0";
-     getHospitalInfoByName({ content: "医院" })
+    getHospitalInfoByName({ content: "医院" })
       .then((response) => {
         this.searchSuggests = response.data;
         // console.log(this.searchSuggests);
@@ -212,13 +212,17 @@ export default {
     goToLoginPage() {
       sessionStorage.removeItem("userId");
       this.$router.push({ name: "Login" });
-    },  // 直接跳转到医院页面
+    }, // 直接跳转到医院页面
     goToHospitalPage(hospitalName) {
       getHospitalInfoByName({ content: hospitalName })
         .then((response) => {
           this.selectSuggest = response.data[0];
           sessionStorage.setItem("selectedHosID", this.selectSuggest.id);
-          this.$router.push({ name:"Hospital", query: { hosID: this.selectSuggest.id } });
+          sessionStorage.setItem("selectedName", this.selectSuggest.name);
+          this.$router.push({
+            name: "Hospital",
+            query: { hosID: this.selectSuggest.id },
+          });
           // console.log(this.selectSuggest);
         })
         .catch((error) => {

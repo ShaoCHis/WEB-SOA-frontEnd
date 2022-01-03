@@ -176,6 +176,7 @@ export default {
         .then((response) => {
           this.selectSuggest = response.data[0];
           sessionStorage.setItem("selectedHosID", this.selectSuggest.id);
+          sessionStorage.setItem("selectedName", this.selectSuggest.name);
           this.$router.push({ name:"Hospital", query: { hosID: this.selectSuggest.id } });
           // console.log(this.selectSuggest);
         })
