@@ -6,7 +6,7 @@
         :key="index"
         :label="item.name"
       >
-        <template slot-scope="scope">
+        <template>
           <div
             v-for="(item, index) in currentHospital"
             :key="index"

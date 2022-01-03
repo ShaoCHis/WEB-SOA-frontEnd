@@ -27,8 +27,33 @@
             ></el-menu-item
           >
         </el-menu>
-        <el-input class="search" placeholder="请输入医院名称" />
-        <el-button circle icon="el-icon-search" type="primary"></el-button>
+        <el-autocomplete
+          popper-class="my-autocomplete"
+          class="search"
+          v-model="searchInput"
+          :fetch-suggestions="querySearch"
+          placeholder="请输入医院名称"
+          @select="handleSelect"
+        >
+          <i
+            class="el-icon-edit el-input__icon"
+            slot="suffix"
+            @click="handleIconClick"
+          >
+          </i>
+          <template slot-scope="{ item }">
+            <div class="name">{{ item.name }}</div>
+            <!-- <span class="addr">{{ item.address }}</span> -->
+          </template>
+        </el-autocomplete>
+        <el-button
+          circle
+          icon="el-icon-search"
+          type="primary"
+          @click="goToHospitalPage(searchInput)"
+        ></el-button>
+        <!-- <el-input class="search" placeholder="请输入医院名称" />
+        <el-button circle icon="el-icon-search" type="primary"></el-button> -->
         <div class="right" v-show="this.ifLogin == '0'">
           <el-button class="loginBtn" type="primary" @click="login()"
             >登录/注册</el-button
@@ -823,6 +848,7 @@ import { getReservationList } from "../api/order";
 import { cancelReservation, cancelPaidReservation } from "../api/order";
 import { createNative, queryPayStatus } from "../api/pay";
 import { submitReservation } from "../api/reservation";
+import { getHospitalInfoByName } from "../api/hospital";
 
 export default {
   components: { myheader, Myfooter },
@@ -885,6 +911,9 @@ export default {
       userName: "",
       userId: "",
       ifLogin: "0", //用户是否已经登录
+      selectSuggest: [],
+      searchSuggests: [],
+      searchInput: "",
     };
   },
   mounted() {
@@ -894,6 +923,14 @@ export default {
       this.userId = sessionStorage.getItem("userId");
       this.getUserInfoById(this.userId);
     } else this.ifLogin = "0";
+     getHospitalInfoByName({ content: "医院" })
+      .then((response) => {
+        this.searchSuggests = response.data;
+        // console.log(this.searchSuggests);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     this.getUserReservations();
   },
   methods: {
@@ -909,6 +946,43 @@ export default {
     goToLoginPage() {
       sessionStorage.removeItem("userId");
       this.$router.push({ name: "Login" });
+    },
+     // 直接跳转到医院页面
+    goToHospitalPage(hospitalName) {
+      getHospitalInfoByName({ content: hospitalName })
+        .then((response) => {
+          this.selectSuggest = response.data[0];
+          sessionStorage.setItem("selectedHosID", this.selectSuggest.id);
+          this.$router.push({ name:"Hospital", query: { hosID: this.selectSuggest.id } });
+          // console.log(this.selectSuggest);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    querySearch(queryString, cb) {
+      var searchSuggests = this.searchSuggests;
+      var results = queryString
+        ? searchSuggests.filter(this.createFilter(queryString))
+        : searchSuggests;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return (searchSuggest) => {
+        return (
+          searchSuggest.name
+            .toLowerCase()
+            .indexOf(queryString.toLowerCase()) === 0
+        );
+      };
+    },
+    handleSelect(item) {
+      console.log(item);
+      this.searchInput = item.name;
+    },
+    handleIconClick(ev) {
+      console.log(ev);
     },
     getUserInfoById(userid) {
       getUserInfo({ id: userid })
