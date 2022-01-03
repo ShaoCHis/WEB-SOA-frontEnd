@@ -21,7 +21,7 @@ export function getDepartListById(params) {
 //获取所有科室信息
 export function getAllDepart() {
     return request({
-        url: `/hospital/departments/getAllDepart`,
-        method: 'get',
+        url: '/hospital/departments/getAllDepart',
+        method: 'get'
     })
 }

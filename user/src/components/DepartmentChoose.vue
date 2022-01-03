@@ -38,12 +38,22 @@
   </div>
 </template>
 <script>
-import { getHospListInfo, getAllDepart } from "../api/main";
+import { getHospListInfo } from "../api/main";
+import { getAllDepart } from "../api/department";
 import { getMap } from "../utils/map";
 
 export default {
   name: "DepartmentChoose",
   mounted() {
+    getAllDepart()
+      .then((response) => {
+        response.data.forEach((element) => {
+          this.department.push({ name: element.name, id: element.id });
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     this.initPage(0);
     this.currentHospital = [];
     for (var i = 0; i < this.pageSize; i++) {
@@ -51,13 +61,6 @@ export default {
         this.currentHospital[i] =
           this.hospital[this.pageSize * (this.currentPage - 1) + i];
     }
-    getAllDepart()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     // this.currentPage=1;
   },
   methods: {
@@ -77,7 +80,7 @@ export default {
         .then((response) => {
           this.hospital = [];
           // this.hospital = response.data;
-          console.log(response.data);
+          // console.log(response.data);
           response.data.forEach((element, index) => {
             if (element.level == null || element.level == "") console.log(1);
             else {
@@ -122,17 +125,7 @@ export default {
       currentPage: 1,
       allHospital: [],
       hospital: [],
-      department: [
-        // 筛选方法
-        {
-          name: "消化科",
-          id: 10,
-        },
-        {
-          name: "眼科",
-          id: 11,
-        },
-      ],
+      department: [],
     };
   },
 };
