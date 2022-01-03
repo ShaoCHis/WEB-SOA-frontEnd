@@ -52,9 +52,6 @@
     // font-weight: bold;
     line-height: 48px;
   }
-  .thequit {
-    cursor: pointer;
-  }
   .search {
     width: 500px;
   }
@@ -78,4 +75,23 @@
       cursor: pointer;
     }
     opacity: 0;
+  }
+  .my-autocomplete {
+    li {
+      line-height: normal;
+      padding: 7px;
+  
+      .name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .addr {
+        font-size: 12px;
+        color: #b4b4b4;
+      }
+  
+      .highlighted .addr {
+        color: #ddd;
+      }
+    }
   }
