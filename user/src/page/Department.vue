@@ -65,19 +65,17 @@
     </div>
 
     <div class="contentContainer">
+
       <!-- 科室信息卡片 -->
       <div class="label">
-        <div class="label-left"></div>
-        <div class="label-name">科室信息</div>
+        <el-breadcrumb style="font-size:24px;margin-top:10px;margin-bottom:30px;" class="breadcrumb" separator-class="el-icon-arrow-right">
+  <el-breadcrumb-item :to="{ name:'Main' }">首页</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{ name: 'Hospital' }">医院信息</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{ name: 'Department' }">科室信息</el-breadcrumb-item></el-breadcrumb-item>
+</el-breadcrumb>
       </div>
 
       <department-info-card></department-info-card>
-
-      <!-- 挂号科室&特色科室 -->
-      <!-- <div class="label">
-            <div class="label-left"></div>
-            <div class="label-name">科室医生</div>
-      </div> -->
 
       <schedule-choose></schedule-choose>
 

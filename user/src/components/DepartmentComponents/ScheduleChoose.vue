@@ -12,39 +12,53 @@
             :key="index"
             class="department-choose-hospital"
             @click.native="goToReservationPage(item)"
-          > <div v-for="(item2,index2) in DoctorSchedule" :key="index2" >
-            <div class="doctor-info">
-              <div class="hospital-image">
-                <img
-                  src="../../assets/unknown_user.png"
-                  style="width: 100px; height: 100px"
-                />
-              </div>
-              <div class="hospital-content">
-                <div class="hospital-name">{{ item.name }}</div>
-                <div class="hospital-title-cost">
-                  <div class="hospital-title">{{ item.title }}</div>
-                  <div class="hospital-cost">费用: {{ item.cost }}元</div>
+          >
+            <div v-for="(item2, index2) in DoctorSchedule" :key="index2">
+              <div class="doctor-info">
+                <div class="hospital-image">
+                  <img
+                    src="../../assets/unknown_user.png"
+                    style="width: 100px; height: 100px"
+                  />
                 </div>
-                <div class="hospital-intro"></div>
-                <!-- <div class="hospital-intro">{{ item.introduction }}</div> -->
+                <div class="hospital-content">
+                  <div class="hospital-name">{{ item.name }}</div>
+                  <div class="hospital-title-cost">
+                    <div class="hospital-title">{{ item.title }}</div>
+                    <div class="hospital-cost">费用: {{ item.cost }}元</div>
+                  </div>
+                  <div class="hospital-intro"></div>
+                  <!-- <div class="hospital-intro">{{ item.introduction }}</div> -->
+                </div>
               </div>
-            </div>
-            <el-divider></el-divider>
-            <div class="schedule">
-                <div v-for="(item3,index3) in item2" :key="index3" >
-                    <el-checkbox v-model="checked[index3]">预约日期：<el-input v-model="item3.date"></el-input></el-checkbox>
-                    
-                    <!-- {{item3.date}} -->
-                    开始时间：<el-input diabled v-model="item3.startTime"></el-input>
-                    截止时间：<el-input diabled v-model="item3.endTime"></el-input>
-                    已被预约容量：<el-input diabled v-model="item3.reservedNumber"></el-input>
-                    剩余容量：<el-input diabled v-model="item3.availableNumber"></el-input>
-                    </div>
+              <el-divider></el-divider>
+              <div class="schedule">
+                <div v-for="(item3, index3) in item2" :key="index3">
+                  <el-checkbox v-model="checked[index3]"
+                    >预约日期：<el-input v-model="item3.date"></el-input
+                  ></el-checkbox>
+
+                  <!-- {{item3.date}} -->
+                  开始时间：<el-input
+                    diabled
+                    v-model="item3.startTime"
+                  ></el-input>
+                  截止时间：<el-input
+                    diabled
+                    v-model="item3.endTime"
+                  ></el-input>
+                  已被预约容量：<el-input
+                    diabled
+                    v-model="item3.reservedNumber"
+                  ></el-input>
+                  剩余容量：<el-input
+                    diabled
+                    v-model="item3.availableNumber"
+                  ></el-input>
+                </div>
               </div>
               <el-button type="primary" @click="jump()">点击预约</el-button>
             </div>
-
           </div>
         </template>
       </el-tab-pane>
@@ -82,14 +96,26 @@ export default {
     // this.currentPage=1;
   },
   methods: {
-    jump(){
+    jump() {
+      if (sessionStorage.getItem("userId") != null)
         this.$router.push({ path: "/reservation" });
+      else {
+        this.$confirm("您还未登录，无法预约！ 是否前往登录？ ", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(() => {
+            this.$router.push({ name: "Login" });
+          })
+          .catch(() => {});
+      }
     },
-    getDoctorSchedule(doctorid,index) {
+    getDoctorSchedule(doctorid, index) {
       getSchedule({
         doctorId: doctorid,
       }).then((response) => {
-        this.DoctorSchedule[index]=response.data;
+        this.DoctorSchedule[index] = response.data;
         // this.docTemp = response.data;
         // console.log(this.docTemp);
       });
@@ -118,7 +144,7 @@ export default {
           this.schedule = response.data;
           console.log(this.schedule);
           this.schedule.forEach((element, index) => {
-            this.getDoctorSchedule(element.id,index);
+            this.getDoctorSchedule(element.id, index);
           });
           console.log(this.DoctorSchedule);
         })
@@ -143,8 +169,8 @@ export default {
   },
   data() {
     return {
-      checked:[false],
-      DoctorSchedule:[],
+      checked: [false],
+      DoctorSchedule: [],
       schedule: [],
       currentHospital: [],
       pageSize: 3,
@@ -179,7 +205,7 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../style/css/ScheduleChoose.less";
-.el-input{
-    width:120px;
+.el-input {
+  width: 120px;
 }
 </style>
