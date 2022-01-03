@@ -10,10 +10,18 @@ export function getDepartById(params) {
 }
 
 //根据医院ID获取科室列表
-export function getDepartListById(params){
+export function getDepartListById(params) {
     return request({
         url: `/hospital/departments/getDepartListInfo/${params.id}`,
-        method:'get',
+        method: 'get',
         params
+    })
+}
+
+//获取所有科室信息
+export function getAllDepart() {
+    return request({
+        url: `/hospital/departments/getAllDepart`,
+        method: 'get',
     })
 }

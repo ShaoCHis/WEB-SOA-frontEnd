@@ -38,7 +38,7 @@
   </div>
 </template>
 <script>
-import { getHospListInfo } from "../api/main";
+import { getHospListInfo, getAllDepart } from "../api/main";
 import { getMap } from "../utils/map";
 
 export default {
@@ -51,6 +51,13 @@ export default {
         this.currentHospital[i] =
           this.hospital[this.pageSize * (this.currentPage - 1) + i];
     }
+    getAllDepart()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     // this.currentPage=1;
   },
   methods: {
@@ -59,7 +66,7 @@ export default {
       this.initPage(tab.index);
     },
     goToHospitalPage(item) {
-      console.log(item);
+      // console.log(item);
       // console.log(row);
       sessionStorage.setItem("selectedHosID", item.id);
       this.$router.push({ path: "/hospital", query: { hosID: item.id } });
@@ -68,25 +75,26 @@ export default {
     initPage(index) {
       getHospListInfo({ id: this.department[index].id })
         .then((response) => {
-          (this.hospital = []),
-            // this.hospital = response.data;
-            response.data.forEach((element, index) => {
-              if (element.level == null || element.level == "") console.log(1);
-              else {
-                element.level = getMap(element.level);
-                this.hospital.push(element);
-              }
-              /** */
-              this.currentHospital = [];
-              for (var i = 0; i < this.pageSize; i++) {
-                if (
-                  this.hospital[this.pageSize * (this.currentPage - 1) + i] !=
-                  null
-                )
-                  this.currentHospital[i] =
-                    this.hospital[this.pageSize * (this.currentPage - 1) + i];
-              }
-            });
+          this.hospital = [];
+          // this.hospital = response.data;
+          console.log(response.data);
+          response.data.forEach((element, index) => {
+            if (element.level == null || element.level == "") console.log(1);
+            else {
+              element.level = getMap(element.level);
+              this.hospital.push(element);
+            }
+            /** */
+            this.currentHospital = [];
+            for (var i = 0; i < this.pageSize; i++) {
+              if (
+                this.hospital[this.pageSize * (this.currentPage - 1) + i] !=
+                null
+              )
+                this.currentHospital[i] =
+                  this.hospital[this.pageSize * (this.currentPage - 1) + i];
+            }
+          });
         })
         .catch((error) => {
           console.log(error);

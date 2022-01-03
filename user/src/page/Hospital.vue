@@ -120,7 +120,7 @@
     </div>
 
     <router-view></router-view>
-    
+
     <myfooter></myfooter>
   </div>
 </template>
@@ -144,18 +144,11 @@ export default {
     HomeCarousel,
     HospitalInfoCard,
   },
-    data(){
-        return{
-            dialogVisible: false,
-            id:sessionStorage.getItem("selectedHosID"),
-            rate:5,
-        };
-  },
   data() {
     return {
       id: sessionStorage.getItem("selectedHosID"),
       rate: 5,
-      ifLogin:"0",
+      ifLogin: "0",
     };
   },
   mounted() {
@@ -186,9 +179,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../style/css/hospital.less";
-.el-dialog__headerbtn{
-
-      opacity: 0;
-
-    }
+.el-dialog__headerbtn {
+  opacity: 0;
+}
 </style>
