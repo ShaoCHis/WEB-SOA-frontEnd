@@ -2,62 +2,68 @@
   <div class="hospital-choose">
     <el-tabs type="border-card" @tab-click="handleClick">
       <el-tab-pane
-        v-for="(item, index) in departmentClass"
-        :key="index"
+        v-for="item in departmentClass"
+        :key="item"
         :label="item.name"
       >
         <template>
           <div
-            v-for="(item, index) in currentHospital"
+            v-for="index in currentHospital"
             :key="index"
             class="department-choose-hospital"
-            @click.native="goToReservationPage(item)"
+            @click.native="goToReservationPage(schedule[index])"
           >
-            <div v-for="(item2, index2) in DoctorSchedule" :key="index2">
-              <div class="doctor-info">
-                <div class="hospital-image">
-                  <img
-                    src="../../assets/unknown_user.png"
-                    style="width: 100px; height: 100px"
-                  />
-                </div>
-                <div class="hospital-content">
-                  <div class="hospital-name">{{ item.name }}</div>
-                  <div class="hospital-title-cost">
-                    <div class="hospital-title">{{ item.title }}</div>
-                    <div class="hospital-cost">费用: {{ item.cost }}元</div>
+            <div class="doctor-info">
+              <div class="hospital-image">
+                <img
+                  src="../../assets/unknown_user.png"
+                  style="width: 100px; height: 100px"
+                />
+              </div>
+              <div class="hospital-content">
+                <div class="hospital-name">{{ schedule[index].name }}</div>
+                <div class="hospital-title-cost">
+                  <div class="hospital-title">
+                    {{ schedule[index].title }}
                   </div>
-                  <div class="hospital-intro"></div>
-                  <!-- <div class="hospital-intro">{{ item.introduction }}</div> -->
+                  <div class="hospital-cost">
+                    费用: {{ schedule[index].cost }}元
+                  </div>
                 </div>
               </div>
-              <el-divider></el-divider>
-              <div class="schedule">
-                <div v-for="(item3, index3) in item2" :key="index3">
-                  <el-checkbox v-model="checked[index3]"
-                    >预约日期：<el-input v-model="item3.date"></el-input
-                  ></el-checkbox>
+            </div>
+            <el-divider></el-divider>
 
-                  <!-- {{item3.date}} -->
-                  开始时间：<el-input
-                    diabled
-                    v-model="item3.startTime"
-                  ></el-input>
-                  截止时间：<el-input
-                    diabled
-                    v-model="item3.endTime"
-                  ></el-input>
-                  已被预约容量：<el-input
-                    diabled
-                    v-model="item3.reservedNumber"
-                  ></el-input>
-                  剩余容量：<el-input
-                    diabled
-                    v-model="item3.availableNumber"
-                  ></el-input>
-                </div>
+            <div class="schedule">
+              <div
+                v-for="(reservation, index3) in DoctorSchedule[index]"
+                :key="index3"
+              >
+                <el-checkbox v-model="checked[index][index3]"
+                  >预约日期：<el-input v-model="reservation.date"></el-input
+                ></el-checkbox>
+
+                <!-- {{reservation.date}} -->
+                开始时间：<el-input
+                  diabled
+                  v-model="reservation.startTime"
+                ></el-input>
+                截止时间：<el-input
+                  diabled
+                  v-model="reservation.endTime"
+                ></el-input>
+                已被预约容量：<el-input
+                  diabled
+                  v-model="reservation.reservedNumber"
+                ></el-input>
+                剩余容量：<el-input
+                  diabled
+                  v-model="reservation.availableNumber"
+                ></el-input>
               </div>
-              <el-button type="primary" @click="jump()">点击预约</el-button>
+              <el-button type="primary" @click="jump(index)"
+                >点击预约</el-button
+              >
             </div>
           </div>
         </template>
@@ -70,7 +76,7 @@
           :page-size="pageSize"
           :current-page.sync="currentPage"
           layout="total,prev, pager, next, jumper"
-          :total="schedule.length"
+          :total="Length"
         >
         </el-pagination>
       </div>
@@ -86,46 +92,89 @@ export default {
   name: "ScheduleChoose",
   mounted() {
     // this.initPage(0);
-    this.initPage();
     this.currentHospital = [];
-    for (var i = 0; i < this.pageSize; i++) {
-      if (this.schedule[this.pageSize * (this.currentPage - 1) + i] != null)
-        this.currentHospital[i] =
-          this.schedule[this.pageSize * (this.currentPage - 1) + i];
-    }
+    this.INDEX = 0;
+    this.initPage();
+    // console.log(this.DoctorSchedule);
+    // this.init();
+    // console.log(1);
+    // console.log(this.currentHospital);
     // this.currentPage=1;
   },
   methods: {
-    jump() {
-      if (sessionStorage.getItem("userId") != null)
-        this.$router.push({ path: "/reservation" });
-      else {
-        this.$confirm("您还未登录，无法预约！ 是否前往登录？ ", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
-          .then(() => {
-            this.$router.push({ name: "Login" });
-          })
-          .catch(() => {});
-      }
+    jump(t) {
+      // console.log(t);
+      var idx = 0;
+      // console.log(this.checked[t]);
+      this.checked[t].forEach((element, index) => {
+        if (element == true) idx = index;
+      });
+      // console.log(idx);
+      data=JSON.stringify({
+        hospital:sessionStorage.getItem("selectedHosID"),
+
+      })
+
+      this.$router.push({ path: "/reservation" });
     },
     getDoctorSchedule(doctorid, index) {
       getSchedule({
         doctorId: doctorid,
       }).then((response) => {
+        // console.log(response);
         this.DoctorSchedule[index] = response.data;
+        response.data.forEach((element) => {
+          this.checked[index].push(false);
+        });
         // this.docTemp = response.data;
         // console.log(this.docTemp);
       });
     },
+    init() {
+      // console.log(this.currentHospital);
+      // console.log(this.schedule);
+      // console.log(this.DoctorSchedule);
+      // console.log(this.departmentClass[this.INDEX].name );
+      this.currentHospital = [];
+      this.Length = 0;
+      this.Length = this.schedule.length;
+      if (this.INDEX == 0) {
+        for (var i = 0; i < this.pageSize; i++) {
+          if (this.schedule[this.pageSize * (this.currentPage - 1) + i] != null)
+            this.currentHospital.push(
+              this.pageSize * (this.currentPage - 1) + i
+            );
+        }
+        // console.log(this.currentHospital);
+        return;
+      }
+      this.Length = 0;
+      this.schedule.forEach((element) => {
+        if (element.title == this.departmentClass[this.INDEX].name)
+          this.Length++;
+      });
+      var t = this.pageSize * (this.currentPage - 1);
+      for (var i = 0; i < this.pageSize && t < this.schedule.length; t++) {
+        if (
+          this.schedule[t] != null &&
+          this.schedule[t].title == this.departmentClass[this.INDEX].name
+        ) {
+          i++;
+          this.currentHospital.push(t);
+        }
+      }
+    },
     handleClick(tab) {
-      // this.initPage(tab.index);
-      this.initPage();
+      // console.log(tab.paneName);
+      this.currentPage = 1;
+      this.INDEX = tab.paneName;
+      // console.log(this.INDEX);
+      this.init();
+      // console.log(this.Length);
+      // console.log(this.currentHospital);
     },
     goToReservationPage(item) {
-      console.log(item);
+      // console.log(item);
       sessionStorage.setItem("selectedDepartmentID", item.id);
       // console.log(row);
       this.$router.push({ path: "/department" });
@@ -139,14 +188,29 @@ export default {
         did: sessionStorage.getItem("selectedDepartmentID"),
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           // this.hospital=[],
           this.schedule = response.data;
-          console.log(this.schedule);
+          this.currentHospital = [];
+          for (var i = 0; i < this.pageSize; i++) {
+            if (
+              this.schedule[this.pageSize * (this.currentPage - 1) + i] != null
+            )
+              this.currentHospital.push(
+                this.pageSize * (this.currentPage - 1) + i
+              );
+          }
+          // console.log(this.currentHospital);
+          // console.log(this.schedule);
           this.schedule.forEach((element, index) => {
             this.getDoctorSchedule(element.id, index);
+            this.checked.push([false]);
           });
-          console.log(this.DoctorSchedule);
+          this.Length = 0;
+          this.Length = this.schedule.length;
+          // console.log(this.Length);
+          // console.log(this.currentHospital);
+          // console.log(this.DoctorSchedule);
         })
         .catch((error) => {
           console.log(error);
@@ -154,14 +218,18 @@ export default {
     },
     handleSizeChange(val) {
       this.pageSize = val;
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
       this.currentHospital = [];
       for (var i = 0; i < this.pageSize; i++) {
-        if (this.schedule[this.pageSize * (this.currentPage - 1) + i] != null)
+        if (
+          this.schedule[this.pageSize * (this.currentPage - 1) + i] != null &&
+          this.schedule[this.pageSize * (this.currentPage - 1) + i].title !=
+            this.departmentClass[this.INDEX].name
+        )
           this.currentHospital[i] =
             this.schedule[this.pageSize * (this.currentPage - 1) + i];
       }
@@ -169,35 +237,37 @@ export default {
   },
   data() {
     return {
-      checked: [false],
+      checked: [],
       DoctorSchedule: [],
       schedule: [],
       currentHospital: [],
       pageSize: 3,
-      currentPage: 2,
+      currentPage: 1,
       allHospital: [],
       department: [],
       docTemp: [],
+      INDEX: 0,
+      Length: 0,
       departmentClass: [
         // 筛选方法
         {
-          name: "科室医师",
+          name: "全部",
         },
         {
-          name: "特级专家",
+          name: "普通",
         },
-        // {
-        //   name: "内科",
-        // },
-        // {
-        //   name: "中医科",
-        // },
-        // {
-        //   name: "肿瘤科",
-        // },
-        // {
-        //   name: "儿科",
-        // },
+        {
+          name: "副主任",
+        },
+        {
+          name: "主任",
+        },
+        {
+          name: "见习",
+        },
+        {
+          name: "医师",
+        },
       ],
     };
   },
