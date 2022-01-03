@@ -9,8 +9,9 @@
               v-for="hospital in currentHospital"
               :key="hospital"
               class="department-choose-hospital"
+              @click.native="goToHospitalPage(hospital)"
             >
-              <div @click="goToHospitalPage(hospital.id)">
+              <div>
                 <div class="hospital-image">
                   <img
                     :src="hospital.image"
@@ -74,7 +75,6 @@ import { getMap } from "../utils/map";
 
 export default {
   name: "HospitalChoose",
-  created() {},
   mounted() {
     this.initPage(0);
     this.currentHospital = [];
@@ -87,26 +87,44 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      console.log(tab.get);
+      this.currentPage = 1;
+      // console.log(tab.get);
       this.initPage(tab.index);
     },
-    goToHospitalPage(id) {
-      // console.log(id);
-      sessionStorage.setItem("selectedHosID", id);
-      // sessionStorage.getItem("selectedHosID")
-      this.$router.push({ name: "Hospital" });
+    goToHospitalPage(item) {
+      console.log(item);
+      // console.log(row);
+      sessionStorage.setItem("selectedHosID", item.id);
+      this.$router.push({ path: "/hospital", query: { hosID: item.id } });
+      // localStorage.setItem("selectedHosID",10);
     },
     initPage(index) {
       getHospList()
         .then((response) => {
-          this.hospital=[],
+          this.hospital = [];
           // this.hospital = response.data;
-          response.data.forEach((element, index) => {
+          if (index == 1) {
+            // console.log(response.data);
+            response.data.sort(function (a, b) {
+              return a.level - b.level;
+            });
+            // console.log(response.data);
+          }
+          response.data.forEach((element) => {
             if (element.level == null || element.level == "") console.log(1);
             else {
               element.level = getMap(element.level);
               this.hospital.push(element);
-              
+            }
+            /** */
+            this.currentHospital = [];
+            for (var i = 0; i < this.pageSize; i++) {
+              if (
+                this.hospital[this.pageSize * (this.currentPage - 1) + i] !=
+                null
+              )
+                this.currentHospital[i] =
+                  this.hospital[this.pageSize * (this.currentPage - 1) + i];
             }
           });
         })
@@ -116,17 +134,19 @@ export default {
     },
     handleSizeChange(val) {
       this.pageSize = val;
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
+      // console.log(val)
       this.currentHospital = [];
       for (var i = 0; i < this.pageSize; i++) {
         if (this.hospital[this.pageSize * (this.currentPage - 1) + i] != null)
           this.currentHospital[i] =
             this.hospital[this.pageSize * (this.currentPage - 1) + i];
       }
+      // console.log(this.currentHospital)
     },
   },
   data() {
@@ -136,43 +156,6 @@ export default {
       currentPage: 1,
       allHospital: [],
       hospital: [],
-      //  [
-      //   {
-      //     name: "北京协和医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "柳州人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "重庆人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "金华人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "南宁人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      // ],
       sortType: [
         // 筛选方法
         {

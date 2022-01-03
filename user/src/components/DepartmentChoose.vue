@@ -1,26 +1,22 @@
 <template>
   <div class="hospital-choose">
     <el-tabs type="border-card" @tab-click="handleClick">
-      <el-tab-pane
-        v-for="(item, index) in department"
-        :key="index"
-        :label="item.name"
-      >
+      <el-tab-pane v-for="item in department" :key="item" :label="item.name">
         <template>
           <el-row :gutter="20">
             <el-col
               :span="8"
-              v-for="(item, index) in hospital"
-              :key="index"
+              v-for="hospital in currentHospital"
+              :key="hospital"
               class="department-choose-hospital"
-              @click.native="goToHospitalPage(item)"
+              @click.native="goToHospitalPage(hospital)"
             >
               <div class="hospital-image">
-                <img :src="item.image" style="width: 100%; height: 100%" />
+                <img :src="hospital.image" style="width: 100%; height: 100%" />
               </div>
               <div class="hospital-content">
-                <div class="hospital-name">{{ item.name }}</div>
-                <div class="hospital-level">{{ item.level }}</div>
+                <div class="hospital-name">{{ hospital.name }}</div>
+                <div class="hospital-level">{{ hospital.level }}</div>
               </div>
             </el-col>
           </el-row>
@@ -59,6 +55,7 @@ export default {
   },
   methods: {
     handleClick(tab) {
+      this.currentPage = 1;
       this.initPage(tab.index);
     },
     goToHospitalPage(item) {
@@ -79,6 +76,16 @@ export default {
                 element.level = getMap(element.level);
                 this.hospital.push(element);
               }
+              /** */
+              this.currentHospital = [];
+              for (var i = 0; i < this.pageSize; i++) {
+                if (
+                  this.hospital[this.pageSize * (this.currentPage - 1) + i] !=
+                  null
+                )
+                  this.currentHospital[i] =
+                    this.hospital[this.pageSize * (this.currentPage - 1) + i];
+              }
             });
         })
         .catch((error) => {
@@ -87,11 +94,11 @@ export default {
     },
     handleSizeChange(val) {
       this.pageSize = val;
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
       this.currentHospital = [];
       for (var i = 0; i < this.pageSize; i++) {
         if (this.hospital[this.pageSize * (this.currentPage - 1) + i] != null)
@@ -104,46 +111,9 @@ export default {
     return {
       currentHospital: [],
       pageSize: 3,
-      currentPage: 2,
+      currentPage: 1,
       allHospital: [],
       hospital: [],
-      //  [
-      //   {
-      //     name: "北京协和医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "柳州人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "重庆人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "金华人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      //   {
-      //     name: "南宁人民医院",
-      //     level: "三甲",
-      //     image: require("../assets/back.jpeg"),
-      //     attribute4: "",
-      //     attribute5: "",
-      //   },
-      // ],
       department: [
         // 筛选方法
         {
@@ -154,26 +124,6 @@ export default {
           name: "眼科",
           id: 11,
         },
-        {
-          name: "测试科室",
-          id: 10000,
-        },
-        {
-          name: "测试科室1",
-          id: 10001,
-        },
-        // {
-        //   name: "内科",
-        // },
-        // {
-        //   name: "中医科",
-        // },
-        // {
-        //   name: "肿瘤科",
-        // },
-        // {
-        //   name: "儿科",
-        // },
       ],
     };
   },
