@@ -39,6 +39,36 @@
     // font-weight: bold;
     line-height: 48px;
 }
+.left-wrapper{
+  &:hover{
+    cursor:pointer;
+  }
+}
+.search {
+  width: 500px;
+}
+.right {
+  margin-right: -150px;
+  float: left;
+}
+.avatar {
+  border: 2px solid #d3d9d9;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.loginBtn {
+  display: flex;
+  position: relative;
+}
+.el-dropdown-link {
+  font-size: 35px;
+  &:hover {
+    cursor: pointer;
+  }
+  opacity: 0;
+}
+
 .user-info{
 width: 100%;
 height: auto;
@@ -70,4 +100,23 @@ padding-bottom: 15px;
 .card-info{
   margin-top:50px;
   padding-bottom: 15px;
+}
+.my-autocomplete {
+  li {
+    line-height: normal;
+    padding: 7px;
+
+    .name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .addr {
+      font-size: 12px;
+      color: #b4b4b4;
+    }
+
+    .highlighted .addr {
+      color: #ddd;
+    }
+  }
 }

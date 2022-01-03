@@ -46,3 +46,46 @@
   // font-weight: bold;
   line-height: 48px;
 }
+.search {
+  width: 500px;
+}
+.right {
+  margin-right: -150px;
+  float: left;
+}
+.avatar {
+  border: 2px solid #d3d9d9;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.loginBtn {
+  display: flex;
+  position: relative;
+}
+.el-dropdown-link {
+  font-size: 35px;
+  &:hover {
+    cursor: pointer;
+  }
+  opacity: 0;
+}
+.my-autocomplete {
+  li {
+    line-height: normal;
+    padding: 7px;
+
+    .name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .addr {
+      font-size: 12px;
+      color: #b4b4b4;
+    }
+
+    .highlighted .addr {
+      color: #ddd;
+    }
+  }
+}

@@ -30,8 +30,6 @@
                     费用: {{ schedule[index].cost }}元
                   </div>
                 </div>
-                <div class="hospital-intro"></div>
-                <!-- <div class="hospital-intro">{{ item.introduction }}</div> -->
               </div>
             </div>
             <el-divider></el-divider>

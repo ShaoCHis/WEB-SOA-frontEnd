@@ -62,3 +62,12 @@ export function hospModifyLogo(params) {
         params
     })
 }
+
+// 根据搜索框内容，获取医院信息列表
+export function getHospitalInfoByName(params) {
+    return request({
+        url: `/hospital/hospitals/getHospitalInfoByName/${params.content}`,
+        method:'get',
+        params
+    })
+}
