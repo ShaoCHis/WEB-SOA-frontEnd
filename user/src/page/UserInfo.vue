@@ -923,7 +923,7 @@ export default {
       this.userId = sessionStorage.getItem("userId");
       this.getUserInfoById(this.userId);
     } else this.ifLogin = "0";
-     getHospitalInfoByName({ content: "医院" })
+    getHospitalInfoByName({ content: "医院" })
       .then((response) => {
         this.searchSuggests = response.data;
         // console.log(this.searchSuggests);
@@ -947,13 +947,17 @@ export default {
       sessionStorage.removeItem("userId");
       this.$router.push({ name: "Login" });
     },
-     // 直接跳转到医院页面
+    // 直接跳转到医院页面
     goToHospitalPage(hospitalName) {
       getHospitalInfoByName({ content: hospitalName })
         .then((response) => {
           this.selectSuggest = response.data[0];
           sessionStorage.setItem("selectedHosID", this.selectSuggest.id);
-          this.$router.push({ name:"Hospital", query: { hosID: this.selectSuggest.id } });
+          sessionStorage.setItem("selectedName", this.selectSuggest.name);
+          this.$router.push({
+            name: "Hospital",
+            query: { hosID: this.selectSuggest.id },
+          });
           // console.log(this.selectSuggest);
         })
         .catch((error) => {

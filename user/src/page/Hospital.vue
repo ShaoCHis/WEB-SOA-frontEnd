@@ -92,13 +92,18 @@
     </div>
 
     <div class="contentContainer">
-
       <!-- 医院信息卡片 -->
       <div class="label">
-        <el-breadcrumb style="font-size:24px;margin-top:10px;margin-bottom:30px;" class="breadcrumb" separator-class="el-icon-arrow-right">
-  <el-breadcrumb-item :to="{ name:'Main' }">首页</el-breadcrumb-item>
-  <el-breadcrumb-item :to="{ name: 'Hospital' }">医院信息</el-breadcrumb-item>
-</el-breadcrumb>
+        <el-breadcrumb
+          style="font-size: 24px; margin-top: 10px; margin-bottom: 30px"
+          class="breadcrumb"
+          separator-class="el-icon-arrow-right"
+        >
+          <el-breadcrumb-item :to="{ name: 'Main' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ name: 'Hospital' }"
+            >医院信息</el-breadcrumb-item
+          >
+        </el-breadcrumb>
       </div>
 
       <hospital-info-card></hospital-info-card>
@@ -191,7 +196,7 @@ export default {
       this.avatar = sessionStorage.getItem("avatar");
       this.ifLogin = "1";
     } else this.ifLogin = "0";
-     getHospitalInfoByName({ content: "医院" })
+    getHospitalInfoByName({ content: "医院" })
       .then((response) => {
         this.searchSuggests = response.data;
         // console.log(this.searchSuggests);
@@ -214,15 +219,19 @@ export default {
       sessionStorage.removeItem("userId");
       this.$router.push({ name: "Login" });
     },
-        // 直接跳转到医院页面
+    // 直接跳转到医院页面
     goToHospitalPage(hospitalName) {
       getHospitalInfoByName({ content: hospitalName })
         .then((response) => {
           this.selectSuggest = response.data[0];
           sessionStorage.removeItem("selectedHosID");
           sessionStorage.setItem("selectedHosID", this.selectSuggest.id);
-          this.id=this.selectSuggest.id;
-          this.$router.push({ name:"Hospital", query: { hosID: this.selectSuggest.id } });
+          sessionStorage.setItem("selectedName", this.selectSuggest.name);
+          this.id = this.selectSuggest.id;
+          this.$router.push({
+            name: "Hospital",
+            query: { hosID: this.selectSuggest.id },
+          });
           window.location.reload();
           // console.log(this.selectSuggest);
         })
