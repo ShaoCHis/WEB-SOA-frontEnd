@@ -129,7 +129,19 @@ export default {
       });
       sessionStorage.setItem("reservationData", data);
       // console.log(JSON.parse(sessionStorage.getItem("reservationData")));
-      // this.$router.push({ path: "/reservation" });
+      if (sessionStorage.getItem("userId") != null)
+        this.$router.push({ path: "/reservation" });
+      else {
+        this.$confirm("您还未登录，无法预约！ 是否前往登录？ ", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(() => {
+            this.$router.push({ name: "Login" });
+          })
+          .catch(() => {});
+      }
     },
     getDoctorSchedule(doctorid, index) {
       getSchedule({
