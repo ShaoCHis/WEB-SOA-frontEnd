@@ -411,14 +411,14 @@ export default {
 
   mounted() {
     this.refreshCode();
-    console.log(left);
-    console.log(right);
+    // console.log(left);
+    // console.log(right);
     const self = this;
     self.dphone = localStorage.user;
     self.dpass = localStorage.password;
     self.identifyCode = "";
     self.makeCode(this.identifyCodes, 4);
-    console.log(this.identifyCode);
+    // console.log(this.identifyCode);
   },
   created() {
     document.getElementById("left").addEventListener("click", function (e) {

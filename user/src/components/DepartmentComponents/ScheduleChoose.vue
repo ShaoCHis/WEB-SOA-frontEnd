@@ -165,6 +165,7 @@ export default {
         doctorId: doctorid,
       }).then((response) => {
         // console.log(response);
+        this.init();
         this.DoctorSchedule[index] = response.data;
         // this.docTemp = response.data;
         // console.log(this.docTemp);
