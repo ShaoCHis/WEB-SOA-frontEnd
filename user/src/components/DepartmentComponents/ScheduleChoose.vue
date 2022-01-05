@@ -42,7 +42,10 @@
                 v-for="(reservation, index3) in DoctorSchedule[index]"
                 :key="index3"
               >
-                <el-radio style="margin-left:1%;" v-model="radio[index]" :label="index3"
+                <el-radio
+                  style="margin-left: 1%"
+                  v-model="radio[index]"
+                  :label="index3"
                   >预约日期：
                   <el-input v-model="reservation.date"></el-input>
 
@@ -119,6 +122,23 @@ export default {
   },
   methods: {
     jump(t) {
+      // if (sessionStorage.getItem("userId") != null) {
+      //   this.patient = null;
+      //   this.$router.push({ path: "/reservation" });
+      // } else {
+      if (sessionStorage.getItem("userId") == null) {
+        this.$confirm("您还未登录，无法预约！ 是否前往登录？ ", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(() => {
+            this.$router.push({ name: "Login" });
+          })
+          .catch(() => {});
+          return;
+      }
+      else{
       if (this.radio[t] == -1) {
         this.$message({
           message: "请先选中排班",
@@ -149,21 +169,10 @@ export default {
       }
       sessionStorage.setItem("reservationData", data);
       // console.log(JSON.parse(sessionStorage.getItem("reservationData")));
-      if (sessionStorage.getItem("userId") != null) {
         this.patient = null;
         this.$router.push({ path: "/reservation" });
         // console.log(this.radio);
-      } else {
-        this.$confirm("您还未登录，无法预约！ 是否前往登录？ ", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
-          .then(() => {
-            this.$router.push({ name: "Login" });
-          })
-          .catch(() => {});
-      }
+    }
     },
     getDoctorSchedule(doctorid, index) {
       getSchedule({
