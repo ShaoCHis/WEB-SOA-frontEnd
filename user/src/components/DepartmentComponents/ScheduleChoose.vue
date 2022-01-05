@@ -42,9 +42,9 @@
                 v-for="(reservation, index3) in DoctorSchedule[index]"
                 :key="index3"
               >
-                <el-checkbox v-model="checked[index][index3]"
+                <el-radio v-model="radio[index]" :label="index3"
                   >预约日期：<el-input v-model="reservation.date"></el-input
-                ></el-checkbox>
+                ></el-radio>
 
                 <!-- {{reservation.date}} -->
                 开始时间：<el-input
@@ -83,6 +83,11 @@
         >
         </el-pagination>
       </div>
+      <patient-list
+        v-on:cancel="cancel"
+        v-on:commit="cancel"
+        :dialogVisible="dialogVisible"
+      ></patient-list>
     </el-tabs>
   </div>
 </template>
@@ -90,8 +95,12 @@
 import { getDoctorList } from "../../api/doctor";
 import { getSchedule } from "../../api/schedule";
 import { getMap } from "../../utils/map";
+import patientList from "../patientList.vue";
 
 export default {
+  components: {
+    patientList,
+  },
   name: "ScheduleChoose",
   mounted() {
     // this.initPage(0);
@@ -106,13 +115,15 @@ export default {
   },
   methods: {
     jump(t) {
+      if (this.radio[t] == -1) {
+        this.$message({
+          message: "请先选中排班",
+        });
+        return;
+      }
       // console.log(t);
-      var idx = 0;
-      // console.log(this.checked[t]);
-      this.checked[t].forEach((element, index) => {
-        if (element == true) idx = index;
-      });
-      // console.log(idx);
+      var idx = this.radio[t];
+      // console.log(this.DoctorSchedule[t][idx]);
       var data = JSON.stringify({
         hospital: sessionStorage.getItem("selectedHosID"),
         hospitalName: sessionStorage.getItem("selectedName"),
@@ -120,18 +131,24 @@ export default {
         doctor: this.schedule[t].name,
         date: this.DoctorSchedule[t][idx].date,
         money: this.schedule[t].cost,
-        userName: sessionStorage.getItem("userName"),
+        userName: sessionStorage.getItem("patientName"),
         time:
           this.DoctorSchedule[t][idx].startTime +
           "-" +
           this.DoctorSchedule[t][idx].endTime,
-        scheduleID: this.DoctorSchedule[t].id,
+        scheduleID: this.DoctorSchedule[t][idx].id,
       });
+      if (this.time == 0) {
+        this.dialogVisible = true;
+        this.time++;
+        return;
+      }
       sessionStorage.setItem("reservationData", data);
       // console.log(JSON.parse(sessionStorage.getItem("reservationData")));
-      if (sessionStorage.getItem("userId") != null)
+      if (sessionStorage.getItem("userId") != null) {
         this.$router.push({ path: "/reservation" });
-      else {
+        // console.log(this.radio);
+      } else {
         this.$confirm("您还未登录，无法预约！ 是否前往登录？ ", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -149,9 +166,6 @@ export default {
       }).then((response) => {
         // console.log(response);
         this.DoctorSchedule[index] = response.data;
-        response.data.forEach((element) => {
-          this.checked[index].push(false);
-        });
         // this.docTemp = response.data;
         // console.log(this.docTemp);
       });
@@ -161,6 +175,7 @@ export default {
       // console.log(this.schedule);
       // console.log(this.DoctorSchedule);
       // console.log(this.departmentClass[this.INDEX].name );
+      this.time = 0;
       this.currentHospital = [];
       this.Length = 0;
       this.Length = this.schedule.length;
@@ -191,32 +206,23 @@ export default {
       }
     },
     handleClick(tab) {
-      // console.log(this.DoctorSchedule);
-      // console.log(tab.paneName);
       this.currentPage = 1;
       this.INDEX = tab.paneName;
-      // console.log(this.INDEX);
       this.init();
-      // console.log(this.Length);
-      // console.log(this.currentHospital);
     },
     goToReservationPage(item) {
-      // console.log(item);
       sessionStorage.setItem("selectedDepartmentID", item.id);
-      // console.log(row);
       this.$router.push({ path: "/department" });
-      // localStorage.setItem("selectedHosID",10);
       this.getDoctorSchedule(item);
     },
     // initPage(index) {
     initPage() {
+      this.time = 0;
       getDoctorList({
         hid: sessionStorage.getItem("selectedHosID"),
         did: sessionStorage.getItem("selectedDepartmentID"),
       })
         .then((response) => {
-          // console.log(response.data);
-          // this.hospital=[],
           this.schedule = response.data;
           this.currentHospital = [];
           for (var i = 0; i < this.pageSize; i++) {
@@ -227,17 +233,13 @@ export default {
                 this.pageSize * (this.currentPage - 1) + i
               );
           }
-          // console.log(this.currentHospital);
-          // console.log(this.schedule);
+          this.radio = [];
           this.schedule.forEach((element, index) => {
             this.getDoctorSchedule(element.id, index);
-            this.checked.push([false]);
+            this.radio.push(-1);
           });
           this.Length = 0;
           this.Length = this.schedule.length;
-          // console.log(this.Length);
-          // console.log(this.currentHospital);
-          // console.log(this.DoctorSchedule);
         })
         .catch((error) => {
           console.log(error);
@@ -245,11 +247,9 @@ export default {
     },
     handleSizeChange(val) {
       this.pageSize = val;
-      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      // console.log(`当前页: ${val}`);
       this.currentHospital = [];
       for (var i = 0; i < this.pageSize; i++) {
         if (
@@ -261,10 +261,13 @@ export default {
             this.schedule[this.pageSize * (this.currentPage - 1) + i];
       }
     },
+    cancel() {
+      this.dialogVisible = false;
+    },
   },
   data() {
     return {
-      checked: [],
+      // checked: [],
       DoctorSchedule: [],
       schedule: [],
       currentHospital: [],
@@ -275,6 +278,9 @@ export default {
       docTemp: [],
       INDEX: 0,
       Length: 0,
+      radio: [],
+      dialogVisible: false,
+      time: 0,
       departmentClass: [
         // 筛选方法
         {
@@ -303,6 +309,6 @@ export default {
 <style lang="less" scoped>
 @import "../../style/css/ScheduleChoose.less";
 .el-input {
-  width: 120px;
+  width: 110px;
 }
 </style>

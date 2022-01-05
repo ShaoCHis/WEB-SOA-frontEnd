@@ -40,12 +40,12 @@ export default {
   },
 
   created() {
-    console.log("11111");
-    console.log("patient", this.patient);
+    // console.log("11111");
+    // console.log("patient", this.patient);
     this.patient = Cookie.get("userinfo");
     if (this.patient != null) {
       if (typeof this.patient !== "object") {
-        console.log(33333333333333);
+        // console.log(33333333333333);
         this.patient = JSON.parse(this.patient);
         this.flag = true;
       }
@@ -56,8 +56,8 @@ export default {
     save() {
       patientSet.updatePatient(this.patient).then((response) => {
         this.patientother = JSON.stringify(this.patient);
-        console.log(response);
-        console.log(this.patient);
+        // console.log(response);
+        // console.log(this.patient);
         this.patient = Cookie.set("userinfo", this.patient, { expires: 7 });
         this.patient = Cookie.get("userinfo");
         if (this.patient != null) {

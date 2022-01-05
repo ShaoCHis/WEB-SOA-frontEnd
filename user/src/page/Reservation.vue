@@ -204,7 +204,7 @@ export default {
     createOrder() {
       // console.log(this.registerForm);
       submitReservation(
-        sessionStorage.getItem("userId"),
+        sessionStorage.getItem("patientID"),
         this.registerForm.scheduleID
       )
         .then((response) => {
@@ -213,14 +213,15 @@ export default {
             message: "预约生成成功!您可以在个人信息界面查看待支付的订单...",
             type: "success",
           });
+          this.$router.push({ name: "UserInfo" });
         })
         .catch((error) => {
+          console.log(error);
           this.$message({
-            message: "预约生成成功!您可在个人信息界面查看订单...",
-            type: "success",
+            message: "预约失败",
+            type: "error",
           });
         });
-      this.$router.push({ name: "UserInfo" });
     },
   },
   mounted() {

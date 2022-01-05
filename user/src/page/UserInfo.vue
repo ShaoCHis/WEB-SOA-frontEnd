@@ -1000,8 +1000,8 @@ export default {
             element.isDeleteChosen = false;
             this.isDeleteChosen[index] = element.isDeleteChosen;
           });
-          console.log(this.isDeleteChosen);
-          console.log(this.userPatients);
+          // console.log(this.isDeleteChosen);
+          // console.log(this.userPatients);
         })
         .catch((error) => {
           console.log(error);
@@ -1193,9 +1193,9 @@ export default {
       this.dialogFormVisible2 = false;
     },
     choosePatient(val, index) {
-      console.log(index);
+      // console.log(index);
       this.userPatients[index].isDeleteChosen = val;
-      console.log(this.userPatients);
+      // console.log(this.userPatients);
     },
     getUserReservations() {
       getReservationList({ userId: this.userId })
@@ -1206,7 +1206,7 @@ export default {
             // element.isDeleteChosen = false;
             // this.isDeleteChosen[index] = element.isDeleteChosen;
           });
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
