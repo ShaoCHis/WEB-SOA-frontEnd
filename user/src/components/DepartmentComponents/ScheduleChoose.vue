@@ -42,29 +42,33 @@
                 v-for="(reservation, index3) in DoctorSchedule[index]"
                 :key="index3"
               >
-                <el-radio v-model="radio[index]" :label="index3"
-                  >预约日期：<el-input v-model="reservation.date"></el-input
-                ></el-radio>
+                <el-radio style="margin-left:1%;" v-model="radio[index]" :label="index3"
+                  >预约日期：
+                  <el-input v-model="reservation.date"></el-input>
 
-                <!-- {{reservation.date}} -->
-                开始时间：<el-input
-                  diabled
-                  v-model="reservation.startTime"
-                ></el-input>
-                截止时间：<el-input
-                  diabled
-                  v-model="reservation.endTime"
-                ></el-input>
-                已被预约容量：<el-input
-                  diabled
-                  v-model="reservation.reservedNumber"
-                ></el-input>
-                剩余容量：<el-input
-                  diabled
-                  v-model="reservation.availableNumber"
-                ></el-input>
+                  开始时间：<el-input
+                    diabled
+                    v-model="reservation.startTime"
+                  ></el-input>
+                  截止时间：<el-input
+                    diabled
+                    v-model="reservation.endTime"
+                    style="border: none"
+                  ></el-input>
+                  已被预约容量：<el-input
+                    diabled
+                    v-model="reservation.reservedNumber"
+                  ></el-input>
+                  剩余容量：<el-input
+                    diabled
+                    v-model="reservation.availableNumber"
+                  ></el-input
+                ></el-radio>
               </div>
-              <el-button type="primary" @click="jump(index)"
+              <el-button
+                style="margin-left: 2%; margin-top: 20px; margin-bottom: 20px"
+                type="primary"
+                @click="jump(index)"
                 >点击预约</el-button
               >
             </div>
@@ -146,9 +150,10 @@ export default {
       sessionStorage.setItem("reservationData", data);
       // console.log(JSON.parse(sessionStorage.getItem("reservationData")));
       if (sessionStorage.getItem("userId") != null) {
-        this.$router.push({ path: "/reservation" });
-        // console.log(this.radio);
-      } else {
+      this.$router.push({ path: "/reservation" });
+      }
+      else {
+      // if (sessionStorage.getItem("userId") == null) {
         this.$confirm("您还未登录，无法预约！ 是否前往登录？ ", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
