@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-      title="提示"
+      title="请选择病人"
       :visible="dialogVisible"
       width="42%"
       :before-close="handleClose"
@@ -19,7 +19,7 @@
           </el-table-column>
         </el-table>
         <div>
-          <el-button type="primary" @click="submit">确认</el-button>
+          <el-button style="margin-left:38%;margin-top:20px;" type="primary" @click="submit">确认</el-button>
           <el-button @click="cancel">取消</el-button>
         </div>
       </el-card>
@@ -80,7 +80,7 @@ export default {
     },
     cancel() {
       this.$emit("cancel");
-      //   this.dialogVisible = false;
+        // this.dialogVisible = false;
     },
   },
 };
