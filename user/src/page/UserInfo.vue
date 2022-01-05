@@ -1,12 +1,11 @@
 <template>
   <div class="mainContainer">
-    <!-- <myheader></myheader> -->
     <div class="header-container">
-      <div class="wrapper">
+      <div class="wrapper" style="margin-right:20px;">
         <!-- logo -->
         <div class="left-wrapper v-link" @click="goToMainPage">
           <img
-            style="width: 50px"
+            style="width: 50px;margin-left:60px;"
             width="50"
             height="50"
             src="../../static/images/logo.png"
@@ -15,7 +14,8 @@
         </div>
 
         <!-- 导航栏 -->
-        <el-menu class="el-menu-demo" mode="horizontal">
+        <!-- <div style=""></div> -->
+        <!-- <el-menu class="el-menu-demo" mode="horizontal">
           <el-menu-item index="1"
             ><router-link style="text-decoration: none" to="/"
               >首页</router-link
@@ -26,10 +26,11 @@
               >挂号</router-link
             ></el-menu-item
           >
-        </el-menu>
+        </el-menu> -->
         <el-autocomplete
           popper-class="my-autocomplete"
           class="search"
+          style="width:58%"
           v-model="searchInput"
           :fetch-suggestions="querySearch"
           placeholder="请输入医院名称"
@@ -52,8 +53,7 @@
           type="primary"
           @click="goToHospitalPage(searchInput)"
         ></el-button>
-        <!-- <el-input class="search" placeholder="请输入医院名称" />
-        <el-button circle icon="el-icon-search" type="primary"></el-button> -->
+
         <div class="right" v-show="this.ifLogin == '0'">
           <el-button class="loginBtn" type="primary" @click="login()"
             >登录/注册</el-button
