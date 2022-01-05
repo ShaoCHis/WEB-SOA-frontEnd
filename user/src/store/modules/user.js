@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login_ID, login_Code } from '@/api/login'
+import { login } from '@/api/login'
 
 const user = {
   state: {
@@ -33,12 +33,16 @@ const user = {
     Login({ commit }, userInfo) {
       const DATA = { 'token': 'admin' }
       const email = userInfo.email
-      console.log(userInfo.password)
+      // console.log(email)
+      // console.log(userInfo.password)
       return new Promise((resolve, reject) => {
         login(email, userInfo.password)
           .then(response => {
-            const data = response
-            console.log
+            var userInfo = response.data;
+            sessionStorage.setItem("userId", userInfo.userId);
+            sessionStorage.setItem("phoneNumber", userInfo.phoneNumber);
+            sessionStorage.setItem("email", userInfo.email);
+            sessionStorage.setItem("userName", userInfo.name);
             setToken(DATA.token)
             commit('SET_TOKEN', DATA.token)
             // commit('SET_ID', response.id)

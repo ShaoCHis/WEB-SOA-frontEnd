@@ -6,7 +6,7 @@
       id="container"
       class="container right-panel-active"
     >
-      <div id="left" class="container_form container--signup">
+      <div id="right" class="container_form1 container--signup">
         <!-- 登录信息 -->
         <form
           :model="loginForm"
@@ -59,7 +59,7 @@
       id="container"
       class="container left-panel-active"
     >
-      <div id="right" class="container_form container--signin">
+      <div id="left" class="container_form2 container--signin">
         <!-- 注册信息表 -->
         <form
           :model="registerForm"
@@ -249,8 +249,13 @@ export default {
       this.right.classList.add("right-panel-active");
       console.log(this.right);
     },
-    fun3() {
+    fun3() {  
       this.loginForm.isLogin = !this.loginForm.isLogin;
+      //  if (this.loginForm.isLogin == true)
+      //   document.getElementById("left").classList.add("left-panel-active");
+      // else
+      //   document.getElementById("left").classList.remove("left-panel-active");
+
       //confirm("是否要注册?");
       //   this.$router.push({name: "Main",});
     },
@@ -295,35 +300,17 @@ export default {
       if (!this.validateInput()) {
         return;
       }
-      login(this.loginForm.email, this.loginForm.password)
-        .then((response) => {
-          var userInfo = response.data;
-          // console.log(userInfo);
+      this.$store
+        .dispatch("Login", this.loginForm)
+        .then(() => {
           this.LoginSuccess();
           this.isLogin = true;
-          sessionStorage.setItem("userId", userInfo.userId);
-          sessionStorage.setItem("phoneNumber", userInfo.phoneNumber);
-          sessionStorage.setItem("email", userInfo.email);
-          sessionStorage.setItem("userName", userInfo.name);
           this.$router.push({ name: "Main" });
+          // console.log(1);
         })
-        .catch((error) => {
+        .catch(() => {
           this.LoginFail();
-          console.log(error);
         });
-      // //console.log(this.$store.state.user);
-      // this.$store
-      //   .dispatch("Login", this.loginForm)
-      //   .then(() => {
-      //     this.LoginSuccess();
-      //     this.$router.push({ name: "Main" });
-      //     // console.log(1);
-      //   })
-      //   .catch(() => {
-      //     // console.log(2);
-      //     //this.LoginFail();
-      //     this.LoginFail();
-      //   });
     },
     //登录成功提示及跳转
     LoginSuccess() {
@@ -380,8 +367,8 @@ export default {
               message: "注册成功！ ",
               type: "success",
             });
-            this.registerForm=[];
-            this.$router.push({name:"Login"});
+            this.registerForm = [];
+            this.$router.push({ name: "Login" });
           } else {
             this.$message({
               message: "注册失败，请重新提交！",

@@ -85,7 +85,7 @@
       </div>
       <patient-list
         v-on:cancel="cancel"
-        v-on:commit="cancel"
+        v-on:commit="commit"
         :dialogVisible="dialogVisible"
       ></patient-list>
     </el-tabs>
@@ -138,14 +138,15 @@ export default {
           this.DoctorSchedule[t][idx].endTime,
         scheduleID: this.DoctorSchedule[t][idx].id,
       });
-      if (this.time == 0) {
+      if (this.patient == null) {
+        console.log(this.patient);
         this.dialogVisible = true;
-        this.time++;
         return;
       }
       sessionStorage.setItem("reservationData", data);
       // console.log(JSON.parse(sessionStorage.getItem("reservationData")));
       if (sessionStorage.getItem("userId") != null) {
+        this.patient = null;
         this.$router.push({ path: "/reservation" });
         // console.log(this.radio);
       } else {
@@ -167,15 +168,9 @@ export default {
         // console.log(response);
         this.init();
         this.DoctorSchedule[index] = response.data;
-        // this.docTemp = response.data;
-        // console.log(this.docTemp);
       });
     },
     init() {
-      // console.log(this.currentHospital);
-      // console.log(this.schedule);
-      // console.log(this.DoctorSchedule);
-      // console.log(this.departmentClass[this.INDEX].name );
       this.time = 0;
       this.currentHospital = [];
       this.Length = 0;
@@ -265,6 +260,11 @@ export default {
     cancel() {
       this.dialogVisible = false;
     },
+    commit(data) {
+      // console.log(data);
+      this.dialogVisible = false;
+      this.patient = data;
+    },
   },
   data() {
     return {
@@ -281,7 +281,8 @@ export default {
       Length: 0,
       radio: [],
       dialogVisible: false,
-      time: 0,
+      // time: 0,
+      patient: null,
       departmentClass: [
         // 筛选方法
         {

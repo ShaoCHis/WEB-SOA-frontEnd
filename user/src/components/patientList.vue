@@ -39,6 +39,9 @@ export default {
       type: Boolean,
       default: false,
     },
+    patient: {
+      default: null,
+    },
   },
   data() {
     return {
@@ -51,7 +54,7 @@ export default {
     getPatientList() {
       getUserInfo({ id: this.userID })
         .then((response) => {
-        //   console.log(response.data.patients);
+          //   console.log(response.data.patients);
           this.patientList = response.data.patients;
         })
         .catch((error) => {
@@ -59,7 +62,7 @@ export default {
         });
     },
     submit() {
-    //   console.log(this.radio);
+      //   console.log(this.radio);
       if (this.radio == 0) {
         this.$message({
           message: "请先选择病人",
@@ -67,11 +70,13 @@ export default {
         return;
       }
       this.patientList.forEach((element) => {
-        if (element.patientId == this.radio)
+        if (element.patientId == this.radio) {
           sessionStorage.setItem("patientName", element.name);
+          sessionStorage.setItem("patientID", this.radio);
+          this.patient = this.radio;
+        }
       });
-      sessionStorage.setItem("patientID", this.radio);
-      this.$emit("commit");
+      this.$emit("commit",this.patient);
     },
     cancel() {
       this.$emit("cancel");
