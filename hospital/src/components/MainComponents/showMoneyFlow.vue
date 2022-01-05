@@ -145,8 +145,7 @@ export default {
               if (this.statement.date[i] != change(element.date)) {
                 this.statement.money[i] = 0;
               } else this.statement.money[i] = element.money;
-              if (this.todyay == element.date)
-                this.todayMondy = element.money;
+              if (this.todyay == element.date) this.todayMondy = element.money;
             }
           });
           // console.log(this.statement);
@@ -350,7 +349,12 @@ export default {
   created() {},
   mounted() {
     var now = new Date(Date.now());
-    this.today = now.getFullYear() + "-" + now.getMonth() + "-" + now.getDate();
+    this.today =
+      now.getFullYear() +
+      "-" +
+      (parseInt(now.getMonth()) + 1) +
+      "-" +
+      now.getDate();
     this.getMoney();
     // this.getStatement();
   },
