@@ -12,42 +12,42 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/loginRegister': {
-        target: 'http://localhost:8082', // 你请求的第三方接口
+        target: 'http://112.124.12.171:8082', // 你请求的第三方接口
         changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
         pathRewrite: {  // 路径重写，
           '^/loginRegister': '/loginRegister'  // 替换target中的请求地址
         },
       },
       '/hospital': {
-        target: 'http://localhost:8083', // 你请求的第三方接口
+        target: 'http://139.196.194.51:8083', // 你请求的第三方接口
         changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
         pathRewrite: {  // 路径重写，
           '^/hospital': '/hospital'  // 替换target中的请求地址
         },
       },
       '/oss': {
-        target: 'http://localhost:8084', // 你请求的第三方接口
+        target: 'http://47.102.220.32:8084', // 你请求的第三方接口
         changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
         pathRewrite: {  // 路径重写，
           '^/oss': '/oss'  // 替换target中的请求地址
         },
       },
       '/user': {
-        target: 'http://localhost:8085', // 你请求的第三方接口
+        target: 'http://47.103.122.75:8085', // 你请求的第三方接口
         changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
         pathRewrite: {  // 路径重写，
           '^/user': '/user'  // 替换target中的请求地址
         },
       },
       '/orders': {
-        target: 'http://localhost:8088', // 你请求的第三方接口
+        target: 'http://112.124.12.171:8088', // 你请求的第三方接口
         changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
         pathRewrite: {  // 路径重写，
           '^/orders': '/orders'  // 替换target中的请求地址
         },
       },
       '/statistic': {
-        target: 'http://localhost:8090', // 你请求的第三方接口
+        target: 'http://47.103.122.75:8090', // 你请求的第三方接口
         changeOrigin: true, // 在本地会创建一个虚拟服务端，然后发送请求的数据，并同时接收请求的数据，这样服务端和服务端进行数据的交互就不会有跨域问题
         pathRewrite: {  // 路径重写，
           '^/statistic': '/statistic'  // 替换target中的请求地址
